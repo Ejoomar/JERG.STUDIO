@@ -1,30 +1,130 @@
 ---
-import { Icon } from "astro-icon/components";
-import ContentSection from "~/components/content-section.astro";
+// Sección editorial — NO usa ContentSection para romper la uniformidad
+const metrics = [
+  {
+    value: "2–4",
+    unit: "sem.",
+    count: null,       // range — no counter animation
+    label: "Entrega rápida",
+    desc: "Del concepto al deploy en tiempo récord con iteraciones semanales.",
+  },
+  {
+    value: "100",
+    unit: "%",
+    count: 100,
+    label: "Precio fijo",
+    desc: "Cotización cerrada antes de empezar. Sin costos adicionales.",
+  },
+  {
+    value: "98",
+    unit: "%",
+    count: 98,
+    label: "Clientes satisfechos",
+    desc: "La mayoría vuelve con el siguiente proyecto o nos recomienda.",
+  },
+];
 ---
 
-<ContentSection title="Just ship less" id="intro">
-  <Icon slot="eyebrow" name="logomark" class="size-32" />
-  <Fragment slot="lead">
-    Astro is a new kind of site builder for the
-    <span class="text-primary">modern</span> web.
-    <span class="text-primary">Lightning-fast</span>
-    performance meets <span class="text-primary">powerful</span> developer experience.
-  </Fragment>
-  <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
-    <a
-      href="https://docs.astro.build/"
-      class="flex items-center justify-center gap-3 border-2 border-current px-6 py-4"
-    >
-      <Icon name="mdi:telescope" class="size-8" />
-      <span>Read the docs</span>
-    </a>
-    <a
-      href="https://astro.new/"
-      class="flex items-center justify-center gap-3 border-2 border-current px-6 py-4"
-    >
-      <Icon name="mdi:rocket" class="size-8" />
-      <span>Try it out</span>
-    </a>
+<section
+  id="intro"
+  class="scroll-mt-24 border-y border-default overflow-hidden"
+  aria-labelledby="intro-heading"
+>
+  <div class="mx-auto max-w-6xl">
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_360px]">
+
+      <!-- Columna izquierda: declaración -->
+      <div class="intro-left flex flex-col justify-center gap-8 px-8 py-16 lg:px-16 fade-up">
+        <span class="eyebrow">Por qué elegirnos</span>
+
+        <h2
+          id="intro-heading"
+          class="font-display font-extrabold leading-[1.04]"
+          style="font-size: clamp(2rem, 4.5vw + 0.5rem, 3.6rem);"
+        >
+          Hacemos lo que<br/>prometemos,
+          <span class="gradient-text"> siempre.</span>
+        </h2>
+
+        <p class="max-w-md text-offset leading-relaxed" style="font-size: 1.05rem;">
+          Precio fijo desde el día uno, entregas puntuales y resultados que se
+          miden. Sin letra pequeña, sin sorpresas al final.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="#contact" class="btn-primary btn-magnetic">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Consulta gratuita
+          </a>
+          <a href="#features" class="btn-ghost">Ver servicios</a>
+        </div>
+
+        <!-- Tech badges -->
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          {["Astro", "React", "Next.js", "Supabase", "Vercel"].map(t => (
+            <span class="rounded-full border border-default px-3 py-1 text-xs font-semibold text-offset">
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Columna derecha: métricas grandes -->
+      <div class="intro-metrics divide-y divide-default border-t border-default lg:border-t-0 lg:border-l lg:border-default fade-up delay-2">
+        {metrics.map(({ value, unit, count, label, desc }) => (
+          <div class="metric-card group flex flex-col gap-2 p-8 transition-colors duration-200 hover:bg-primary/5 cursor-default">
+            <div class="flex items-baseline gap-1">
+              <span
+                class="gradient-text font-display font-extrabold leading-none"
+                style="font-size: 3.25rem;"
+                data-count={count ?? undefined}
+              >
+                {value}
+              </span>
+              <span class="font-display font-bold text-primary" style="font-size: 1.4rem;">{unit}</span>
+            </div>
+            <p class="font-extrabold text-base">{label}</p>
+            <p class="text-xs text-offset leading-relaxed">{desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
-</ContentSection>
+</section>
+
+<style>
+  /* Línea decorativa superior izquierda */
+  .intro-left {
+    position: relative;
+  }
+  .intro-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #6366f1, #22d3ee);
+  }
+
+  /* Hover en métricas con acento izquierdo */
+  .metric-card {
+    position: relative;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #6366f1, #22d3ee);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .metric-card:hover::before {
+    opacity: 1;
+  }
+</style>

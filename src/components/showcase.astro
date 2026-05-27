@@ -1,31 +1,351 @@
 ---
-import { getCollection } from "astro:content";
 import ContentSection from "~/components/content-section.astro";
-import ShowcaseCard from "~/components/showcase-card.astro";
 
-const featuredSites = await getCollection(
-  "showcase",
-  ({ data }) => "featured" in data,
-);
-const orderedSites = featuredSites.sort(
-  (a, b) => a.data.featured! - b.data.featured!,
-);
+const projects = [
+  {
+    title: "RestaurantePro",
+    category: "Sistema a Medida",
+    result: "↑ 300% pedidos online",
+    desc: "Sistema completo de gestión de pedidos, reservas y cocina para cadena de 8 restaurantes. Integración con POS y reportes en tiempo real.",
+    tech: ["React", "Node.js", "PostgreSQL"],
+    image: "https://placehold.co/900x600/0f172a/6366f1?text=RestaurantePro",
+    color: "#6366f1",
+    span: "big",
+  },
+  {
+    title: "ModaFusión",
+    category: "E-commerce",
+    result: "↑ 180% ventas",
+    desc: "Tienda con +2 000 productos.",
+    tech: ["Astro", "Stripe"],
+    image: "https://placehold.co/600x300/0f172a/22d3ee?text=ModaFusion",
+    color: "#22d3ee",
+    span: "sm",
+  },
+  {
+    title: "ConstructTrack",
+    category: "App Web",
+    result: "↓ 60% tiempo reportes",
+    desc: "Dashboard de obras en tiempo real.",
+    tech: ["Vue.js", "Laravel"],
+    image: "https://placehold.co/600x300/0f172a/8b5cf6?text=ConstructTrack",
+    color: "#8b5cf6",
+    span: "sm",
+  },
+  {
+    title: "SaludNet",
+    category: "Landing + CRM",
+    result: "+400 leads / mes",
+    desc: "Landing page médica con CRM integrado, agenda online y automatización de seguimiento a pacientes potenciales. Integrado con n8n.",
+    tech: ["Next.js", "Supabase", "n8n"],
+    image: "https://placehold.co/1200x280/0f172a/10b981?text=SaludNet",
+    color: "#10b981",
+    span: "wide",
+  },
+];
 ---
 
-<ContentSection title="Showcase" id="showcase">
-  <Fragment slot="lead">
-    Astro is <span class="text-primary">versatile</span>.{" "}
-    <span class="text-primary">Explore</span> what's possible and get{" "}
-    <span class="text-primary">inspired</span>.
+<ContentSection title="Portfolio" id="showcase">
+  <Fragment slot="eyebrow">
+    <span class="eyebrow">Casos de éxito</span>
   </Fragment>
-  <div class="max-w-6xl space-y-2">
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {orderedSites.map((site) => <ShowcaseCard site={site} />)}
-    </div>
-    <p class="text-right text-sm">
-      <a class="text-primary" href="https://astro.build/showcase/">
-        ...and more &rarr;
-      </a>
-    </p>
+  <Fragment slot="lead">
+    Proyectos que generan
+    <span class="text-primary">resultados reales</span>.
+    Cada número es un cliente que confió en nosotros.
+  </Fragment>
+
+  <!-- Bento grid -->
+  <div class="bento-grid w-full max-w-6xl fade-up">
+
+    <!-- P1: Featured (2 cols, 2 rows) -->
+    <a
+      href="#contact"
+      class="bento-card bento-big group"
+      style="--accent: #6366f1;"
+      aria-label="Proyecto RestaurantePro — Sistema a Medida"
+    >
+      <div class="card-shine" aria-hidden="true"></div>
+      <img
+        src={projects[0].image}
+        alt="Captura del proyecto RestaurantePro"
+        class="bento-img"
+        loading="eager"
+        width="900" height="600"
+      />
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="bento-badge">{projects[0].category}</span>
+          <span class="bento-result">{projects[0].result}</span>
+        </div>
+        <h3 class="bento-title">{projects[0].title}</h3>
+        <p class="bento-desc">{projects[0].desc}</p>
+        <div class="flex flex-wrap gap-1.5 mt-auto">
+          {projects[0].tech.map(t => (
+            <span class="bento-tech">{t}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+
+    <!-- P2: top-right -->
+    <a
+      href="#contact"
+      class="bento-card bento-sm group"
+      style="--accent: #22d3ee;"
+      aria-label="Proyecto ModaFusión — E-commerce"
+    >
+      <div class="card-shine" aria-hidden="true"></div>
+      <img
+        src={projects[1].image}
+        alt="Captura del proyecto ModaFusión"
+        class="bento-img"
+        loading="lazy"
+        width="600" height="300"
+      />
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <span class="bento-badge">{projects[1].category}</span>
+        <h3 class="bento-title text-lg">{projects[1].title}</h3>
+        <p class="bento-result-inline">{projects[1].result}</p>
+      </div>
+    </a>
+
+    <!-- P3: mid-right -->
+    <a
+      href="#contact"
+      class="bento-card bento-sm group"
+      style="--accent: #8b5cf6;"
+      aria-label="Proyecto ConstructTrack — App Web"
+    >
+      <div class="card-shine" aria-hidden="true"></div>
+      <img
+        src={projects[2].image}
+        alt="Captura del proyecto ConstructTrack"
+        class="bento-img"
+        loading="lazy"
+        width="600" height="300"
+      />
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <span class="bento-badge">{projects[2].category}</span>
+        <h3 class="bento-title text-lg">{projects[2].title}</h3>
+        <p class="bento-result-inline">{projects[2].result}</p>
+      </div>
+    </a>
+
+    <!-- P4: Full-width bottom (horizontal card) -->
+    <a
+      href="#contact"
+      class="bento-card bento-wide group"
+      style="--accent: #10b981;"
+      aria-label="Proyecto SaludNet — Landing + CRM"
+    >
+      <div class="card-shine" aria-hidden="true"></div>
+      <img
+        src={projects[3].image}
+        alt="Captura del proyecto SaludNet"
+        class="bento-img"
+        loading="lazy"
+        width="1200" height="280"
+      />
+      <div class="bento-overlay"></div>
+      <div class="bento-content bento-content-horizontal">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="bento-badge">{projects[3].category}</span>
+          <span class="bento-result">{projects[3].result}</span>
+        </div>
+        <h3 class="bento-title">{projects[3].title}</h3>
+        <p class="bento-desc hidden sm:block">{projects[3].desc}</p>
+        <div class="flex flex-wrap gap-1.5 mt-auto">
+          {projects[3].tech.map(t => (
+            <span class="bento-tech">{t}</span>
+          ))}
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- CTA -->
+  <div class="mt-4 flex justify-center fade-up delay-3">
+    <a href="#contact" class="btn-primary btn-magnetic">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      Cuéntanos tu proyecto
+    </a>
   </div>
 </ContentSection>
+
+<style>
+  /* ── Bento grid layout ── */
+  .bento-grid {
+    display: grid;
+    gap: 0.625rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 240px 240px auto;
+    }
+    .bento-big  { grid-column: span 2; grid-row: span 2; }
+    .bento-sm   { grid-column: span 1; grid-row: span 1; }
+    .bento-wide { grid-column: span 3; grid-row: span 1; }
+  }
+
+  /* ── Base card ── */
+  .bento-card {
+    position: relative;
+    overflow: hidden;
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    min-height: 220px;
+    /* 3D tilt perspective applied by JS */
+    transform-style: preserve-3d;
+  }
+
+  .bento-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+
+  /* ── Card shine (3D tilt reflection) ── */
+  .card-shine {
+    --shine-x: 50%;
+    --shine-y: 50%;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      350px circle at var(--shine-x) var(--shine-y),
+      rgba(255, 255, 255, 0.07),
+      transparent 65%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity 0.3s;
+  }
+
+  /* ── Image ── */
+  .bento-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+  }
+
+  .bento-card:hover .bento-img {
+    transform: scale(1.04);
+    opacity: 0.25;
+  }
+
+  /* ── Gradient overlay (always present, intensifies on hover) ── */
+  .bento-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.3) 50%, transparent 100%);
+    transition: opacity 0.4s;
+    z-index: 1;
+  }
+
+  .bento-card:hover .bento-overlay {
+    opacity: 0;
+  }
+
+  /* ── Content ── */
+  .bento-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    color: white;
+    z-index: 2;
+  }
+
+  @media (min-width: 768px) {
+    .bento-content-horizontal {
+      justify-content: center;
+      padding: 2rem;
+    }
+  }
+
+  /* ── Badges ── */
+  .bento-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    padding: 0.2rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: white;
+    backdrop-filter: blur(8px);
+  }
+
+  .bento-result {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    padding: 0.2rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: color-mix(in srgb, var(--accent) 90%, white);
+    backdrop-filter: blur(8px);
+  }
+
+  .bento-result-inline {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: color-mix(in srgb, var(--accent) 80%, white);
+  }
+
+  /* ── Title / desc ── */
+  .bento-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: white;
+  }
+
+  .bento-desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.55;
+  }
+
+  /* ── Tech chips ── */
+  .bento-tech {
+    display: inline-flex;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    padding: 0.1rem 0.6rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Mobile: fixed heights */
+  @media (max-width: 767px) {
+    .bento-big  { min-height: 340px; }
+    .bento-sm   { min-height: 200px; }
+    .bento-wide { min-height: 220px; }
+  }
+</style>

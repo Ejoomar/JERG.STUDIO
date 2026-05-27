@@ -1,84 +1,142 @@
 ---
-import { Image } from "astro:assets";
-import { Icon } from "astro-icon/components";
-import astronautImage from "~/assets/astronaut.png";
 import HeroImage from "~/components/hero-image.astro";
 import Starfield from "~/components/starfield.astro";
-import GitHubCorner from "./github-corner.astro";
 
-const widths = [450, 800];
-const sizes = "(min-width: 640px) 42vw, 67vw";
+const stats = [
+  { num: "50+",  label: "Proyectos",    count: 50,  suffix: "+" },
+  { num: "24 h", label: "Respuesta",    count: 24,  suffix: " h" },
+  { num: "100%", label: "Satisfacción", count: 100, suffix: "%" },
+];
 ---
 
-<section class="relative h-full bg-black">
+<section class="relative h-full bg-black overflow-hidden">
+  <!-- Starfield canvas (repo original — mantenido) -->
   <Starfield />
-  <GitHubCorner />
+
+  <!-- Grid de cuadrícula decorativa -->
+  <div class="hero-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+
+  <!-- Viñeta radial sobre el grid para foco central -->
+  <div
+    id="hero-glow"
+    class="absolute inset-0 pointer-events-none"
+    style="background: radial-gradient(ellipse 70% 65% at 50% 45%, rgba(99,102,241,0.13) 0%, rgba(10,10,10,0.6) 55%, rgba(10,10,10,0.95) 100%)"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Fallback sin JS (patrón del repo) -->
   <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
     <HeroImage />
   </div>
-  <div class="relative grid h-full place-items-center sm:grid-cols-2">
-    <h2
-      class="flex flex-col items-center gap-2 self-end sm:gap-4 sm:self-auto sm:justify-self-end"
-    >
-      <Icon name="logomark" class="size-20 text-white md:size-32" />
-      <div
-        class="gradient-text text-center font-extrabold tracking-tighter text-6xl md:text-8xl"
+
+  <!-- Contenido del hero -->
+  <div class="relative flex h-full flex-col items-center justify-center px-6 text-center">
+
+    <!-- Badge de confianza -->
+    <div class="fade-up mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-semibold tracking-wide text-white/60 backdrop-blur-sm">
+      <span class="size-1.5 rounded-full bg-secondary animate-pulse"></span>
+      50+ proyectos entregados &nbsp;·&nbsp; Respuesta en 24 h
+    </div>
+
+    <!-- Headline principal -->
+    <div class="fade-up delay-1 flex flex-col items-center gap-0">
+      <p
+        class="font-display font-extrabold uppercase tracking-tight text-white/15 leading-none select-none"
+        style="font-size: clamp(0.7rem, 1.4vw, 1.1rem); letter-spacing: 0.25em;"
+        aria-hidden="true"
       >
-        Build fast
-        <br /> websites,
-        <br /> faster.
-      </div>
-    </h2>
-    <div
-      id="astronaut"
-      class="w-2/3 max-w-3xl self-start sm:w-10/12 sm:self-auto sm:justify-self-start"
+        Desarrollo Digital · Agencia
+      </p>
+      <h1
+        class="font-display font-extrabold tracking-tight text-white"
+        style="font-size: clamp(3rem, 8vw + 0.5rem, 7rem); line-height: 0.95; letter-spacing: -0.03em;"
+      >
+        Transforma<br/>
+        <span class="gradient-text">tu negocio</span><br/>
+        en digital.
+      </h1>
+    </div>
+
+    <!-- Subtítulo -->
+    <p
+      class="fade-up delay-2 mt-7 max-w-lg text-white/50 leading-relaxed"
+      style="font-size: clamp(0.95rem, 1.3vw + 0.4rem, 1.15rem);"
     >
-      <Image
-        class="h-full w-full object-cover"
-        src={astronautImage}
-        widths={widths}
-        sizes={sizes}
-        loading="eager"
-        alt="A floating astronaut in a space suit"
-      />
+      Páginas web, sistemas a medida y apps que generan resultados reales.
+      Del concepto al lanzamiento, sin complicaciones.
+    </p>
+
+    <!-- CTAs -->
+    <div class="fade-up delay-3 mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a href="#contact" class="btn-primary btn-magnetic">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        Agendar llamada gratis
+      </a>
+      <a href="#features" class="btn-ghost btn-magnetic">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+        Ver servicios
+      </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="fade-up delay-4 mt-16 flex items-center gap-8 border-t border-white/8 pt-8">
+      {stats.map((s, i) => (
+        <div class={`flex flex-col items-center gap-1 ${i > 0 ? "border-l border-white/8 pl-8" : ""}`}>
+          <span
+            class="gradient-text font-display font-extrabold"
+            style="font-size: clamp(1.4rem, 2vw, 2rem);"
+            data-count={s.count}
+            data-suffix={s.suffix}
+          >{s.num}</span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-white/35">{s.label}</span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Indicador de scroll -->
+    <div class="fade-up delay-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
+      <div class="h-10 w-px bg-gradient-to-b from-primary to-transparent animate-pulse-slow"></div>
+      <span class="text-[10px] font-bold uppercase tracking-widest text-white/25">Scroll</span>
     </div>
   </div>
 </section>
 
 <noscript>
-  <style>
-    #splash-bg-fallback {
-      display: block;
-    }
-  </style>
+  <style>#splash-bg-fallback { display: block; }</style>
 </noscript>
 
 <style>
-  @keyframes float {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-
-    100% {
-      transform: translate3d(0, 30px, 0);
-    }
+  /* ── Grid decorativo del hero ── */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
   }
 
-  #astronaut {
-    animation: float linear 2.5s infinite alternate;
+  /* ── Utilidades ── */
+  .border-white\/8 { border-color: rgba(255, 255, 255, 0.08); }
+
+  .animate-pulse-slow {
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    #astronaut {
-      @apply animate-none;
-    }
-
-    :global(#starfield) {
-      @apply hidden;
-    }
-
-    #splash-bg-fallback {
-      @apply block;
-    }
+    :global(#starfield) { display: none; }
+    #splash-bg-fallback  { display: block; }
+    .animate-pulse,
+    .animate-pulse-slow  { animation: none; }
+    .hero-grid           { display: none; }
   }
 </style>

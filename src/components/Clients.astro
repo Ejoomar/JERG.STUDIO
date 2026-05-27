@@ -1,0 +1,143 @@
+---
+import ContentSection from "~/components/content-section.astro";
+
+const clients = [
+  { name: "TechVentures",  abbr: "TV", color: "#6366f1" },
+  { name: "InnovateLabs",  abbr: "IL", color: "#22d3ee" },
+  { name: "GrowthCo",      abbr: "GC", color: "#8b5cf6" },
+  { name: "NextWave",      abbr: "NW", color: "#10b981" },
+  { name: "DataStream",    abbr: "DS", color: "#f59e0b" },
+  { name: "ConstructMax",  abbr: "CM", color: "#ef4444" },
+  { name: "MediaPro",      abbr: "MP", color: "#6366f1" },
+  { name: "StartupHub",    abbr: "SH", color: "#22d3ee" },
+];
+---
+
+<ContentSection title="Confían en nosotros" id="clients">
+  <Fragment slot="eyebrow">
+    <span class="eyebrow">Clientes</span>
+  </Fragment>
+  <Fragment slot="lead">
+    Empresas de distintas industrias que
+    <span class="text-primary">eligieron trabajar</span>
+    con nosotros y volvieron.
+  </Fragment>
+
+  <div class="w-full overflow-hidden fade-up" aria-label="Listado de clientes">
+    <!-- Fila 1 — izquierda -->
+    <div class="marquee-outer mb-3">
+      <div class="marquee-track">
+        {[...clients, ...clients].map((c, i) => (
+          <div class="marquee-card" style={`--c: ${c.color};`} aria-hidden={i >= clients.length ? "true" : undefined}>
+            <span class="marquee-abbr">{c.abbr}</span>
+            <span class="marquee-name">{c.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Fila 2 — derecha (sentido inverso) -->
+    <div class="marquee-outer">
+      <div class="marquee-track marquee-reverse">
+        {[...clients.slice().reverse(), ...clients.slice().reverse()].map((c, i) => (
+          <div class="marquee-card" style={`--c: ${c.color};`} aria-hidden="true">
+            <span class="marquee-abbr">{c.abbr}</span>
+            <span class="marquee-name">{c.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="mt-12 flex w-full max-w-3xl flex-wrap justify-center gap-px border border-default fade-up delay-2">
+    {[
+      { value: "50+",  label: "Proyectos entregados" },
+      { value: "98%",  label: "Satisfacción del cliente" },
+      { value: "4.9★", label: "Valoración promedio" },
+      { value: "3 sem", label: "Tiempo promedio entrega" },
+    ].map(({ value, label }) => (
+      <div class="flex flex-1 flex-col items-center gap-1 bg-offset px-6 py-5 min-w-[140px]">
+        <span class="gradient-text font-display font-extrabold text-3xl">{value}</span>
+        <span class="text-center text-xs text-offset">{label}</span>
+      </div>
+    ))}
+  </div>
+</ContentSection>
+
+<style>
+  .marquee-outer {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 0.75rem;
+    width: max-content;
+    animation: marquee-left 30s linear infinite;
+  }
+
+  .marquee-reverse {
+    animation-name: marquee-right;
+    animation-duration: 36s;
+  }
+
+  .marquee-track:hover { animation-play-state: paused; }
+
+  .marquee-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 148px;
+    padding: 1rem 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: #111827;
+    border-radius: 0.75rem;
+    transition: border-color 0.25s, background 0.25s;
+    cursor: default;
+  }
+
+  .marquee-card:hover {
+    border-color: color-mix(in srgb, var(--c) 50%, transparent);
+    background: color-mix(in srgb, var(--c) 8%, #111827);
+  }
+
+  .marquee-abbr {
+    font-family: var(--font-display, "Syne", sans-serif);
+    font-weight: 800;
+    font-size: 1.35rem;
+    background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 60%, #22d3ee));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .marquee-name {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-offset);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  @keyframes marquee-left {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

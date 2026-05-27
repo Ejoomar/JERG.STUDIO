@@ -1,0 +1,279 @@
+---
+const services = [
+  {
+    icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+    title: "Páginas Web",
+    desc: "Diseño moderno que convierte visitas en clientes. Landing pages, corporativas y portales que posicionan tu marca y generan contactos reales desde el día uno.",
+    tag: "Web Design",
+    size: "large",
+    accent: "#6366f1",
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 5-5"/></svg>`,
+    title: "Sistemas a Medida",
+    desc: "CRM, inventarios y facturación adaptados 100% a tu negocio.",
+    tag: "Software",
+    size: "medium",
+    accent: "#22d3ee",
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+    title: "E-commerce",
+    desc: "Tiendas online con pasarela de pago integrada y gestión de catálogo.",
+    tag: "Tienda",
+    size: "medium",
+    accent: "#8b5cf6",
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+    title: "Apps Web y Móvil",
+    desc: "Multiplataforma y escalables.",
+    tag: "Apps",
+    size: "small",
+    accent: "#f59e0b",
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg>`,
+    title: "Automatizaciones",
+    desc: "Bots e integraciones que ahorran tiempo.",
+    tag: "Bots",
+    size: "small",
+    accent: "#10b981",
+  },
+  {
+    icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,
+    title: "Soporte Técnico",
+    desc: "Mantenimiento mensual y hosting.",
+    tag: "Soporte",
+    size: "small",
+    accent: "#ef4444",
+  },
+];
+---
+
+<section id="servicios" class="section services" aria-labelledby="services-heading">
+  <div class="services-inner">
+    <div class="services-header fade-up">
+      <span class="section-label">Servicios</span>
+      <h2 id="services-heading" class="section-title">
+        Todo lo que tu negocio<br/>
+        <span class="gradient-text">necesita para crecer</span>
+      </h2>
+      <p class="section-subtitle">
+        Desde tu primera web hasta sistemas empresariales complejos. Cubrimos cada etapa
+        de tu transformación digital con tecnología y diseño de calidad.
+      </p>
+    </div>
+
+    <!-- Bento grid -->
+    <div class="bento-grid" role="list">
+      {services.map((s, i) => (
+        <article
+          class={`bento-card bento-${s.size} fade-up delay-${(i % 3) + 1}`}
+          style={`--card-accent: ${s.accent};`}
+          role="listitem"
+        >
+          <div class="bento-glow" aria-hidden="true"></div>
+          <div class="bento-content">
+            <div class="bento-top">
+              <div class="bento-icon" aria-hidden="true" set:html={s.icon} />
+              <span class="bento-tag">{s.tag}</span>
+            </div>
+            <h3 class="bento-title">{s.title}</h3>
+            <p class="bento-desc">{s.desc}</p>
+          </div>
+          <div class="bento-arrow" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services { background: var(--color-background); }
+
+  .services-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .services-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  /* ── Bento Grid ─────────────────────────────── */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto auto;
+    gap: 1rem;
+  }
+
+  /* Large: spans 3 cols × 2 rows */
+  .bento-large {
+    grid-column: span 3;
+    grid-row: span 2;
+    min-height: 320px;
+  }
+
+  /* Medium: spans 3 cols × 1 row */
+  .bento-medium {
+    grid-column: span 3;
+    min-height: 180px;
+  }
+
+  /* Small: spans 2 cols × 1 row */
+  .bento-small {
+    grid-column: span 2;
+    min-height: 160px;
+  }
+
+  /* ── Card base ──────────────────────────────── */
+  .bento-card {
+    position: relative;
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 1.75rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    transition:
+      border-color var(--duration-normal),
+      transform var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal);
+  }
+
+  .bento-card:hover {
+    border-color: var(--card-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35), 0 0 0 1px var(--card-accent);
+  }
+
+  /* Glow background on hover */
+  .bento-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, var(--card-accent), transparent 65%);
+    opacity: 0;
+    transition: opacity var(--duration-normal);
+    pointer-events: none;
+  }
+  .bento-card:hover .bento-glow { opacity: 0.08; }
+
+  /* ── Card internals ─────────────────────────── */
+  .bento-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .bento-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .bento-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--card-accent) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent) 25%, transparent);
+    border-radius: 12px;
+    color: var(--card-accent);
+    flex-shrink: 0;
+    transition: background var(--duration-normal), color var(--duration-normal), transform var(--duration-normal);
+  }
+  .bento-card:hover .bento-icon {
+    background: var(--card-accent);
+    color: #fff;
+    transform: scale(1.05);
+  }
+
+  .bento-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--card-accent);
+    background: color-mix(in srgb, var(--card-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--card-accent) 20%, transparent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .bento-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+  .bento-large .bento-title {
+    font-size: clamp(1.3rem, 1.5vw + 0.75rem, 1.75rem);
+  }
+  .bento-medium .bento-title,
+  .bento-small .bento-title {
+    font-size: clamp(1rem, 1vw + 0.6rem, 1.2rem);
+  }
+
+  .bento-desc {
+    color: var(--color-text-offset);
+    line-height: 1.65;
+  }
+  .bento-large .bento-desc { font-size: 1rem; }
+  .bento-medium .bento-desc,
+  .bento-small .bento-desc { font-size: 0.875rem; }
+
+  .bento-arrow {
+    position: relative;
+    z-index: 1;
+    align-self: flex-end;
+    color: var(--card-accent);
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity var(--duration-normal), transform var(--duration-normal) var(--ease-out-expo);
+  }
+  .bento-card:hover .bento-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  /* ── Responsive ─────────────────────────────── */
+  @media (max-width: 1024px) {
+    .bento-grid { grid-template-columns: repeat(4, 1fr); }
+    .bento-large { grid-column: span 4; grid-row: span 1; min-height: 200px; }
+    .bento-medium { grid-column: span 2; }
+    .bento-small { grid-column: span 2; }
+  }
+
+  @media (max-width: 640px) {
+    .bento-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .bento-large { grid-column: span 2; }
+    .bento-medium { grid-column: span 2; }
+    .bento-small { grid-column: span 1; }
+  }
+
+  @media (max-width: 400px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-large,
+    .bento-medium,
+    .bento-small { grid-column: span 1; grid-row: span 1; min-height: auto; }
+  }
+</style>

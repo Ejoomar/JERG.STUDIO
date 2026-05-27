@@ -1,0 +1,210 @@
+---
+import ContentSection from "~/components/content-section.astro";
+
+const faqs = [
+  {
+    q: "¿Cuánto cuesta una página web?",
+    a: "Manejamos proyectos desde $500 USD para landing pages simples hasta $5,000+ para sitios corporativos completos. Siempre precio fijo antes de empezar, sin sorpresas.",
+  },
+  {
+    q: "¿Cuánto tiempo tarda el desarrollo?",
+    a: "Una landing page: 1–2 semanas. Sitio corporativo o e-commerce: 3–5 semanas. Sistemas a medida: 4–12 semanas según complejidad. Cronograma claro desde el inicio.",
+  },
+  {
+    q: "¿Qué necesito para empezar?",
+    a: "Solo tener claro tu objetivo. Nosotros te guiamos en diseño, textos, imágenes y tecnología. Una llamada de 30 minutos es suficiente para arrancar.",
+  },
+  {
+    q: "¿Incluye mantenimiento?",
+    a: "Todos los proyectos incluyen 30 días de soporte post-lanzamiento sin costo. Después ofrecemos planes mensuales con hosting, actualizaciones de seguridad y respaldo.",
+  },
+  {
+    q: "¿Puedo ver avances antes de la entrega final?",
+    a: "Sí. Trabajamos con iteraciones semanales. Tendrás acceso a un link de preview desde la primera semana y podrás dar feedback en cada etapa.",
+  },
+  {
+    q: "¿Hacen sistemas para empresas grandes?",
+    a: "Sí. Hemos desarrollado sistemas de gestión, CRM y dashboards para empresas de distintos tamaños. Evaluamos cada proyecto y formamos el equipo adecuado.",
+  },
+];
+---
+
+<ContentSection title="Preguntas frecuentes" id="faq">
+  <Fragment slot="eyebrow">
+    <span class="eyebrow">FAQ</span>
+  </Fragment>
+  <Fragment slot="lead">
+    Todo lo que necesitas saber antes de
+    <span class="text-primary">dar el primer paso</span>.
+  </Fragment>
+
+  <!-- Layout de 2 columnas: FAQ + panel CTA -->
+  <div class="faq-layout w-full max-w-5xl">
+
+    <!-- Columna FAQ -->
+    <div class="faq-list">
+      {faqs.map((faq, i) => (
+        <div class="faq-item border border-default transition-all duration-200 hover:border-primary/30 mt-[-1px]">
+          <button
+            class="faq-btn flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left font-semibold transition-colors duration-200 hover:text-primary"
+            aria-expanded="false"
+            aria-controls={`faq-answer-${i}`}
+            id={`faq-btn-${i}`}
+          >
+            <span>{faq.q}</span>
+            <svg
+              class="faq-icon size-5 shrink-0 text-primary transition-transform duration-300"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              aria-hidden="true"
+            >
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <div
+            class="faq-answer overflow-hidden"
+            id={`faq-answer-${i}`}
+            role="region"
+            aria-labelledby={`faq-btn-${i}`}
+            style="max-height: 0;"
+          >
+            <p class="px-6 pb-5 text-sm text-offset leading-relaxed">{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Panel CTA lateral -->
+    <aside class="faq-cta flex flex-col gap-6 border border-default bg-offset p-8" aria-label="Contacto rápido">
+      <!-- Ícono decorativo -->
+      <div class="flex size-12 items-center justify-center border border-primary/25 bg-primary/10 text-primary">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+        </svg>
+      </div>
+
+      <div>
+        <h3 class="font-extrabold text-xl mb-2">¿No encuentras tu respuesta?</h3>
+        <p class="text-sm text-offset leading-relaxed">
+          Cuéntanos tu caso particular. Te respondemos en menos de 24 h con una solución concreta.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <a href="#contact" class="btn-primary w-full justify-center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+          Enviar mensaje
+        </a>
+        <a
+          href="https://wa.me/15550000000?text=Tengo%20una%20pregunta%20sobre%20sus%20servicios"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-ghost w-full justify-center text-sm"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          WhatsApp
+        </a>
+      </div>
+
+      <!-- Divisor -->
+      <div class="border-t border-default"></div>
+
+      <!-- Quick facts -->
+      <ul class="flex flex-col gap-2.5">
+        {[
+          "Consulta inicial 100% gratis",
+          "Respuesta en menos de 24 h",
+          "Sin contrato de permanencia",
+        ].map(item => (
+          <li class="flex items-center gap-2 text-xs text-offset">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-secondary shrink-0" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </div>
+</ContentSection>
+
+<style>
+  /* ── Layout 2 columnas ── */
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .faq-layout {
+      grid-template-columns: 1fr 280px;
+    }
+    .faq-cta {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  /* ── FAQ item — borde izquierdo activo ── */
+  .faq-item {
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .faq-item::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    bottom: -1px;
+    width: 2px;
+    background: linear-gradient(to bottom, #6366f1, #22d3ee);
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 1;
+  }
+
+  .faq-item.is-open::before {
+    opacity: 1;
+  }
+
+  .faq-item.is-open {
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn    = item.querySelector('.faq-btn')    as HTMLButtonElement;
+    const answer = item.querySelector('.faq-answer') as HTMLElement;
+    const icon   = item.querySelector('.faq-icon')   as HTMLElement;
+
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      // Cerrar todos
+      document.querySelectorAll('.faq-item').forEach(other => {
+        const ob = other.querySelector('.faq-btn')    as HTMLButtonElement;
+        const oa = other.querySelector('.faq-answer') as HTMLElement;
+        const oi = other.querySelector('.faq-icon')   as HTMLElement;
+        ob.setAttribute('aria-expanded', 'false');
+        oa.style.maxHeight = '0';
+        oi.style.transform = '';
+        other.classList.remove('is-open');
+      });
+
+      // Abrir el clickeado si estaba cerrado
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+        item.classList.add('is-open');
+      }
+    });
+  });
+</script>

@@ -1,66 +1,129 @@
 ---
-import { Icon } from "astro-icon/components";
 import ContentSection from "~/components/content-section.astro";
-import type { FeatureItem } from "~/types";
 
-const features: Array<FeatureItem> = [
+const services = [
   {
-    title: "Bring Your Own Framework",
-    description:
-      "Build your site using React, Svelte, Vue, Preact, web components, or just plain ol' HTML + JavaScript.",
-    icon: "mdi:handshake",
+    title: "Páginas Web",
+    description: "Diseño moderno que convierte visitas en clientes. Landing pages, corporativas y portales que posicionan tu marca.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+    tag: "Web",
+    accent: "#6366f1",
   },
   {
-    title: "100% Static HTML, No JS",
-    description:
-      "Astro renders your entire page to static HTML, removing all JavaScript from your final build by default.",
-    icon: "mdi:feather",
+    title: "Sistemas a Medida",
+    description: "CRM, inventarios, facturación y dashboards adaptados 100% a tu flujo de trabajo y necesidades específicas.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 5-5"/></svg>`,
+    tag: "Software",
+    accent: "#22d3ee",
   },
   {
-    title: "On-Demand Components",
-    description:
-      "Need some JS? Astro can automatically hydrate interactive components when they become visible on the page. If the user never sees it, they never load it.",
-    icon: "mdi:directions-fork",
+    title: "E-commerce",
+    description: "Tiendas online con pasarela de pago integrada, catálogo dinámico y gestión de pedidos en tiempo real.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+    tag: "Tienda",
+    accent: "#8b5cf6",
   },
   {
-    title: "Broad Integration",
-    description:
-      "Astro supports TypeScript, Scoped CSS, CSS Modules, Sass, Tailwind, Markdown, MDX, and any of your favorite npm packages.",
-    icon: "mdi:graph",
+    title: "Apps Web y Móvil",
+    description: "Aplicaciones multiplataforma rápidas y escalables para tu equipo interno o tus clientes finales.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+    tag: "Apps",
+    accent: "#f59e0b",
   },
   {
-    title: "SEO Enabled",
-    description:
-      "Automatic sitemaps, RSS feeds, pagination and collections take the pain out of SEO and syndication.",
-    icon: "mdi:search-web",
+    title: "Automatizaciones",
+    description: "Bots, integraciones y flujos de trabajo que eliminan tareas repetitivas y ahorran horas cada semana.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/><path d="M16.24 7.76l1.42-1.42"/></svg>`,
+    tag: "Bots",
+    accent: "#10b981",
   },
   {
-    title: "Community",
-    description:
-      "Astro is an open source project powered by hundreds of contributors making thousands of individual contributions.",
-    icon: "mdi:account-group",
+    title: "Soporte Técnico",
+    description: "Mantenimiento mensual, hosting confiable, actualizaciones de seguridad y soporte para tu tranquilidad.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,
+    tag: "Soporte",
+    accent: "#ef4444",
   },
 ];
 ---
 
-<ContentSection title="Features" id="features">
-  <Fragment slot="lead">
-    Astro comes <span class="text-primary">batteries included</span>. It takes
-    the best parts of
-    <span class="text-primary">state-of-the-art</span>
-    tools and adds its own <span class="text-primary">innovations</span>.
+<ContentSection title="Servicios" id="features">
+  <Fragment slot="eyebrow">
+    <span class="eyebrow">Lo que hacemos</span>
   </Fragment>
-  <ul class="grid max-w-6xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    {
-      features.map(({ title, description, icon }) => (
-        <li class="flex flex-col items-center gap-4 border border-default bg-offset p-6">
-          <div class="size-16 rounded-full border-2 border-current p-3">
-            <Icon name={icon} class="size-full" />
+  <Fragment slot="lead">
+    Todo lo que tu negocio necesita para
+    <span class="text-primary">crecer en digital</span>,
+    bajo un mismo techo.
+  </Fragment>
+
+  <!-- Wrapper needed for spotlight positioning -->
+  <div class="features-wrapper w-full max-w-6xl">
+    <!-- Spotlight overlay (follows cursor via JS) -->
+    <div id="features-spotlight" aria-hidden="true"></div>
+
+    <ul id="features-grid" class="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      {services.map(({ title, description, icon, tag, accent }) => (
+        <li
+          class="group relative flex flex-col gap-4 border border-default bg-offset p-7 cursor-default transition-all duration-300 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-bg)]"
+          style={`--accent: ${accent}; --accent-bg: ${accent}0f;`}
+        >
+          <!-- Top row: icon + tag -->
+          <div class="flex items-start justify-between">
+            <div
+              class="rounded-xl p-3 transition-colors duration-300 group-hover:bg-[color:var(--accent)]"
+              style={`background: ${accent}18; color: ${accent};`}
+              set:html={icon}
+            />
+            <span
+              class="rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-widest"
+              style={`background: ${accent}15; color: ${accent}; border: 1px solid ${accent}30;`}
+            >
+              {tag}
+            </span>
           </div>
-          <p class="text-center font-extrabold text-xl">{title}</p>
-          <p class="text-center text-offset text-sm">{description}</p>
+
+          <!-- Text -->
+          <p class="font-extrabold text-xl">{title}</p>
+          <p class="text-offset text-sm leading-relaxed flex-1">{description}</p>
+
+          <!-- Arrow -->
+          <div
+            class="mt-auto self-end text-[color:var(--accent)] opacity-0 translate-x-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
         </li>
-      ))
-    }
-  </ul>
+      ))}
+    </ul>
+  </div>
 </ContentSection>
+
+<style>
+  /* ── Wrapper for spotlight ── */
+  .features-wrapper {
+    position: relative;
+  }
+
+  /* ── Spotlight overlay ── */
+  #features-spotlight {
+    --spot-x: 50%;
+    --spot-y: 50%;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      600px circle at var(--spot-x) var(--spot-y),
+      rgba(99, 102, 241, 0.11),
+      transparent 70%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Grid sits above spotlight ── */
+  #features-grid {
+    position: relative;
+    z-index: 1;
+  }
+</style>

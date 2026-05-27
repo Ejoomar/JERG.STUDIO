@@ -1,0 +1,304 @@
+---
+---
+
+<section class="hero" aria-labelledby="hero-heading">
+  <!-- Animated background -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="hero-content">
+    <!-- Trust badge -->
+    <div class="hero-badge fade-up">
+      <span class="badge-dot"></span>
+      50+ proyectos entregados &nbsp;·&nbsp; Respuesta en 24h
+    </div>
+
+    <!-- Headline -->
+    <h1 id="hero-heading" class="hero-heading fade-up delay-1">
+      Transformamos tu negocio<br/>
+      <span class="gradient-text">en digital</span>
+    </h1>
+
+    <!-- Subheadline -->
+    <p class="hero-sub fade-up delay-2">
+      Páginas web, sistemas a medida y apps que generan resultados reales.
+      Del concepto al lanzamiento, sin complicaciones.
+    </p>
+
+    <!-- CTAs -->
+    <div class="hero-ctas fade-up delay-3">
+      <a href="#servicios" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Ver nuestros servicios
+      </a>
+      <a href="#contacto" class="btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.92a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Agendar llamada gratis
+      </a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="hero-stats fade-up delay-4">
+      <div class="stat">
+        <span class="stat-num">50+</span>
+        <span class="stat-label">Proyectos</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-num">24h</span>
+        <span class="stat-label">Respuesta</span>
+      </div>
+      <div class="stat-divider" aria-hidden="true"></div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Satisfacción</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator fade-up delay-5" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem clamp(1rem, 4vw, 3rem) 5rem;
+    overflow: hidden;
+  }
+
+  /* ── Background ── */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb-1 {
+    width: clamp(300px, 50vw, 600px);
+    height: clamp(300px, 50vw, 600px);
+    background: rgba(99, 102, 241, 0.18);
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+  }
+  .orb-2 {
+    width: clamp(200px, 40vw, 500px);
+    height: clamp(200px, 40vw, 500px);
+    background: rgba(34, 211, 238, 0.12);
+    bottom: -5%;
+    right: -5%;
+    animation-delay: -4s;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-orb { animation: none; }
+    .badge-dot { animation: none; }
+    .scroll-indicator { animation: none; }
+  }
+
+  /* ── Content ── */
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.3);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text-offset);
+    letter-spacing: 0.02em;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #22d3ee;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-heading {
+    font-size: clamp(2.5rem, 6vw + 1rem, 5.5rem);
+    line-height: 1.05;
+    color: var(--color-text);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 1.5vw + 0.5rem, 1.3rem);
+    color: var(--color-text-offset);
+    line-height: 1.7;
+    max-width: 620px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  /* ── Stats ── */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 2vw + 0.5rem, 2rem);
+    font-weight: 800;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--color-text-offset);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--color-border);
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--color-text-offset);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: bounce 2.5s ease-in-out infinite;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-primary), transparent);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  @media (max-width: 480px) {
+    .hero-stats { gap: 1.25rem; }
+    .stat-divider { height: 28px; }
+  }
+</style>
+
+<script>
+  // Animated counter for stat numbers
+  function animateCounter(el: HTMLElement, target: number, suffix: string, duration = 1200) {
+    const start = performance.now();
+    const update = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out expo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.round(eased * target);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  // Only animate if reduced-motion not set
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const statsObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const nums = entry.target.querySelectorAll<HTMLElement>('.stat-num');
+          nums.forEach(num => {
+            const text = num.textContent ?? '';
+            const match = text.match(/^(\d+)(.*)$/);
+            if (match) {
+              const target = parseInt(match[1]);
+              const suffix = match[2];
+              animateCounter(num, target, suffix);
+            }
+          });
+          statsObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const stats = document.querySelector('.hero-stats');
+    if (stats) statsObs.observe(stats);
+  }
+</script>

@@ -1,74 +1,302 @@
 ---
 import "@fontsource-variable/inter";
+import Header      from "~/components/header.astro";
+import Splash      from "~/components/splash.astro";
+import Intro       from "~/components/intro.astro";
+import Features    from "~/components/features.astro";
+import Process     from "~/components/Process.astro";
+import Clients      from "~/components/Clients.astro";
 import Compatibility from "~/components/compatibility.astro";
-import Features from "~/components/features.astro";
-import Footer from "~/components/footer.astro";
-import Header from "~/components/header.astro";
-import Intro from "~/components/intro.astro";
-import Showcase from "~/components/showcase.astro";
-import Splash from "~/components/splash.astro";
+import Showcase    from "~/components/showcase.astro";
+import Testimonials from "~/components/Testimonials.astro";
+import FAQ         from "~/components/FAQ.astro";
+import ContactForm from "~/components/ContactForm.astro";
+import Footer      from "~/components/footer.astro";
 import "~/styles/index.css";
 
-const { generator, site } = Astro;
-const image = new URL("social.jpg", site);
-const description =
-  "Build fast websites, faster. Astro is a new kind of site builder for the modern web. Lightning-fast performance meets powerful developer experience.";
+const title       = "DevAgency — Transformación Digital para tu Negocio";
+const description = "Páginas web, sistemas a medida, apps y automatizaciones que generan resultados reales. Más de 50 proyectos entregados. Respuesta en 24 h.";
+const siteUrl     = "https://devagency.com";
 ---
 
 <!doctype html>
-<html lang="en" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+<html lang="es" class="h-full motion-safe:scroll-smooth" data-theme="dark">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="generator" content={generator} />
 
-    <title>Astro Landing Page</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={siteUrl} />
 
-    <!-- social media -->
-    <meta property="og:title" content="Astro" />
-    <meta property="og:type" content="website" />
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={siteUrl} />
+    <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
-    <meta property="og:url" content={site} />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:locale"      content="es_ES" />
 
-    <!-- initialize theme -->
-    <script is:inline>
-      const themeSaved = localStorage.getItem("theme");
+    <!-- Twitter -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
 
-      if (themeSaved) {
-        document.documentElement.dataset.theme = themeSaved;
-      } else {
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)",
-        ).matches;
-        document.documentElement.dataset.theme = prefersDark ? "dark" : "light";
+    <!-- Syne (display font) from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "DevAgency",
+        "description": "Agencia de desarrollo digital: páginas web, sistemas a medida, apps y automatizaciones.",
+        "url": "https://devagency.com",
+        "email": "hola@devagency.com",
+        "telephone": "+15550000000",
+        "priceRange": "$$"
       }
-
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (event) => {
-          if (!localStorage.getItem("theme")) {
-            document.documentElement.dataset.theme = event.matches
-              ? "dark"
-              : "light";
-          }
-        });
     </script>
   </head>
-  <body
-    class="h-full overflow-x-hidden bg-default text-default text-base selection:bg-secondary selection:text-white"
-  >
-    <Header />
-    <Splash />
-    <div class="space-y-24 px-8 py-32">
-      <Intro />
-      <Features />
-      <Compatibility />
-      <Showcase />
+
+  <body class="h-full overflow-x-hidden bg-default text-default text-base selection:bg-primary selection:text-white">
+
+    <!-- ── Scroll progress bar ── -->
+    <div id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- ── Page intro curtain ── -->
+    <div id="curtain" aria-hidden="true">
+      <div class="curtain-left curtain-panel"></div>
+      <div class="curtain-right curtain-panel"></div>
     </div>
+
+    <!-- ── Custom cursor (hidden on mobile via CSS) ── -->
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+
+    <!-- ── Section dots navigation ── -->
+    <nav id="dots-nav" aria-label="Navegación por secciones"></nav>
+
+    <Header />
+
+    <!-- Full-height hero with Starfield -->
+    <div class="h-screen">
+      <Splash />
+    </div>
+
+    <!-- Rest of sections -->
+    <main id="main-content">
+      <div class="space-y-0">
+        <Intro />
+        <Clients />
+        <Features />
+        <Process />
+        <Compatibility />
+        <Showcase />
+        <Testimonials />
+        <FAQ />
+        <ContactForm />
+      </div>
+    </main>
+
     <Footer />
+
+    <!-- WhatsApp FAB -->
+    <a
+      href="https://wa.me/15550000000?text=Hola%2C%20me%20interesa%20un%20proyecto%20digital"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Contactar por WhatsApp"
+      class="whatsapp-fab"
+    >
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      <span class="fab-label">¿Hablamos?</span>
+    </a>
+
+    <!-- Fade-up scroll observer -->
+    <script>
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduced) {
+        const io = new IntersectionObserver(
+          entries => entries.forEach(e => {
+            if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+          }),
+          { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+        document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+      } else {
+        document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+      }
+    </script>
+
+    <!-- GSAP Scrollytelling -->
+    <script>
+      import '../scripts/scrollytelling';
+    </script>
   </body>
 </html>
+
+<style>
+  /* ══════════════════════════════════
+     SCROLL PROGRESS BAR
+  ══════════════════════════════════ */
+  #scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #6366f1, #22d3ee);
+    transform-origin: left center;
+    transform: scaleX(0);
+    z-index: 9998;
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════
+     PAGE CURTAIN
+  ══════════════════════════════════ */
+  #curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    pointer-events: none;
+  }
+  .curtain-panel {
+    height: 100%;
+    width: 50%;
+    background: #0a0a0a;
+    /* Small branding line at split edge */
+  }
+  .curtain-left {
+    border-right: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  /* ══════════════════════════════════
+     CUSTOM CURSOR
+  ══════════════════════════════════ */
+  #cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    background: #6366f1;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    /* GSAP uses x/y transform, so no transform here */
+    margin-top: -3.5px;
+    margin-left: -3.5px;
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+  #cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border: 1.5px solid rgba(99, 102, 241, 0.75);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    margin-top: -15px;
+    margin-left: -15px;
+    will-change: transform;
+  }
+  /* Hide cursor on touch/mobile */
+  @media (pointer: coarse) {
+    #cursor-dot, #cursor-ring { display: none; }
+  }
+  /* Remove system cursor when custom one is active */
+  :global(html.custom-cursor),
+  :global(html.custom-cursor *) {
+    cursor: none !important;
+  }
+
+  /* ══════════════════════════════════
+     SECTION DOTS NAV
+  ══════════════════════════════════ */
+  #dots-nav {
+    position: fixed;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    z-index: 100;
+    /* Hidden on mobile — horizontal scroll + touch friendly */
+  }
+
+  @media (max-width: 767px) {
+    #dots-nav { display: none; }
+  }
+
+  :global(.nav-dot) {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    transition: background 0.3s, transform 0.3s, height 0.3s;
+    text-decoration: none;
+  }
+  :global(.nav-dot.is-active) {
+    background: #6366f1;
+    transform: scale(1.6);
+  }
+  :global(.nav-dot:focus-visible) {
+    outline: 2px solid #22d3ee;
+    outline-offset: 3px;
+  }
+
+  /* ══════════════════════════════════
+     WHATSAPP FAB
+  ══════════════════════════════════ */
+  .whatsapp-fab {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #25d366;
+    color: white;
+    border-radius: 999px;
+    padding: 0.75rem 1.1rem 0.75rem 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .whatsapp-fab:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 28px rgba(37,211,102,0.55);
+    color: white;
+  }
+  .fab-label { line-height: 1; }
+
+  @media (max-width: 480px) {
+    .whatsapp-fab { padding: 0.85rem; border-radius: 50%; }
+    .fab-label { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-fab { transition: none; }
+    #scroll-progress { display: none; }
+  }
+</style>

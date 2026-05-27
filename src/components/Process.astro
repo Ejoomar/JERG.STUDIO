@@ -1,0 +1,316 @@
+---
+const steps = [
+  {
+    num: "01",
+    title: "Descubrimiento",
+    desc: "Llamada gratuita de 30 min para entender tu negocio, objetivos y presupuesto. Sin compromiso.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  },
+  {
+    num: "02",
+    title: "Propuesta",
+    desc: "Diseño, tecnología y precio fijo en 48 h. Revisamos juntos hasta que estés 100% conforme.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  },
+  {
+    num: "03",
+    title: "Desarrollo",
+    desc: "Iteraciones semanales con preview en vivo. Tu feedback moldea cada detalle en tiempo real.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+  },
+  {
+    num: "04",
+    title: "Entrega",
+    desc: "Deploy en producción, capacitación y 30 días de soporte post-lanzamiento incluidos.",
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+  },
+];
+---
+
+<section id="process" class="process-section" aria-labelledby="process-heading">
+
+  <!-- ── Section header (scrolls normally) ── -->
+  <div class="process-header border-b border-default fade-up">
+    <div class="mx-auto max-w-6xl px-8 py-14 flex flex-col items-center gap-4 text-center">
+      <span class="eyebrow">Cómo trabajamos</span>
+      <h2 id="process-heading" class="gradient-text font-display font-extrabold tracking-tight" style="font-size: clamp(3rem,7vw,5.5rem);">
+        Proceso
+      </h2>
+      <p class="max-w-xl font-extrabold text-xl text-offset">
+        Un flujo <span class="text-default">transparente</span> donde sabes exactamente
+        qué pasa en cada etapa.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Pin zone: horizontal carousel on desktop, scroll-snap on mobile ── -->
+  <div id="process-pin-zone">
+
+    <!-- Step counter (desktop only, updated by GSAP) -->
+    <div class="process-counter" aria-hidden="true">
+      <span id="process-step-num">01</span>
+      <span class="counter-sep">/</span>
+      <span>04</span>
+    </div>
+
+    <!-- Steps track -->
+    <div id="process-track">
+      {steps.map(({ num, title, desc, icon }, i) => (
+        <div class="process-step" data-step={num}>
+
+          <!-- Decorative big number behind content -->
+          <span class="step-bg-num" aria-hidden="true">{num}</span>
+
+          <!-- Card inner -->
+          <div class="step-inner">
+
+            <!-- Icon -->
+            <div class="step-icon" set:html={icon} />
+
+            <!-- Meta -->
+            <p class="step-label">Paso {num} / 04</p>
+
+            <!-- Headline -->
+            <h3 class="step-title">{title}</h3>
+
+            <!-- Description -->
+            <p class="step-desc">{desc}</p>
+
+            <!-- Next hint (steps 1-3, desktop) -->
+            {i < 3 && (
+              <p class="step-next-hint" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+                Siguiente
+              </p>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ── Footer CTA (scrolls normally) ── -->
+  <div class="process-footer border-t border-default fade-up">
+    <div class="mx-auto max-w-6xl px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-offset">
+        Primera llamada de descubrimiento <strong class="text-default">100% gratuita</strong> y sin compromiso.
+      </p>
+      <a href="#contact" class="btn-primary btn-magnetic shrink-0">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.007 1.17 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.92a16 16 0 006.16 6.16l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        Empezar ahora
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section wrapper ── */
+  .process-section {
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden; /* clip horizontal track on mobile */
+  }
+
+  /* ── Pin zone (mobile: horizontal snap, desktop: GSAP pin) ── */
+  #process-pin-zone {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #process-pin-zone::-webkit-scrollbar { display: none; }
+
+  @media (min-width: 768px) {
+    #process-pin-zone {
+      overflow: hidden;
+      scroll-snap-type: none;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  /* ── Track ── */
+  #process-track {
+    display: flex;
+    will-change: transform;
+  }
+
+  /* ── Individual step ── */
+  .process-step {
+    flex-shrink: 0;
+    width: 82vw;
+    min-height: 65vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    border-right: 1px solid var(--color-border);
+  }
+
+  @media (min-width: 768px) {
+    .process-step {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      padding: 4rem 8vw;
+      scroll-snap-align: none;
+    }
+  }
+
+  /* ── Decorative big number ── */
+  .step-bg-num {
+    position: absolute;
+    right: -2vw;
+    bottom: -2rem;
+    font-family: "Syne", var(--font-display, sans-serif);
+    font-size: clamp(7rem, 18vw, 18rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: rgba(255, 255, 255, 0.025);
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.4s;
+  }
+
+  .process-step:hover .step-bg-num {
+    color: rgba(99, 102, 241, 0.07);
+  }
+
+  /* ── Inner content wrapper ── */
+  .step-inner {
+    position: relative;
+    max-width: 46rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* ── Icon ── */
+  .step-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+    transition: border-color 0.3s, background 0.3s, color 0.3s;
+  }
+
+  @media (min-width: 768px) {
+    .step-icon {
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+  }
+
+  .process-step:hover .step-icon {
+    border-color: rgba(99, 102, 241, 0.7);
+    background: #6366f1;
+    color: white;
+  }
+
+  /* ── Label ── */
+  .step-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-primary, #6366f1);
+  }
+
+  /* ── Title ── */
+  .step-title {
+    font-family: "Syne", var(--font-display, sans-serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Description ── */
+  .step-desc {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    color: var(--color-text-offset, #9ca3af);
+    line-height: 1.75;
+    max-width: 38rem;
+  }
+
+  /* ── Next hint (desktop) ── */
+  .step-next-hint {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .step-next-hint {
+      display: flex;
+    }
+  }
+
+  /* ── Step counter (desktop only) ── */
+  .process-counter {
+    display: none;
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    z-index: 2;
+    font-family: "Syne", var(--font-display, sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.3);
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  #process-step-num {
+    font-size: 1.2rem;
+    color: var(--color-primary, #6366f1);
+  }
+
+  .counter-sep {
+    opacity: 0.4;
+  }
+
+  @media (min-width: 768px) {
+    .process-counter {
+      display: flex;
+    }
+  }
+
+  /* ── Left accent bar on step hover ── */
+  .process-step::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #6366f1, #22d3ee);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .process-step:hover::after {
+    opacity: 1;
+  }
+</style>
