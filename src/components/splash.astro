@@ -4,7 +4,7 @@ import Starfield from "~/components/starfield.astro";
 
 const stats = [
   { num: "50+",  label: "Proyectos",    count: 50,  suffix: "+" },
-  { num: "24 h", label: "Respuesta",    count: 24,  suffix: " h" },
+  { num: "24h",  label: "Respuesta",    count: 24,  suffix: "h" },
   { num: "100%", label: "Satisfacción", count: 100, suffix: "%" },
 ];
 ---
@@ -12,94 +12,90 @@ const stats = [
 <section class="relative h-full bg-black overflow-hidden">
   <Starfield />
 
-  <!-- Grid decorativo -->
+  <!-- Grid muy sutil -->
   <div class="hero-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Glow central — movido por GSAP parallax -->
+  <!-- Glow que sigue al mouse / giroscopio via GSAP -->
   <div
     id="hero-glow"
     class="absolute inset-0 pointer-events-none"
-    style="background: radial-gradient(ellipse 70% 65% at 50% 45%, rgba(99,102,241,0.13) 0%, rgba(10,10,10,0.6) 55%, rgba(10,10,10,0.95) 100%)"
+    style="background: radial-gradient(ellipse 60% 55% at 50% 42%, rgba(99,102,241,0.16) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.98) 100%)"
     aria-hidden="true"
   ></div>
 
-  <!-- Fallback sin JS -->
+  <!-- Noscript fallback -->
   <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
     <HeroImage />
   </div>
 
-  <!-- Contenido -->
+  <!-- Número decorativo de fondo — da profundidad -->
+  <div class="hero-bg-mark" aria-hidden="true">DA</div>
+
+  <!-- Contenido principal -->
   <div class="relative flex h-full flex-col items-center justify-center px-6 text-center">
 
-    <!-- Indicador de disponibilidad -->
-    <div class="fade-up mb-10 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-bold tracking-[0.18em] uppercase text-white/50 backdrop-blur-sm">
-      <span class="size-1.5 rounded-full bg-secondary animate-pulse"></span>
-      Disponible para nuevos proyectos
-    </div>
-
-    <!-- Headline principal — estilo ALL-CAPS editorial -->
-    <div class="fade-up delay-1 flex flex-col items-center gap-2">
-      <p
-        class="font-display font-extrabold uppercase tracking-tight text-white/12 leading-none select-none"
-        style="font-size: clamp(0.65rem, 1.2vw, 0.95rem); letter-spacing: 0.3em;"
-        aria-hidden="true"
-      >
-        Agencia de Desarrollo Digital
-      </p>
-      <h1
-        class="font-display font-extrabold uppercase text-white"
-        style="font-size: clamp(2.8rem, 7.5vw + 0.5rem, 6.5rem); line-height: 1.02; letter-spacing: -0.01em;"
-      >
-        CAOS DIGITAL,<br/>
-        <span class="gradient-text">RESULTADOS</span><br/>
-        CONCRETOS.
-      </h1>
-    </div>
-
-    <!-- Subline filosófico -->
+    <!-- Categoría — mínima, arriba -->
     <p
-      class="fade-up delay-2 mt-8 max-w-md text-white/45 leading-relaxed"
-      style="font-size: clamp(0.9rem, 1.2vw + 0.3rem, 1.05rem); letter-spacing: 0.01em;"
+      class="fade-up mb-7 text-[10px] font-bold uppercase text-white/20"
+      style="letter-spacing: 0.38em;"
+      aria-hidden="true"
     >
-      Convertimos complejidad en código. Ideas en sistemas.<br class="hidden sm:block"/>
-      Negocios en presencias digitales que generan valor real.
+      Agencia de Desarrollo Digital
+    </p>
+
+    <!-- Headline MASIVO — 3 líneas, llena la pantalla -->
+    <h1
+      class="fade-up delay-1 font-display font-extrabold uppercase text-white"
+      style="font-size: clamp(3.8rem, 11vw, 9.5rem); line-height: 0.92; letter-spacing: -0.025em;"
+    >
+      CONSTRUIMOS<br/>
+      <span class="gradient-text">PRESENCIAS</span><br/>
+      DIGITALES.
+    </h1>
+
+    <!-- Subline — mínima, 1 línea -->
+    <p
+      class="fade-up delay-2 mt-9 text-white/35"
+      style="font-size: 0.9rem; letter-spacing: 0.08em; max-width: 26rem; line-height: 1.7;"
+    >
+      Código que convierte. Diseño que impacta.<br/>Resultados que se miden.
     </p>
 
     <!-- CTAs -->
     <div class="fade-up delay-3 mt-10 flex flex-wrap items-center justify-center gap-4">
       <a href="#contact" class="btn-primary btn-magnetic">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
         </svg>
         Iniciar proyecto
       </a>
       <a href="#features" class="btn-ghost btn-magnetic">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        Capacidades
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
-        Ver capacidades
       </a>
     </div>
 
-    <!-- Stats -->
-    <div class="fade-up delay-4 mt-16 flex items-center gap-8 border-t border-white/8 pt-8">
+    <!-- Stats — compactos, tras divisor -->
+    <div class="fade-up delay-4 stats-row mt-14 flex items-center gap-10 border-t border-white/8 pt-8">
       {stats.map((s, i) => (
-        <div class={`flex flex-col items-center gap-1.5 ${i > 0 ? "border-l border-white/8 pl-8" : ""}`}>
+        <div class={`flex flex-col items-center gap-1.5 ${i > 0 ? "border-l border-white/8 pl-10" : ""}`}>
           <span
             class="gradient-text font-display font-extrabold"
-            style="font-size: clamp(1.4rem, 2vw, 2rem);"
+            style="font-size: clamp(1.5rem, 2.2vw, 2.2rem); line-height: 1;"
             data-count={s.count}
             data-suffix={s.suffix}
           >{s.num}</span>
-          <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">{s.label}</span>
+          <span class="text-[9px] font-bold uppercase text-white/25" style="letter-spacing: 0.22em;">{s.label}</span>
         </div>
       ))}
     </div>
 
-    <!-- Scroll indicator — estilo sidewave -->
-    <div class="fade-up delay-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" aria-hidden="true">
-      <span class="text-[9px] font-bold uppercase tracking-[0.3em] text-white/20">Scroll para descubrir</span>
-      <div class="h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent animate-pulse-slow"></div>
+    <!-- Scroll hint -->
+    <div class="fade-up delay-5 absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5" aria-hidden="true">
+      <span class="text-[8px] font-bold uppercase text-white/15" style="letter-spacing: 0.35em;">Scroll para descubrir</span>
+      <div class="h-8 w-px animate-pulse-slow" style="background: linear-gradient(to bottom, rgba(99,102,241,0.6), transparent);"></div>
     </div>
   </div>
 </section>
@@ -109,32 +105,55 @@ const stats = [
 </noscript>
 
 <style>
+  /* Grid decorativo muy sutil */
   .hero-grid {
     background-image:
-      linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
+      linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 85% 85% at 50% 40%, black 25%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 40%, black 25%, transparent 100%);
   }
 
+  /* Letras decorativas de fondo — dan profundidad/textura */
+  .hero-bg-mark {
+    position: absolute;
+    bottom: -4vw;
+    right: -2vw;
+    font-family: "Syne", sans-serif;
+    font-size: clamp(10rem, 28vw, 28rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.07em;
+    color: rgba(99, 102, 241, 0.04);
+    pointer-events: none;
+    user-select: none;
+    text-transform: uppercase;
+  }
+
+  /* Divisor de stats */
   .border-white\/8 { border-color: rgba(255, 255, 255, 0.08); }
-  .text-white\/12  { color: rgba(255, 255, 255, 0.12); }
 
+  /* Scroll pulse */
   .animate-pulse-slow {
-    animation: pulse 2.5s ease-in-out infinite;
+    animation: hpulse 2.8s ease-in-out infinite;
+  }
+  @keyframes hpulse {
+    0%, 100% { opacity: 0.25; }
+    50%       { opacity: 0.9; }
   }
 
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50%       { opacity: 0.8; }
+  /* Ajuste móvil: stats más compactos */
+  @media (max-width: 480px) {
+    .stats-row { gap: 1.5rem; }
+    .stats-row > div + div { padding-left: 1.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     :global(#starfield) { display: none; }
     #splash-bg-fallback  { display: block; }
-    .animate-pulse,
     .animate-pulse-slow  { animation: none; }
     .hero-grid           { display: none; }
+    .hero-bg-mark        { display: none; }
   }
 </style>

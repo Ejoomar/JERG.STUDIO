@@ -1,121 +1,399 @@
 ---
-import ContentSection from "~/components/content-section.astro";
-
 const services = [
   {
+    num: "01",
     title: "Páginas Web",
-    description: "Diseño que convierte. Landing pages, corporativas y portales construidos para posicionar, captar y retener.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+    description: "Diseño que convierte. Landing pages, sitios corporativos y portales construidos para posicionar, captar y retener. Optimizados para Core Web Vitals y SEO desde el día uno.",
+    meta: ["Landing pages", "Sitios corporativos", "SEO técnico"],
     tag: "Web",
     accent: "#6366f1",
   },
   {
+    num: "02",
     title: "Sistemas a Medida",
-    description: "CRM, inventarios, dashboards, facturación. Sistemas que encajan en tu flujo — no al revés.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 10l3 3 5-5"/></svg>`,
+    description: "CRM, inventarios, dashboards, facturación. Sistemas que encajan en tu flujo de trabajo — no al revés. Análisis, diseño y desarrollo completo con soporte continuo.",
+    meta: ["CRM", "ERP ligero", "Dashboards"],
     tag: "Software",
     accent: "#22d3ee",
   },
   {
+    num: "03",
     title: "E-commerce",
-    description: "Tiendas online con pasarela de pago integrada, catálogo dinámico y gestión de pedidos en tiempo real.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+    description: "Tiendas online con pasarela de pago integrada, catálogo dinámico y gestión de pedidos en tiempo real. Escalables desde 10 hasta 10 000 productos.",
+    meta: ["Stripe / PayPal", "Gestión de stock", "Análisis de ventas"],
     tag: "Tienda",
     accent: "#8b5cf6",
   },
   {
+    num: "04",
     title: "Apps Web y Móvil",
-    description: "Aplicaciones multiplataforma rápidas y escalables — para tu equipo interno o tus clientes finales.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+    description: "Aplicaciones multiplataforma rápidas y escalables — para tu equipo interno o tus clientes finales. PWA, React Native o Expo según lo que requiera el proyecto.",
+    meta: ["PWA", "iOS & Android", "Offline-first"],
     tag: "Apps",
     accent: "#f59e0b",
   },
   {
+    num: "05",
     title: "Automatizaciones",
-    description: "Bots, integraciones y flujos que eliminan trabajo repetitivo. Cada hora ahorrada es margen ganado.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/><path d="M16.24 7.76l1.42-1.42"/></svg>`,
+    description: "Bots, integraciones y flujos que eliminan trabajo repetitivo. Cada hora ahorrada es margen ganado. Conectamos tus herramientas: CRM, WhatsApp, email, contabilidad.",
+    meta: ["n8n / Zapier", "WhatsApp API", "Integraciones"],
     tag: "Bots",
     accent: "#10b981",
   },
   {
+    num: "06",
     title: "Soporte Continuo",
-    description: "Hosting, actualizaciones de seguridad, monitoreo y soporte mensual. Tu tranquilidad, garantizada.",
-    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>`,
+    description: "Hosting, actualizaciones de seguridad, monitoreo 24/7 y soporte mensual. Sin contrato de permanencia. Tu tranquilidad, garantizada mientras nosotros nos encargamos.",
+    meta: ["Hosting gestionado", "Backups", "SLA garantizado"],
     tag: "Soporte",
     accent: "#ef4444",
   },
 ];
 ---
 
-<ContentSection title="Capacidades" id="features">
-  <Fragment slot="eyebrow">
-    <span class="eyebrow tracking-[0.22em]">Capacidades</span>
-  </Fragment>
-  <Fragment slot="lead">
-    Seis disciplinas. Un propósito:<br/>
-    <span class="text-primary">convertir tu visión</span> en resultados medibles.
-  </Fragment>
-
-  <div class="features-wrapper w-full max-w-6xl">
-    <!-- Spotlight overlay (sigue al cursor via JS) -->
-    <div id="features-spotlight" aria-hidden="true"></div>
-
-    <ul id="features-grid" class="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-      {services.map(({ title, description, icon, tag, accent }) => (
-        <li
-          class="group relative flex flex-col gap-4 border border-default bg-offset p-7 cursor-default transition-all duration-300 hover:border-[color:var(--accent)] hover:bg-[color:var(--accent-bg)]"
-          style={`--accent: ${accent}; --accent-bg: ${accent}0f;`}
-        >
-          <div class="flex items-start justify-between">
-            <div
-              class="rounded-xl p-3 transition-colors duration-300 group-hover:bg-[color:var(--accent)]"
-              style={`background: ${accent}18; color: ${accent};`}
-              set:html={icon}
-            />
-            <span
-              class="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]"
-              style={`background: ${accent}15; color: ${accent}; border: 1px solid ${accent}30;`}
-            >
-              {tag}
-            </span>
-          </div>
-
-          <p class="font-extrabold text-xl">{title}</p>
-          <p class="text-offset text-sm leading-relaxed flex-1">{description}</p>
-
-          <div
-            class="mt-auto self-end text-[color:var(--accent)] opacity-0 translate-x-[-4px] transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </li>
-      ))}
-    </ul>
+<section
+  id="features"
+  class="scroll-mt-24 px-6 py-20 md:py-28 flex flex-col items-center"
+>
+  <!-- Header editorial — sin ContentSection -->
+  <div class="w-full max-w-6xl mb-16 md:mb-20">
+    <div class="flex flex-col gap-6">
+      <span class="eyebrow tracking-[0.22em]">Capacidades</span>
+      <h2
+        class="font-display font-extrabold uppercase text-white"
+        style="font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.025em;"
+      >
+        Seis disciplinas.<br/>
+        <span class="gradient-text">Un propósito.</span>
+      </h2>
+      <p
+        class="text-white/40 max-w-lg"
+        style="font-size: clamp(0.9rem, 1.2vw + 0.3rem, 1.1rem); line-height: 1.7; letter-spacing: 0.02em;"
+      >
+        Convertir tu visión en resultados medibles. Sin rodeos, sin relleno.<br/>Solo trabajo que se puede medir.
+      </p>
+    </div>
   </div>
-</ContentSection>
+
+  <!-- Lista editorial numerada -->
+  <div class="feat-list w-full max-w-6xl" id="features-list">
+    {services.map(({ num, title, description, meta, tag, accent }) => (
+      <div
+        class="feat-item"
+        style={`--accent: ${accent};`}
+      >
+        <!-- Row clickable -->
+        <button
+          class="feat-row"
+          aria-expanded="false"
+          type="button"
+        >
+          <!-- Número -->
+          <span class="feat-num" aria-hidden="true">{num}</span>
+
+          <!-- Título -->
+          <span class="feat-title">{title}</span>
+
+          <!-- Tag (oculto en mobile muy pequeño) -->
+          <span
+            class="feat-tag"
+            style={`color: ${accent}; border-color: ${accent}40; background: ${accent}12;`}
+          >
+            {tag}
+          </span>
+
+          <!-- Ícono toggle -->
+          <span class="feat-icon" aria-hidden="true">
+            <svg class="feat-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            <svg class="feat-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14"/>
+            </svg>
+          </span>
+        </button>
+
+        <!-- Panel expandible -->
+        <div class="feat-panel" role="region">
+          <div class="feat-panel-inner">
+            <!-- Descripción -->
+            <p class="feat-desc">{description}</p>
+
+            <!-- Meta chips -->
+            <div class="feat-meta">
+              {meta.map(m => (
+                <span class="feat-chip" style={`color: ${accent}; border-color: ${accent}35; background: ${accent}0d;`}>{m}</span>
+              ))}
+              <a href="#contact" class="feat-cta" style={`color: ${accent};`}>
+                Iniciar proyecto
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
 <style>
-  .features-wrapper {
-    position: relative;
+  /* ── Lista ── */
+  .feat-list {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
   }
 
-  #features-spotlight {
-    --spot-x: 50%;
-    --spot-y: 50%;
+  /* ── Ítem ── */
+  .feat-item {
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background 0.25s;
+  }
+
+  /* Barra de acento izquierda */
+  .feat-item::before {
+    content: '';
     position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      600px circle at var(--spot-x) var(--spot-y),
-      rgba(99, 102, 241, 0.11),
-      transparent 70%
-    );
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
     opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  #features-grid {
-    position: relative;
+    transition: opacity 0.25s;
     z-index: 1;
   }
+
+  .feat-item.is-open::before {
+    opacity: 1;
+  }
+
+  .feat-item.is-open {
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  /* ── Row (botón) ── */
+  .feat-row {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto auto;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 1.5rem 1.25rem 1.5rem 1.5rem;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    transition: color 0.2s;
+  }
+
+  .feat-row:hover .feat-title {
+    color: var(--accent);
+  }
+
+  @media (min-width: 640px) {
+    .feat-row {
+      grid-template-columns: 4rem 1fr auto auto;
+      padding: 1.75rem 1.5rem 1.75rem 1.75rem;
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feat-row {
+      grid-template-columns: 5rem 1fr auto auto;
+      padding: 2rem 2rem 2rem 2rem;
+      gap: 2.5rem;
+    }
+  }
+
+  /* ── Número decorativo ── */
+  .feat-num {
+    font-family: "Syne", sans-serif;
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.2);
+    transition: color 0.25s;
+    flex-shrink: 0;
+  }
+
+  .feat-item.is-open .feat-num {
+    color: var(--accent);
+  }
+
+  /* ── Título del servicio ── */
+  .feat-title {
+    font-family: "Syne", sans-serif;
+    font-size: clamp(1.15rem, 2.2vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: rgba(255, 255, 255, 0.88);
+    transition: color 0.2s;
+    text-align: left;
+  }
+
+  /* ── Tag badge ── */
+  .feat-tag {
+    display: none;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    border-radius: 9999px;
+    border-width: 1px;
+    border-style: solid;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 480px) {
+    .feat-tag {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* ── Ícono toggle ── */
+  .feat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: rgba(255, 255, 255, 0.3);
+    flex-shrink: 0;
+    transition: color 0.2s, transform 0.3s;
+  }
+
+  .feat-item.is-open .feat-icon {
+    color: var(--accent);
+  }
+
+  .feat-plus { display: block; }
+  .feat-minus { display: none; }
+  .feat-item.is-open .feat-plus { display: none; }
+  .feat-item.is-open .feat-minus { display: block; }
+
+  /* ── Panel expandible ── */
+  .feat-panel {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .feat-panel-inner {
+    padding: 0 1.5rem 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .feat-panel-inner {
+      padding: 0 1.75rem 2rem calc(4rem + 2rem);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .feat-panel-inner {
+      padding: 0 2rem 2rem calc(5rem + 2.5rem);
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 3rem;
+    }
+  }
+
+  /* ── Descripción ── */
+  .feat-desc {
+    font-size: clamp(0.85rem, 1.1vw + 0.2rem, 1rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 36rem;
+    flex: 1;
+  }
+
+  /* ── Meta chips + cta ── */
+  .feat-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .feat-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .feat-chip {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  .feat-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-top: 0.25rem;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.2s, gap 0.2s;
+  }
+
+  .feat-cta:hover {
+    opacity: 1;
+    gap: 0.65rem;
+    color: inherit;
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .feat-panel { transition: none; }
+    .feat-item::before { transition: none; }
+    .feat-row { transition: none; }
+  }
 </style>
+
+<script>
+  document.querySelectorAll('.feat-item').forEach(item => {
+    const btn   = item.querySelector('.feat-row') as HTMLButtonElement;
+    const panel = item.querySelector('.feat-panel') as HTMLElement;
+
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      // Cerrar todos
+      document.querySelectorAll('.feat-item').forEach(other => {
+        const ob = other.querySelector('.feat-row') as HTMLButtonElement;
+        const op = other.querySelector('.feat-panel') as HTMLElement;
+        ob.setAttribute('aria-expanded', 'false');
+        op.style.maxHeight = '0';
+        other.classList.remove('is-open');
+      });
+
+      // Abrir el clickeado si estaba cerrado
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+        item.classList.add('is-open');
+      }
+    });
+  });
+</script>
