@@ -57,10 +57,27 @@ a:focus-visible,
 .fade-up.delay-4 { transition-delay: 0.4s; }
 .fade-up.delay-5 { transition-delay: 0.5s; }
 
-/* ── Section label (eyebrow) ── */
+/* ── Section label (eyebrow) — estilo sidewave: minimal, uppercase, ultra-spaced ── */
 .eyebrow {
-  @apply text-xs font-bold uppercase tracking-widest;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
   color: var(--color-primary);
+}
+
+/* Líneas decorativas flanqueando el eyebrow */
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
 }
 
 /* ── Reduced motion ── */

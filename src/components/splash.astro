@@ -10,13 +10,12 @@ const stats = [
 ---
 
 <section class="relative h-full bg-black overflow-hidden">
-  <!-- Starfield canvas (repo original — mantenido) -->
   <Starfield />
 
-  <!-- Grid de cuadrícula decorativa -->
+  <!-- Grid decorativo -->
   <div class="hero-grid absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Viñeta radial sobre el grid para foco central -->
+  <!-- Glow central — movido por GSAP parallax -->
   <div
     id="hero-glow"
     class="absolute inset-0 pointer-events-none"
@@ -24,46 +23,46 @@ const stats = [
     aria-hidden="true"
   ></div>
 
-  <!-- Fallback sin JS (patrón del repo) -->
+  <!-- Fallback sin JS -->
   <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
     <HeroImage />
   </div>
 
-  <!-- Contenido del hero -->
+  <!-- Contenido -->
   <div class="relative flex h-full flex-col items-center justify-center px-6 text-center">
 
-    <!-- Badge de confianza -->
-    <div class="fade-up mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-xs font-semibold tracking-wide text-white/60 backdrop-blur-sm">
+    <!-- Indicador de disponibilidad -->
+    <div class="fade-up mb-10 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-bold tracking-[0.18em] uppercase text-white/50 backdrop-blur-sm">
       <span class="size-1.5 rounded-full bg-secondary animate-pulse"></span>
-      50+ proyectos entregados &nbsp;·&nbsp; Respuesta en 24 h
+      Disponible para nuevos proyectos
     </div>
 
-    <!-- Headline principal -->
-    <div class="fade-up delay-1 flex flex-col items-center gap-0">
+    <!-- Headline principal — estilo ALL-CAPS editorial -->
+    <div class="fade-up delay-1 flex flex-col items-center gap-2">
       <p
-        class="font-display font-extrabold uppercase tracking-tight text-white/15 leading-none select-none"
-        style="font-size: clamp(0.7rem, 1.4vw, 1.1rem); letter-spacing: 0.25em;"
+        class="font-display font-extrabold uppercase tracking-tight text-white/12 leading-none select-none"
+        style="font-size: clamp(0.65rem, 1.2vw, 0.95rem); letter-spacing: 0.3em;"
         aria-hidden="true"
       >
-        Desarrollo Digital · Agencia
+        Agencia de Desarrollo Digital
       </p>
       <h1
-        class="font-display font-extrabold tracking-tight text-white"
-        style="font-size: clamp(3rem, 8vw + 0.5rem, 7rem); line-height: 0.95; letter-spacing: -0.03em;"
+        class="font-display font-extrabold uppercase text-white"
+        style="font-size: clamp(2.8rem, 7.5vw + 0.5rem, 6.5rem); line-height: 1.02; letter-spacing: -0.01em;"
       >
-        Transforma<br/>
-        <span class="gradient-text">tu negocio</span><br/>
-        en digital.
+        CAOS DIGITAL,<br/>
+        <span class="gradient-text">RESULTADOS</span><br/>
+        CONCRETOS.
       </h1>
     </div>
 
-    <!-- Subtítulo -->
+    <!-- Subline filosófico -->
     <p
-      class="fade-up delay-2 mt-7 max-w-lg text-white/50 leading-relaxed"
-      style="font-size: clamp(0.95rem, 1.3vw + 0.4rem, 1.15rem);"
+      class="fade-up delay-2 mt-8 max-w-md text-white/45 leading-relaxed"
+      style="font-size: clamp(0.9rem, 1.2vw + 0.3rem, 1.05rem); letter-spacing: 0.01em;"
     >
-      Páginas web, sistemas a medida y apps que generan resultados reales.
-      Del concepto al lanzamiento, sin complicaciones.
+      Convertimos complejidad en código. Ideas en sistemas.<br class="hidden sm:block"/>
+      Negocios en presencias digitales que generan valor real.
     </p>
 
     <!-- CTAs -->
@@ -72,35 +71,35 @@ const stats = [
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
         </svg>
-        Agendar llamada gratis
+        Iniciar proyecto
       </a>
       <a href="#features" class="btn-ghost btn-magnetic">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
-        Ver servicios
+        Ver capacidades
       </a>
     </div>
 
     <!-- Stats -->
     <div class="fade-up delay-4 mt-16 flex items-center gap-8 border-t border-white/8 pt-8">
       {stats.map((s, i) => (
-        <div class={`flex flex-col items-center gap-1 ${i > 0 ? "border-l border-white/8 pl-8" : ""}`}>
+        <div class={`flex flex-col items-center gap-1.5 ${i > 0 ? "border-l border-white/8 pl-8" : ""}`}>
           <span
             class="gradient-text font-display font-extrabold"
             style="font-size: clamp(1.4rem, 2vw, 2rem);"
             data-count={s.count}
             data-suffix={s.suffix}
           >{s.num}</span>
-          <span class="text-xs font-semibold uppercase tracking-widest text-white/35">{s.label}</span>
+          <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">{s.label}</span>
         </div>
       ))}
     </div>
 
-    <!-- Indicador de scroll -->
-    <div class="fade-up delay-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" aria-hidden="true">
-      <div class="h-10 w-px bg-gradient-to-b from-primary to-transparent animate-pulse-slow"></div>
-      <span class="text-[10px] font-bold uppercase tracking-widest text-white/25">Scroll</span>
+    <!-- Scroll indicator — estilo sidewave -->
+    <div class="fade-up delay-5 absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" aria-hidden="true">
+      <span class="text-[9px] font-bold uppercase tracking-[0.3em] text-white/20">Scroll para descubrir</span>
+      <div class="h-10 w-px bg-gradient-to-b from-transparent via-white/20 to-transparent animate-pulse-slow"></div>
     </div>
   </div>
 </section>
@@ -110,26 +109,25 @@ const stats = [
 </noscript>
 
 <style>
-  /* ── Grid decorativo del hero ── */
   .hero-grid {
     background-image:
-      linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
     background-size: 72px 72px;
     mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
     -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 30%, transparent 100%);
   }
 
-  /* ── Utilidades ── */
   .border-white\/8 { border-color: rgba(255, 255, 255, 0.08); }
+  .text-white\/12  { color: rgba(255, 255, 255, 0.12); }
 
   .animate-pulse-slow {
     animation: pulse 2.5s ease-in-out infinite;
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
+    0%, 100% { opacity: 0.3; }
+    50%       { opacity: 0.8; }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -9,18 +9,24 @@ const { title, id } = Astro.props;
 
 <section
   id={id}
-  class="flex scroll-mt-24 flex-col items-center gap-4 space-y-8"
+  class="flex scroll-mt-24 flex-col items-center gap-4 space-y-10 px-6 py-20 md:py-28"
 >
-  <div class="flex flex-col items-center gap-4">
+  <!-- Eyebrow + headline -->
+  <div class="flex flex-col items-center gap-5 text-center">
     <slot name="eyebrow" />
     <h2
-      class="gradient-text text-center font-extrabold tracking-tight text-6xl"
+      class="gradient-text text-center font-display font-extrabold tracking-tight"
+      style="font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.0; letter-spacing: -0.02em;"
     >
       {title}
     </h2>
   </div>
-  <p class="max-w-xl text-center font-extrabold text-2xl">
+
+  <!-- Lead copy -->
+  <p class="max-w-2xl text-center text-offset leading-relaxed" style="font-size: clamp(1rem, 1.4vw + 0.3rem, 1.2rem); line-height: 1.7;">
     <slot name="lead" />
   </p>
+
+  <!-- Content slot -->
   <slot />
 </section>
