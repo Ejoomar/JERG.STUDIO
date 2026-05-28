@@ -6,32 +6,32 @@ gsap.registerPlugin(ScrollTrigger);
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mm = gsap.matchMedia();
 
+// Helper — broadcast which section is active
+function dispatchSection(id: string) {
+  window.dispatchEvent(new CustomEvent("section:active", { detail: { id } }));
+}
+
 // ═══════════════════════════════════════════════
-// 1. PAGE INTRO CURTAIN
+// 1. PAGE INTRO CURTAIN  →  returns Promise<void>
 // ═══════════════════════════════════════════════
-function initCurtain() {
-  const curtain = document.getElementById("curtain");
-  if (!curtain) return;
+function initCurtain(): Promise<void> {
+  return new Promise((resolve) => {
+    const curtain = document.getElementById("curtain");
+    if (!curtain) { resolve(); return; }
 
-  if (reduced) {
-    curtain.style.display = "none";
-    return;
-  }
+    if (reduced) {
+      curtain.style.display = "none";
+      resolve();
+      return;
+    }
 
-  document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
-  const left = curtain.querySelector<HTMLElement>(".curtain-left");
-  const right = curtain.querySelector<HTMLElement>(".curtain-right");
+    const left  = curtain.querySelector<HTMLElement>(".curtain-left");
+    const right = curtain.querySelector<HTMLElement>(".curtain-right");
 
-  gsap.to(left, {
-    x: "-100%",
-    duration: 1.1,
-    ease: "expo.inOut",
-    delay: 0.15,
-  });
-  gsap.to(
-    right,
-    {
+    gsap.to(left, { x: "-100%", duration: 1.1, ease: "expo.inOut", delay: 0.15 });
+    gsap.to(right, {
       x: "100%",
       duration: 1.1,
       ease: "expo.inOut",
@@ -39,16 +39,19 @@ function initCurtain() {
       onComplete: () => {
         curtain.style.display = "none";
         document.body.style.overflow = "";
+        resolve();
       },
-    },
-  );
+    });
+  });
 }
 
 // ═══════════════════════════════════════════════
 // 2. CUSTOM CURSOR (desktop / pointer: fine only)
+//    Magnetic buttons get opacity dim, NOT scale
+//    to avoid visual conflict when the button moves
 // ═══════════════════════════════════════════════
 function initCursor() {
-  const dot = document.getElementById("cursor-dot");
+  const dot  = document.getElementById("cursor-dot");
   const ring = document.getElementById("cursor-ring");
   if (!dot || !ring) return;
   if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -57,10 +60,9 @@ function initCursor() {
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
+  let ringX  = mouseX;
+  let ringY  = mouseY;
   const LERP = 0.1;
-  let rafId = 0;
 
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
@@ -72,31 +74,37 @@ function initCursor() {
     ringX += (mouseX - ringX) * LERP;
     ringY += (mouseY - ringY) * LERP;
     gsap.set(ring, { x: ringX, y: ringY });
-    rafId = requestAnimationFrame(lerpRing);
+    requestAnimationFrame(lerpRing);
   }
   lerpRing();
 
-  // Scale on interactive elements
+  // Regular interactors — expand ring
   const interactors = document.querySelectorAll(
-    "a, button, [role=button], .bento-card, .faq-btn",
+    "a:not(.btn-magnetic), button:not(.btn-magnetic), [role=button]:not(.btn-magnetic), .bento-card, .faq-btn",
   );
   interactors.forEach((el) => {
     el.addEventListener("mouseenter", () => {
       gsap.to(ring, { scale: 2.5, opacity: 0.45, duration: 0.3 });
-      gsap.to(dot, { scale: 0, duration: 0.2 });
+      gsap.to(dot,  { scale: 0, duration: 0.2 });
     });
     el.addEventListener("mouseleave", () => {
       gsap.to(ring, { scale: 1, opacity: 1, duration: 0.3 });
-      gsap.to(dot, { scale: 1, duration: 0.2 });
+      gsap.to(dot,  { scale: 1, duration: 0.2 });
     });
   });
 
-  document.addEventListener("mouseleave", () => {
-    gsap.to([dot, ring], { opacity: 0, duration: 0.25 });
+  // Magnetic buttons — just dim the ring (button moves, ring doesn't follow perfectly)
+  document.querySelectorAll(".btn-magnetic").forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      gsap.to(ring, { opacity: 0.3, duration: 0.25 });
+    });
+    el.addEventListener("mouseleave", () => {
+      gsap.to(ring, { opacity: 1, duration: 0.25 });
+    });
   });
-  document.addEventListener("mouseenter", () => {
-    gsap.to([dot, ring], { opacity: 1, duration: 0.25 });
-  });
+
+  document.addEventListener("mouseleave",  () => gsap.to([dot, ring], { opacity: 0, duration: 0.25 }));
+  document.addEventListener("mouseenter", () => gsap.to([dot, ring], { opacity: 1, duration: 0.25 }));
 }
 
 // ═══════════════════════════════════════════════
@@ -125,32 +133,25 @@ function initHeroParallax() {
   const hero = glow.closest("section") as HTMLElement | null;
   if (!hero) return;
 
-  // Desktop: mouse parallax
   mm.add("(pointer: fine)", () => {
     hero.addEventListener("mousemove", (e: MouseEvent) => {
       const rect = hero.getBoundingClientRect();
-      const xPct = (e.clientX - rect.left) / rect.width - 0.5;
-      const yPct = (e.clientY - rect.top) / rect.height - 0.5;
-      gsap.to(glow, {
-        x: xPct * 90,
-        y: yPct * 45,
-        duration: 1.4,
-        ease: "power2.out",
-      });
+      const xPct = (e.clientX - rect.left) / rect.width  - 0.5;
+      const yPct = (e.clientY - rect.top)  / rect.height - 0.5;
+      gsap.to(glow, { x: xPct * 90, y: yPct * 45, duration: 1.4, ease: "power2.out" });
     });
     hero.addEventListener("mouseleave", () => {
       gsap.to(glow, { x: 0, y: 0, duration: 2, ease: "power2.out" });
     });
   });
 
-  // Mobile: gyroscope
   mm.add("(pointer: coarse)", () => {
     if (!window.DeviceOrientationEvent) return;
     window.addEventListener(
       "deviceorientation",
       (e: DeviceOrientationEvent) => {
         const g = Math.max(-30, Math.min(30, e.gamma ?? 0));
-        const b = Math.max(-30, Math.min(30, (e.beta ?? 0) - 45));
+        const b = Math.max(-30, Math.min(30, (e.beta  ?? 0) - 45));
         gsap.to(glow, {
           x: (g / 30) * 45,
           y: (b / 30) * 20,
@@ -170,11 +171,10 @@ function initCounters() {
   if (reduced) return;
 
   document.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
-    const target = parseFloat(el.dataset.count ?? "0");
-    const suffix = el.dataset.suffix ?? "";
+    const target   = parseFloat(el.dataset.count ?? "0");
+    const suffix   = el.dataset.suffix ?? "";
     const decimals = el.dataset.decimals ? parseInt(el.dataset.decimals) : 0;
 
-    // Show 0 immediately (avoids static value flash)
     el.textContent = decimals > 0 ? `0.${"0".repeat(decimals)}${suffix}` : `0${suffix}`;
 
     const obj = { val: 0 };
@@ -201,7 +201,7 @@ function initCounters() {
 }
 
 // ═══════════════════════════════════════════════
-// 6. 3D TILT ON BENTO CARDS
+// 6. 3D TILT ON BENTO CARDS  (increased intensity)
 // ═══════════════════════════════════════════════
 function initCardTilt() {
   if (reduced) return;
@@ -211,8 +211,8 @@ function initCardTilt() {
 
     function applyTilt(xPct: number, yPct: number) {
       gsap.to(card, {
-        rotateX: -yPct * 8,
-        rotateY: xPct * 12,
+        rotateX: -yPct * 10,
+        rotateY:  xPct * 15,
         transformPerspective: 900,
         duration: 0.4,
         ease: "power2.out",
@@ -225,34 +225,27 @@ function initCardTilt() {
     }
 
     function resetTilt() {
-      gsap.to(card, {
-        rotateX: 0,
-        rotateY: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      });
+      gsap.to(card, { rotateX: 0, rotateY: 0, duration: 0.6, ease: "power3.out" });
       if (shine) gsap.to(shine, { opacity: 0, duration: 0.4 });
     }
 
-    // Desktop
     card.addEventListener("mousemove", (e: MouseEvent) => {
       const rect = card.getBoundingClientRect();
       applyTilt(
-        (e.clientX - rect.left) / rect.width - 0.5,
-        (e.clientY - rect.top) / rect.height - 0.5,
+        (e.clientX - rect.left) / rect.width  - 0.5,
+        (e.clientY - rect.top)  / rect.height - 0.5,
       );
     });
     card.addEventListener("mouseleave", resetTilt);
 
-    // Mobile touch
     card.addEventListener(
       "touchmove",
       (e: TouchEvent) => {
         const t = e.touches[0];
         const rect = card.getBoundingClientRect();
         applyTilt(
-          (t.clientX - rect.left) / rect.width - 0.5,
-          (t.clientY - rect.top) / rect.height - 0.5,
+          (t.clientX - rect.left) / rect.width  - 0.5,
+          (t.clientY - rect.top)  / rect.height - 0.5,
         );
       },
       { passive: true },
@@ -271,31 +264,17 @@ function initMagnetic() {
   document.querySelectorAll<HTMLElement>(".btn-magnetic").forEach((btn) => {
     let bounds: DOMRect;
 
-    btn.addEventListener("mouseenter", () => {
-      bounds = btn.getBoundingClientRect();
-    });
+    btn.addEventListener("mouseenter", () => { bounds = btn.getBoundingClientRect(); });
 
     btn.addEventListener("mousemove", (e: MouseEvent) => {
       if (!bounds) return;
-      const xPct =
-        (e.clientX - bounds.left - bounds.width / 2) / (bounds.width / 2);
-      const yPct =
-        (e.clientY - bounds.top - bounds.height / 2) / (bounds.height / 2);
-      gsap.to(btn, {
-        x: xPct * 10,
-        y: yPct * 6,
-        duration: 0.35,
-        ease: "power2.out",
-      });
+      const xPct = (e.clientX - bounds.left - bounds.width  / 2) / (bounds.width  / 2);
+      const yPct = (e.clientY - bounds.top  - bounds.height / 2) / (bounds.height / 2);
+      gsap.to(btn, { x: xPct * 10, y: yPct * 6, duration: 0.35, ease: "power2.out" });
     });
 
     btn.addEventListener("mouseleave", () => {
-      gsap.to(btn, {
-        x: 0,
-        y: 0,
-        duration: 0.6,
-        ease: "elastic.out(1, 0.4)",
-      });
+      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.4)" });
     });
   });
 }
@@ -304,23 +283,25 @@ function initMagnetic() {
 // 8. FEATURES SPOTLIGHT CURSOR
 // ═══════════════════════════════════════════════
 function initSpotlight() {
-  const grid = document.getElementById("features-grid");
+  const grid    = document.getElementById("features-grid");
   const overlay = document.getElementById("features-spotlight");
   if (!grid || !overlay) return;
 
+  const safeOverlay = overlay;
+
   function updateSpot(x: number, y: number) {
-    overlay.style.setProperty("--spot-x", x + "px");
-    overlay.style.setProperty("--spot-y", y + "px");
+    safeOverlay.style.setProperty("--spot-x", x + "px");
+    safeOverlay.style.setProperty("--spot-y", y + "px");
   }
 
   mm.add("(pointer: fine)", () => {
     grid.addEventListener("mousemove", (e: MouseEvent) => {
       const rect = (grid.parentElement ?? grid).getBoundingClientRect();
       updateSpot(e.clientX - rect.left, e.clientY - rect.top);
-      gsap.to(overlay, { opacity: 1, duration: 0.3 });
+      gsap.to(safeOverlay, { opacity: 1, duration: 0.3 });
     });
     grid.addEventListener("mouseleave", () => {
-      gsap.to(overlay, { opacity: 0, duration: 0.5 });
+      gsap.to(safeOverlay, { opacity: 0, duration: 0.5 });
     });
   });
 
@@ -331,18 +312,40 @@ function initSpotlight() {
         const t = e.touches[0];
         const rect = (grid.parentElement ?? grid).getBoundingClientRect();
         updateSpot(t.clientX - rect.left, t.clientY - rect.top);
-        gsap.set(overlay, { opacity: 0.8 });
+        gsap.set(safeOverlay, { opacity: 0.8 });
       },
       { passive: true },
     );
     grid.addEventListener("touchend", () => {
-      gsap.to(overlay, { opacity: 0, duration: 0.5 });
+      gsap.to(safeOverlay, { opacity: 0, duration: 0.5 });
     });
   });
 }
 
 // ═══════════════════════════════════════════════
-// 9. SECTION DOTS NAV
+// 9. CENTRALIZED SECTION WATCHER
+//    Single ScrollTrigger per section.
+//    Consumers subscribe via window "section:active" event.
+// ═══════════════════════════════════════════════
+function initSectionWatcher() {
+  const ids = ["intro", "features", "process", "showcase", "testimonials", "faq", "contact"];
+
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top center",
+      end: "bottom center",
+      onEnter:     () => dispatchSection(id),
+      onEnterBack: () => dispatchSection(id),
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// 10. SECTION DOTS NAV
+//     Uses "section:active" event from sectionWatcher
 // ═══════════════════════════════════════════════
 function initDotsNav() {
   const nav = document.getElementById("dots-nav");
@@ -357,7 +360,6 @@ function initDotsNav() {
     { id: "contact",  label: "Contacto" },
   ];
 
-  // Build dot elements
   sections.forEach(({ id, label }) => {
     const a = document.createElement("a");
     a.href = "#" + id;
@@ -370,34 +372,42 @@ function initDotsNav() {
 
   const dots = nav.querySelectorAll<HTMLElement>("[data-dot-section]");
 
-  function setActive(id: string) {
+  window.addEventListener("section:active", (e) => {
+    const id = (e as CustomEvent<{ id: string }>).detail.id;
     dots.forEach((d) => {
       d.classList.toggle("is-active", d.dataset.dotSection === id);
-    });
-  }
-
-  sections.forEach(({ id }) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top center",
-      end: "bottom center",
-      onEnter: () => setActive(id),
-      onEnterBack: () => setActive(id),
     });
   });
 }
 
 // ═══════════════════════════════════════════════
-// 10. HORIZONTAL SCROLL — PROCESS SECTION
+// 11. HEADER NAV INDICATOR
+//     Highlights the matching nav link as you scroll
+// ═══════════════════════════════════════════════
+function initNavIndicator() {
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>(
+    "#page-header nav a[href^='#']",
+  );
+  if (!navLinks.length) return;
+
+  window.addEventListener("section:active", (e) => {
+    const id = (e as CustomEvent<{ id: string }>).detail.id;
+    navLinks.forEach((link) => {
+      const target = link.getAttribute("href")?.slice(1) ?? "";
+      link.classList.toggle("nav-link-active", target === id);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// 12. HORIZONTAL SCROLL — PROCESS SECTION
 // ═══════════════════════════════════════════════
 function initProcessHorizontal() {
   if (reduced) return;
 
   mm.add("(min-width: 768px)", () => {
     const pinZone = document.getElementById("process-pin-zone");
-    const track = document.getElementById("process-track");
+    const track   = document.getElementById("process-track");
     const counter = document.getElementById("process-step-num");
     if (!pinZone || !track) return;
 
@@ -425,10 +435,156 @@ function initProcessHorizontal() {
 }
 
 // ═══════════════════════════════════════════════
-// INIT
+// 13. SPLIT TEXT REVEAL
+//     Wraps words in .word-outer > .word-inner and
+//     animates them up from behind a clip mask.
+//     Gradient-text spans are preserved intact.
+// ═══════════════════════════════════════════════
+function initSplitText() {
+  if (reduced) return;
+
+  document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+    // Step 1: Replace .gradient-text children with markers
+    const gradientSpans = Array.from(el.querySelectorAll<HTMLElement>(".gradient-text"));
+    const markers = new Map<HTMLElement, HTMLElement>(); // placeholder → original
+
+    gradientSpans.forEach((span) => {
+      if (!span.parentNode) return;
+      const placeholder = document.createElement("span");
+      placeholder.className = "__split-marker__";
+      span.parentNode.replaceChild(placeholder, span);
+      markers.set(placeholder, span);
+    });
+
+    // Step 2: Split text nodes word-by-word
+    const wordInners: HTMLElement[] = [];
+
+    function splitNode(node: Node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text   = node.textContent ?? "";
+        const parts  = text.split(/(\s+)/);
+        const frag   = document.createDocumentFragment();
+
+        parts.forEach((part) => {
+          if (/^\s+$/.test(part)) {
+            frag.appendChild(document.createTextNode(part));
+          } else if (part) {
+            const outer = document.createElement("span");
+            outer.className = "word-outer";
+            const inner = document.createElement("span");
+            inner.className = "word-inner";
+            inner.textContent = part;
+            outer.appendChild(inner);
+            frag.appendChild(outer);
+            wordInners.push(inner);
+          }
+        });
+        node.parentNode?.replaceChild(frag, node);
+      } else if ((node as HTMLElement).classList?.contains("__split-marker__")) {
+        // Leave markers in place — they'll be replaced in step 3
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recurse into other element children (e.g. <br> has no text children)
+        Array.from(node.childNodes).forEach(splitNode);
+      }
+    }
+
+    Array.from(el.childNodes).forEach(splitNode);
+
+    // Step 3: Restore gradient-text spans wrapped as word units
+    markers.forEach((originalSpan, placeholder) => {
+      if (!placeholder.parentNode) return;
+      const outer = document.createElement("span");
+      outer.className = "word-outer";
+      const inner = document.createElement("span");
+      inner.className = "word-inner";
+      inner.appendChild(originalSpan);
+      outer.appendChild(inner);
+      placeholder.parentNode.replaceChild(outer, placeholder);
+      wordInners.push(inner);
+    });
+
+    if (!wordInners.length) return;
+
+    // Step 4: Animate
+    gsap.fromTo(
+      wordInners,
+      { y: "110%", opacity: 0 },
+      {
+        y: "0%",
+        opacity: 1,
+        duration: 0.75,
+        ease: "power3.out",
+        stagger: 0.045,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 88%",
+          once: true,
+        },
+      },
+    );
+  });
+}
+
+// ═══════════════════════════════════════════════
+// 14. SCRAMBLE TEXT
+//     Characters randomize, then resolve to real text
+// ═══════════════════════════════════════════════
+function initScrambleText() {
+  if (reduced) return;
+
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&@";
+
+  document.querySelectorAll<HTMLElement>("[data-scramble]").forEach((el) => {
+    const original = el.textContent ?? "";
+
+    ScrollTrigger.create({
+      trigger: el,
+      start: "top 85%",
+      once: true,
+      onEnter: () => {
+        const DURATION = 900;
+        const startTime = performance.now();
+
+        function step(now: number) {
+          const t        = Math.min((now - startTime) / DURATION, 1);
+          const resolved = Math.floor(t * original.length);
+
+          let result = "";
+          for (let i = 0; i < original.length; i++) {
+            if (i < resolved || original[i] === " " || original[i] === "\n") {
+              result += original[i];
+            } else {
+              result += CHARS[Math.floor(Math.random() * CHARS.length)];
+            }
+          }
+          el.textContent = result;
+          if (t < 1) requestAnimationFrame(step);
+          else el.textContent = original;
+        }
+
+        requestAnimationFrame(step);
+      },
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// 15. ANIMATED GRAIN (CSS-driven, JS just respects reduced-motion)
+// ═══════════════════════════════════════════════
+function initGrain() {
+  if (!reduced) return;
+  const grain = document.getElementById("grain-overlay");
+  if (grain) grain.style.display = "none";
+}
+
+// ═══════════════════════════════════════════════
+// INIT — curtain returns a Promise so text effects
+// wait for it to open before running
 // ═══════════════════════════════════════════════
 function init() {
-  initCurtain();
+  const curtainDone = initCurtain();
+
+  // Fire immediately — independent of curtain
   initCursor();
   initProgressBar();
   initHeroParallax();
@@ -436,10 +592,19 @@ function init() {
   initCardTilt();
   initMagnetic();
   initSpotlight();
+  initSectionWatcher();
   initDotsNav();
+  initNavIndicator();
   initProcessHorizontal();
+  initGrain();
 
-  // Refresh ScrollTrigger after all assets load
+  // Text effects run after curtain opens
+  curtainDone.then(() => {
+    initSplitText();
+    initScrambleText();
+    ScrollTrigger.refresh();
+  });
+
   window.addEventListener("load", () => ScrollTrigger.refresh());
 }
 

@@ -3,42 +3,42 @@ import ContentSection from "~/components/content-section.astro";
 
 const projects = [
   {
-    title: "RestaurantePro",
-    category: "Sistema a Medida",
-    result: "↑ 300% pedidos online",
-    desc: "Sistema completo de gestión de pedidos, reservas y cocina para cadena de 8 restaurantes. Integración con POS y reportes en tiempo real.",
-    tech: ["React", "Node.js", "PostgreSQL"],
-    image: "https://placehold.co/900x600/0f172a/6366f1?text=RestaurantePro",
+    title: "FounderOS",
+    category: "App Web SaaS",
+    result: "↑ 8x retención de usuarios",
+    desc: "Dashboard all-in-one para founders en etapa pre-seed: gestión de tareas, pipeline de inversores y métricas clave. MVP lanzado en 3 semanas con 0 bugs en producción.",
+    tech: ["React", "Supabase", "Vercel"],
+    image: "https://placehold.co/900x600/0a0a0a/6366f1?text=FounderOS",
     color: "#6366f1",
     span: "big",
   },
   {
-    title: "ModaFusión",
-    category: "E-commerce",
-    result: "↑ 180% ventas",
-    desc: "Tienda con +2 000 productos.",
+    title: "PelicanDTC",
+    category: "E-commerce D2C",
+    result: "↑ 250% ventas primer mes",
+    desc: "Tienda D2C con Stripe y gestión de stock.",
     tech: ["Astro", "Stripe"],
-    image: "https://placehold.co/600x300/0f172a/22d3ee?text=ModaFusion",
+    image: "https://placehold.co/600x300/0a0a0a/22d3ee?text=PelicanDTC",
     color: "#22d3ee",
     span: "sm",
   },
   {
-    title: "ConstructTrack",
-    category: "App Web",
-    result: "↓ 60% tiempo reportes",
-    desc: "Dashboard de obras en tiempo real.",
-    tech: ["Vue.js", "Laravel"],
-    image: "https://placehold.co/600x300/0f172a/8b5cf6?text=ConstructTrack",
+    title: "TallerFlow",
+    category: "App Reservas",
+    result: "↓ 70% ausencias a citas",
+    desc: "Sistema de agenda y seguimiento para talleres.",
+    tech: ["Next.js", "Supabase"],
+    image: "https://placehold.co/600x300/0a0a0a/8b5cf6?text=TallerFlow",
     color: "#8b5cf6",
     span: "sm",
   },
   {
-    title: "SaludNet",
-    category: "Landing + CRM",
-    result: "+400 leads / mes",
-    desc: "Landing page médica con CRM integrado, agenda online y automatización de seguimiento a pacientes potenciales. Integrado con n8n.",
-    tech: ["Next.js", "Supabase", "n8n"],
-    image: "https://placehold.co/1200x280/0f172a/10b981?text=SaludNet",
+    title: "SeedLanding",
+    category: "Landing + Automatización",
+    result: "+800 leads / mes",
+    desc: "Landing page de alta conversión para startup fintech con embudo automatizado: captura, calificación por WhatsApp y nurturing por email. Integrado con n8n y Supabase.",
+    tech: ["Astro", "n8n", "WhatsApp API"],
+    image: "https://placehold.co/1200x280/0a0a0a/10b981?text=SeedLanding",
     color: "#10b981",
     span: "wide",
   },
@@ -50,8 +50,8 @@ const projects = [
     <span class="eyebrow tracking-[0.22em]">Casos</span>
   </Fragment>
   <Fragment slot="lead">
-    El trabajo habla por sí solo.<br/>
-    <span class="text-primary">Cada número</span>, un cliente que confió en nosotros.
+    Casos reales, resultados medibles.<br/>
+    <span class="text-primary">Startups</span> que apostaron por lo bien hecho.
   </Fragment>
 
   <!-- Bento grid -->
@@ -62,12 +62,12 @@ const projects = [
       href="#contact"
       class="bento-card bento-big group"
       style="--accent: #6366f1;"
-      aria-label="Proyecto RestaurantePro — Sistema a Medida"
+      aria-label="Proyecto FounderOS — App Web SaaS"
     >
       <div class="card-shine" aria-hidden="true"></div>
       <img
         src={projects[0].image}
-        alt="Captura del proyecto RestaurantePro"
+        alt="Captura del proyecto FounderOS"
         class="bento-img"
         loading="eager"
         width="900" height="600"
@@ -93,12 +93,12 @@ const projects = [
       href="#contact"
       class="bento-card bento-sm group"
       style="--accent: #22d3ee;"
-      aria-label="Proyecto ModaFusión — E-commerce"
+      aria-label="Proyecto PelicanDTC — E-commerce D2C"
     >
       <div class="card-shine" aria-hidden="true"></div>
       <img
         src={projects[1].image}
-        alt="Captura del proyecto ModaFusión"
+        alt="Captura del proyecto PelicanDTC"
         class="bento-img"
         loading="lazy"
         width="600" height="300"
@@ -116,12 +116,12 @@ const projects = [
       href="#contact"
       class="bento-card bento-sm group"
       style="--accent: #8b5cf6;"
-      aria-label="Proyecto ConstructTrack — App Web"
+      aria-label="Proyecto TallerFlow — App Reservas"
     >
       <div class="card-shine" aria-hidden="true"></div>
       <img
         src={projects[2].image}
-        alt="Captura del proyecto ConstructTrack"
+        alt="Captura del proyecto TallerFlow"
         class="bento-img"
         loading="lazy"
         width="600" height="300"
@@ -139,12 +139,12 @@ const projects = [
       href="#contact"
       class="bento-card bento-wide group"
       style="--accent: #10b981;"
-      aria-label="Proyecto SaludNet — Landing + CRM"
+      aria-label="Proyecto SeedLanding — Landing + Automatización"
     >
       <div class="card-shine" aria-hidden="true"></div>
       <img
         src={projects[3].image}
-        alt="Captura del proyecto SaludNet"
+        alt="Captura del proyecto SeedLanding"
         class="bento-img"
         loading="lazy"
         width="1200" height="280"
@@ -168,10 +168,13 @@ const projects = [
 
   <!-- CTA -->
   <div class="mt-4 flex justify-center fade-up delay-3">
-    <a href="#contact" class="btn-primary btn-magnetic">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      </svg>
+    <a
+      href="https://wa.me/56967657198?text=Hola%2C%20vi%20su%20portfolio%20y%20quiero%20hablar%20sobre%20mi%20proyecto"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-primary btn-magnetic"
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       Cuéntanos tu proyecto
     </a>
   </div>

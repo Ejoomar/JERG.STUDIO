@@ -14,9 +14,9 @@ import ContactForm from "~/components/ContactForm.astro";
 import Footer      from "~/components/footer.astro";
 import "~/styles/index.css";
 
-const title       = "DevAgency — Transformación Digital para tu Negocio";
-const description = "Páginas web, sistemas a medida, apps y automatizaciones que generan resultados reales. Más de 50 proyectos entregados. Respuesta en 24 h.";
-const siteUrl     = "https://devagency.com";
+const title       = "JERG.STUDIO — Diseño Web y Apps para Startups y Emprendedores";
+const description = "Lanzamos tu startup en la web con landing pages que convierten, apps a medida y automatizaciones. Precio fijo, entrega en semanas, sin letra pequeña. Latinoamérica.";
+const siteUrl     = "https://jerg.studio";
 ---
 
 <!doctype html>
@@ -56,11 +56,11 @@ const siteUrl     = "https://devagency.com";
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "DevAgency",
-        "description": "Agencia de desarrollo digital: páginas web, sistemas a medida, apps y automatizaciones.",
-        "url": "https://devagency.com",
-        "email": "hola@devagency.com",
-        "telephone": "+15550000000",
+        "name": "JERG.STUDIO",
+        "description": "Estudio de diseño web y desarrollo para startups y emprendedores: landing pages, apps a medida y automatizaciones.",
+        "url": "https://jerg.studio",
+        "email": "hola@jerg.studio",
+        "telephone": "+56967657198",
         "priceRange": "$$"
       }
     </script>
@@ -70,6 +70,9 @@ const siteUrl     = "https://devagency.com";
 
     <!-- ── Scroll progress bar ── -->
     <div id="scroll-progress" aria-hidden="true"></div>
+
+    <!-- ── Animated grain texture ── -->
+    <div id="grain-overlay" aria-hidden="true"></div>
 
     <!-- ── Page intro curtain ── -->
     <div id="curtain" aria-hidden="true">
@@ -110,7 +113,7 @@ const siteUrl     = "https://devagency.com";
 
     <!-- WhatsApp FAB -->
     <a
-      href="https://wa.me/15550000000?text=Hola%2C%20me%20interesa%20un%20proyecto%20digital"
+      href="https://wa.me/56967657198?text=Hola%2C%20me%20interesa%20un%20proyecto%20digital"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
@@ -298,5 +301,53 @@ const siteUrl     = "https://devagency.com";
   @media (prefers-reduced-motion: reduce) {
     .whatsapp-fab { transition: none; }
     #scroll-progress { display: none; }
+  }
+
+  /* ══════════════════════════════════
+     ANIMATED GRAIN
+  ══════════════════════════════════ */
+  #grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9990;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    animation: grain-shift 0.4s steps(1) infinite;
+  }
+  @keyframes grain-shift {
+    0%   { background-position:   0%   0%; }
+    12%  { background-position: -15% -20%; }
+    24%  { background-position:  25%  10%; }
+    36%  { background-position:  -5%  30%; }
+    48%  { background-position:  18% -15%; }
+    60%  { background-position: -25%  20%; }
+    72%  { background-position:  10%  -5%; }
+    84%  { background-position: -10%  25%; }
+    100% { background-position:   5%   5%; }
+  }
+
+  /* ══════════════════════════════════
+     SPLIT TEXT WORD CONTAINERS
+  ══════════════════════════════════ */
+  :global(.word-outer) {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    /* Slight extra height so descenders don't clip */
+    padding-bottom: 0.05em;
+    margin-bottom: -0.05em;
+  }
+  :global(.word-inner) {
+    display: inline-block;
+  }
+
+  /* ══════════════════════════════════
+     NAV ACTIVE INDICATOR
+  ══════════════════════════════════ */
+  :global(a.nav-link-active) {
+    color: white !important;
+    background: rgba(255, 255, 255, 0.07) !important;
   }
 </style>
