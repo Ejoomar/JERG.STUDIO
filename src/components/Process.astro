@@ -33,8 +33,8 @@ const steps = [
   <div class="process-header border-b border-default fade-up">
     <div class="mx-auto max-w-6xl px-8 py-14 flex flex-col items-center gap-4 text-center">
       <span class="eyebrow tracking-[0.22em]">Método</span>
-      <h2 id="process-heading" class="gradient-text font-display font-extrabold tracking-tight" style="font-size: clamp(3rem,7vw,5.5rem);">
-        El Proceso
+      <h2 id="process-heading" class="tracking-tight" style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(3rem,7vw,5.5rem); font-weight: 400; color: #f5f0e8;">
+        <em class="accent-italic">El Proceso</em>
       </h2>
       <p class="max-w-lg text-offset" style="font-size: 1.1rem; line-height: 1.7;">
         Cuatro etapas. Precio fijo. Cero sorpresas.<br/>
@@ -171,7 +171,7 @@ const steps = [
     position: absolute;
     right: -2vw;
     bottom: -2rem;
-    font-family: "Syne", var(--font-display, sans-serif);
+    font-family: "DM Serif Display", Georgia, serif;
     font-size: clamp(7rem, 18vw, 18rem);
     font-weight: 900;
     line-height: 1;
@@ -183,7 +183,7 @@ const steps = [
   }
 
   .process-step:hover .step-bg-num {
-    color: rgba(99, 102, 241, 0.07);
+    color: rgba(16, 185, 129, 0.07);
   }
 
   /* ── Inner content wrapper ── */
@@ -203,9 +203,9 @@ const steps = [
     justify-content: center;
     width: 3.5rem;
     height: 3.5rem;
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366f1;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
     transition: border-color 0.3s, background 0.3s, color 0.3s;
   }
 
@@ -217,9 +217,9 @@ const steps = [
   }
 
   .process-step:hover .step-icon {
-    border-color: rgba(99, 102, 241, 0.7);
-    background: #6366f1;
-    color: white;
+    border-color: rgba(16, 185, 129, 0.7);
+    background: #10b981;
+    color: #050505;
   }
 
   /* ── Label ── */
@@ -228,14 +228,14 @@ const steps = [
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-primary, #6366f1);
+    color: var(--color-primary, #10b981);
   }
 
   /* ── Title ── */
   .step-title {
-    font-family: "Syne", var(--font-display, sans-serif);
+    font-family: "DM Serif Display", Georgia, serif;
     font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 800;
+    font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
@@ -274,7 +274,7 @@ const steps = [
     top: 2rem;
     right: 2.5rem;
     z-index: 2;
-    font-family: "Syne", var(--font-display, sans-serif);
+    font-family: "DM Serif Display", Georgia, serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -285,7 +285,7 @@ const steps = [
 
   #process-step-num {
     font-size: 1.2rem;
-    color: var(--color-primary, #6366f1);
+    color: var(--color-primary, #10b981);
   }
 
   .counter-sep {
@@ -306,7 +306,7 @@ const steps = [
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(to bottom, #6366f1, #22d3ee);
+    background: linear-gradient(to bottom, #10b981, #34d399);
     opacity: 0;
     transition: opacity 0.3s;
   }
