@@ -17,18 +17,20 @@ a:focus-visible,
 /* ── Gradient text utility ── */
 .gradient-text {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #6366f1, #22d3ee);
+  background-image: linear-gradient(90deg, #10b981, #34d399);
 }
 
 /* ── Agency button styles ── */
 .btn-primary {
-  @apply inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold text-white transition-all duration-200;
-  background: linear-gradient(135deg, #6366f1, #22d3ee);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+  @apply inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200;
+  background: #10b981;
+  color: #050505;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
 }
 .btn-primary:hover {
-  @apply -translate-y-0.5 text-white;
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5);
+  @apply -translate-y-0.5;
+  color: #050505;
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.45);
 }
 
 .btn-ghost {
@@ -36,8 +38,9 @@ a:focus-visible,
   border: 1px solid rgba(255,255,255,0.1);
 }
 .btn-ghost:hover {
-  border-color: rgba(99,102,241,0.5);
-  background: rgba(99,102,241,0.1);
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
 }
 
 /* ── Fade-up scroll animation ── */
@@ -80,6 +83,12 @@ a:focus-visible,
   opacity: 0.5;
 }
 
+/* ── Accent italic — editorial serif emphasis ── */
+.accent-italic {
+  color: #10b981;
+  font-style: italic;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .fade-up {
@@ -120,7 +129,7 @@ a:focus-visible,
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #6366f1 30%, #22d3ee 70%, transparent);
+  background: linear-gradient(90deg, transparent, #10b981 30%, #34d399 70%, transparent);
   opacity: 0.5;
 }
 
@@ -130,4 +139,4 @@ a:focus-visible,
 ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 
 /* ── Selection ── */
-::selection { background: #6366f1; color: #fff; }
+::selection { background: #10b981; color: #050505; }
