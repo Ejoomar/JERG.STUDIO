@@ -126,13 +126,79 @@ function initFaqStagger() {
 }
 
 // ─────────────────────────────────────
+// 6. INTRO — stagger children of left col + metric cards
+// ─────────────────────────────────────
+function initIntroStagger() {
+  if (reduced) return;
+
+  const leftCol = document.querySelector<HTMLElement>(".js-intro-left");
+  const metrics = document.querySelectorAll<HTMLElement>(".js-intro-metrics .metric-card");
+
+  if (leftCol) {
+    const children = Array.from(leftCol.children) as HTMLElement[];
+    gsap.from(children, {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: leftCol,
+        start: "top 82%",
+        once: true,
+      },
+    });
+  }
+
+  if (metrics.length) {
+    gsap.from(metrics, {
+      y: 25,
+      opacity: 0,
+      duration: 0.75,
+      ease: "power3.out",
+      stagger: 0.14,
+      scrollTrigger: {
+        trigger: ".js-intro-metrics",
+        start: "top 82%",
+        once: true,
+      },
+    });
+  }
+}
+
+// ─────────────────────────────────────
+// 7. CONTACT FORM — stagger field groups
+// ─────────────────────────────────────
+function initContactStagger() {
+  if (reduced) return;
+
+  const fields = document.querySelectorAll<HTMLElement>(".js-cf-field");
+  if (!fields.length) return;
+
+  gsap.from(fields, {
+    y: 25,
+    opacity: 0,
+    duration: 0.7,
+    ease: "power3.out",
+    stagger: 0.1,
+    scrollTrigger: {
+      trigger: "#contact",
+      start: "top 80%",
+      once: true,
+    },
+  });
+}
+
+// ─────────────────────────────────────
 // INIT
 // ─────────────────────────────────────
 export function initScrollAnimations() {
   initHeroScrollParallax();
+  initIntroStagger();
   initFeaturesStagger();
   initShowcaseStagger();
   initTestimonialsStagger();
   initFaqStagger();
+  initContactStagger();
   window.addEventListener("load", () => ScrollTrigger.refresh());
 }

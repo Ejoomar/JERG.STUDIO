@@ -52,7 +52,7 @@ const social = [
     Primera consulta siempre gratis.
   </Fragment>
 
-  <div class="contact-grid w-full max-w-5xl fade-up">
+  <div class="contact-grid w-full max-w-5xl js-contact-grid">
 
     <!-- ── Columna izquierda: info de contacto ── -->
     <div class="contact-info border border-default bg-offset p-8 flex flex-col gap-8">
@@ -120,7 +120,7 @@ const social = [
 
       <form id="contactForm" novalidate aria-label="Formulario de contacto">
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div class="flex flex-col gap-1.5">
+          <div class="flex flex-col gap-1.5 js-cf-field">
             <label for="cf-name" class="cf-label">Nombre *</label>
             <input
               type="text" id="cf-name" name="name"
@@ -130,7 +130,7 @@ const social = [
             <span class="cf-error text-xs text-red-400" role="alert" aria-live="polite"></span>
           </div>
 
-          <div class="flex flex-col gap-1.5">
+          <div class="flex flex-col gap-1.5 js-cf-field">
             <label for="cf-email" class="cf-label">Email *</label>
             <input
               type="email" id="cf-email" name="email"
@@ -140,7 +140,7 @@ const social = [
             <span class="cf-error text-xs text-red-400" role="alert" aria-live="polite"></span>
           </div>
 
-          <div class="flex flex-col gap-1.5">
+          <div class="flex flex-col gap-1.5 js-cf-field">
             <label for="cf-phone" class="cf-label">
               Teléfono <span class="font-normal normal-case tracking-normal opacity-60">(opcional)</span>
             </label>
@@ -151,7 +151,7 @@ const social = [
             />
           </div>
 
-          <div class="flex flex-col gap-1.5">
+          <div class="flex flex-col gap-1.5 js-cf-field">
             <label for="cf-service" class="cf-label">Servicio *</label>
             <select id="cf-service" name="service" class="cf-input cf-select" required>
               <option value="" disabled selected>Selecciona…</option>
@@ -161,7 +161,7 @@ const social = [
           </div>
         </div>
 
-        <div class="mt-4 flex flex-col gap-1.5">
+        <div class="mt-4 flex flex-col gap-1.5 js-cf-field">
           <label for="cf-message" class="cf-label">Mensaje *</label>
           <textarea
             id="cf-message" name="message"
@@ -172,7 +172,7 @@ const social = [
           <span class="cf-error text-xs text-red-400" role="alert" aria-live="polite"></span>
         </div>
 
-        <button type="submit" id="cf-submit" class="btn-primary mt-6 w-full justify-center">
+        <button type="submit" id="cf-submit" class="btn-primary mt-6 w-full justify-center js-cf-field">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
             <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
           </svg>

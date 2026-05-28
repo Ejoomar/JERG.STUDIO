@@ -412,6 +412,28 @@ function initProcessHorizontal() {
     if (!pinZone || !track) return;
 
     const labels = ["01", "02", "03", "04"];
+    const steps  = Array.from(track.querySelectorAll<HTMLElement>(".process-step"));
+    const revealed = new Set<number>();
+
+    // ── Set initial hidden state for each step's content ──
+    steps.forEach((step) => {
+      const bgNum = step.querySelector<HTMLElement>(".step-bg-num");
+      const inner = step.querySelector<HTMLElement>(".step-inner");
+      if (bgNum) gsap.set(bgNum, { opacity: 0, scale: 1.08 });
+      if (inner) gsap.set(inner, { opacity: 0, y: 28 });
+    });
+
+    // ── Reveal a single step (runs once per step) ──
+    function revealStep(i: number) {
+      if (revealed.has(i) || i >= steps.length) return;
+      revealed.add(i);
+      const step  = steps[i];
+      const bgNum = step.querySelector<HTMLElement>(".step-bg-num");
+      const inner = step.querySelector<HTMLElement>(".step-inner");
+      gsap.timeline()
+        .to(bgNum ?? [], { opacity: 1, scale: 1, duration: 0.7,  ease: "power2.out" }, 0)
+        .to(inner ?? [], { opacity: 1, y: 0,     duration: 0.65, ease: "power3.out" }, 0.25);
+    }
 
     gsap.to(track, {
       x: () => -(track.scrollWidth - pinZone.clientWidth),
@@ -424,10 +446,12 @@ function initProcessHorizontal() {
         scrub: 1.2,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onEnter: () => revealStep(0),
         onUpdate: (self) => {
           if (!counter) return;
           const idx = Math.min(3, Math.floor(self.progress * 4 + 0.05));
           counter.textContent = labels[idx];
+          revealStep(idx);
         },
       },
     });
