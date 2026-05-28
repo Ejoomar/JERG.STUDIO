@@ -8,7 +8,6 @@ const projects = [
     result: "↑ 8x retención de usuarios",
     desc: "Dashboard all-in-one para founders en etapa pre-seed: gestión de tareas, pipeline de inversores y métricas clave. MVP lanzado en 3 semanas con 0 bugs en producción.",
     tech: ["React", "Supabase", "Vercel"],
-    image: "https://placehold.co/900x600/0a0a0a/6366f1?text=FounderOS",
     color: "#6366f1",
     span: "big",
   },
@@ -18,8 +17,7 @@ const projects = [
     result: "↑ 250% ventas primer mes",
     desc: "Tienda D2C con Stripe y gestión de stock.",
     tech: ["Astro", "Stripe"],
-    image: "https://placehold.co/600x300/0a0a0a/22d3ee?text=PelicanDTC",
-    color: "#22d3ee",
+    color: "#10b981",
     span: "sm",
   },
   {
@@ -28,7 +26,6 @@ const projects = [
     result: "↓ 70% ausencias a citas",
     desc: "Sistema de agenda y seguimiento para talleres.",
     tech: ["Next.js", "Supabase"],
-    image: "https://placehold.co/600x300/0a0a0a/8b5cf6?text=TallerFlow",
     color: "#8b5cf6",
     span: "sm",
   },
@@ -38,7 +35,6 @@ const projects = [
     result: "+800 leads / mes",
     desc: "Landing page de alta conversión para startup fintech con embudo automatizado: captura, calificación por WhatsApp y nurturing por email. Integrado con n8n y Supabase.",
     tech: ["Astro", "n8n", "WhatsApp API"],
-    image: "https://placehold.co/1200x280/0a0a0a/10b981?text=SeedLanding",
     color: "#10b981",
     span: "wide",
   },
@@ -65,14 +61,36 @@ const projects = [
       aria-label="Proyecto FounderOS — App Web SaaS"
     >
       <div class="card-shine" aria-hidden="true"></div>
-      <img
-        src={projects[0].image}
-        alt="Captura del proyecto FounderOS"
-        class="bento-img"
-        loading="eager"
-        width="900" height="600"
-      />
-      <div class="bento-overlay"></div>
+      <div class="device-scene" aria-hidden="true">
+        <div class="dev-laptop">
+          <div class="dev-cam"></div>
+          <div class="dev-screen">
+            <div class="ui-saas">
+              <div class="ui-hdr"></div>
+              <div class="ui-row">
+                <div class="ui-side"></div>
+                <div class="ui-main">
+                  <div class="ui-card" style="border-left-color:#6366f1"></div>
+                  <div class="ui-stat" style="background:#6366f1;width:65%"></div>
+                  <div class="ui-line" style="width:80%"></div>
+                  <div class="ui-card" style="border-left-color:#6366f1"></div>
+                  <div class="ui-line" style="width:55%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dev-phone">
+          <div class="dev-notch"></div>
+          <div class="dev-screen">
+            <div class="ui-phone" style="background:#0d1117">
+              <div class="ui-ph-bar" style="background:#6366f1"></div>
+              <div class="ui-ph-card" style="border-left-color:#6366f1"></div>
+              <div class="ui-ph-btn" style="background:#6366f1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bento-content">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[0].category}</span>
@@ -92,18 +110,36 @@ const projects = [
     <a
       href="#contact"
       class="bento-card bento-sm group"
-      style="--accent: #22d3ee;"
+      style="--accent: #10b981;"
       aria-label="Proyecto PelicanDTC — E-commerce D2C"
     >
       <div class="card-shine" aria-hidden="true"></div>
-      <img
-        src={projects[1].image}
-        alt="Captura del proyecto PelicanDTC"
-        class="bento-img"
-        loading="lazy"
-        width="600" height="300"
-      />
-      <div class="bento-overlay"></div>
+      <div class="device-scene" aria-hidden="true">
+        <div class="dev-laptop">
+          <div class="dev-cam"></div>
+          <div class="dev-screen">
+            <div class="ui-ecom">
+              <div class="ui-ecom-nav"></div>
+              <div class="ui-ecom-hero" style="background:linear-gradient(90deg,#10b981,#059669)"></div>
+              <div class="ui-ecom-grid">
+                <div class="ui-ecom-item"></div>
+                <div class="ui-ecom-item"></div>
+                <div class="ui-ecom-item"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dev-phone">
+          <div class="dev-notch"></div>
+          <div class="dev-screen">
+            <div class="ui-phone" style="background:#fafaf9">
+              <div class="ui-ph-bar" style="background:#059669"></div>
+              <div class="ui-ph-card" style="background:#e5e7eb;border:none"></div>
+              <div class="ui-ph-btn" style="background:#10b981"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bento-content">
         <span class="bento-badge">{projects[1].category}</span>
         <h3 class="bento-title text-lg">{projects[1].title}</h3>
@@ -119,14 +155,38 @@ const projects = [
       aria-label="Proyecto TallerFlow — App Reservas"
     >
       <div class="card-shine" aria-hidden="true"></div>
-      <img
-        src={projects[2].image}
-        alt="Captura del proyecto TallerFlow"
-        class="bento-img"
-        loading="lazy"
-        width="600" height="300"
-      />
-      <div class="bento-overlay"></div>
+      <div class="device-scene" aria-hidden="true">
+        <div class="dev-laptop">
+          <div class="dev-cam"></div>
+          <div class="dev-screen">
+            <div class="ui-booking">
+              <div class="ui-booking-hdr"></div>
+              <div class="ui-booking-cal">
+                <div class="ui-day"></div>
+                <div class="ui-day active" style="background:#8b5cf6"></div>
+                <div class="ui-day"></div>
+                <div class="ui-day"></div>
+                <div class="ui-day active" style="background:#8b5cf6"></div>
+                <div class="ui-day active" style="background:#8b5cf6"></div>
+                <div class="ui-day"></div>
+                <div class="ui-day"></div>
+                <div class="ui-day"></div>
+                <div class="ui-day active" style="background:#8b5cf6"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="dev-phone">
+          <div class="dev-notch"></div>
+          <div class="dev-screen">
+            <div class="ui-phone" style="background:#050a0f">
+              <div class="ui-ph-bar" style="background:#8b5cf6"></div>
+              <div class="ui-ph-card" style="border-left-color:#8b5cf6;background:#0d1f2d"></div>
+              <div class="ui-ph-btn" style="background:#8b5cf6"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bento-content">
         <span class="bento-badge">{projects[2].category}</span>
         <h3 class="bento-title text-lg">{projects[2].title}</h3>
@@ -142,14 +202,29 @@ const projects = [
       aria-label="Proyecto SeedLanding — Landing + Automatización"
     >
       <div class="card-shine" aria-hidden="true"></div>
-      <img
-        src={projects[3].image}
-        alt="Captura del proyecto SeedLanding"
-        class="bento-img"
-        loading="lazy"
-        width="1200" height="280"
-      />
-      <div class="bento-overlay"></div>
+      <div class="device-scene" aria-hidden="true">
+        <div class="dev-laptop" style="flex:1">
+          <div class="dev-cam"></div>
+          <div class="dev-screen">
+            <div class="ui-landing">
+              <div class="ui-landing-hero"></div>
+              <div class="ui-line" style="width:70%;margin-top:6px"></div>
+              <div class="ui-line" style="width:50%"></div>
+              <div class="ui-landing-btn"></div>
+            </div>
+          </div>
+        </div>
+        <div class="dev-phone">
+          <div class="dev-notch"></div>
+          <div class="dev-screen">
+            <div class="ui-phone" style="background:#050505">
+              <div class="ui-ph-bar" style="background:#10b981"></div>
+              <div class="ui-ph-card" style="border-top:2px solid #10b981;border-left:none;background:#0a1a0f"></div>
+              <div class="ui-ph-btn" style="background:#10b981"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="bento-content bento-content-horizontal">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[3].category}</span>
@@ -181,6 +256,113 @@ const projects = [
 </ContentSection>
 
 <style>
+  /* ── CSS Device Mockups ── */
+  .device-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 12px 0;
+    pointer-events: none;
+  }
+
+  /* Laptop frame */
+  .dev-laptop {
+    background: #1a1a1a;
+    border-radius: 6px 6px 0 0;
+    padding: 6px;
+    border: 1.5px solid #2a2a2a;
+    flex: 1;
+    max-width: 320px;
+    position: relative;
+  }
+  .dev-laptop::after {
+    content: '';
+    display: block;
+    height: 5px;
+    background: #1a1a1a;
+    border-radius: 0 0 3px 3px;
+    border: 1.5px solid #2a2a2a;
+    border-top: none;
+    margin: 0 -8px -6px;
+  }
+  .dev-cam {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #2a2a2a;
+    margin: 0 auto 4px;
+  }
+  .dev-screen {
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  /* Phone frame */
+  .dev-phone {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 5px 3px;
+    border: 1.5px solid #2a2a2a;
+    width: 52px;
+    flex-shrink: 0;
+  }
+  .dev-notch {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: #2a2a2a;
+    margin: 0 auto 3px;
+  }
+  .dev-phone .dev-screen {
+    aspect-ratio: 9/16;
+    border-radius: 8px;
+  }
+
+  /* SaaS Dashboard UI (FounderOS) */
+  .ui-saas {
+    background: #0d1117;
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .ui-hdr  { height: 7px; background: #21262d; border-radius: 2px; }
+  .ui-row  { display: flex; gap: 3px; flex: 1; }
+  .ui-side { width: 20px; background: #161b22; border-radius: 2px; flex-shrink: 0; }
+  .ui-main { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .ui-card { height: 9px; background: #21262d; border-radius: 2px; border-left: 2px solid; }
+  .ui-stat { height: 5px; border-radius: 2px; opacity: 0.6; }
+  .ui-line { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; }
+
+  /* E-commerce UI (PelicanDTC) */
+  .ui-ecom      { background: #fafaf9; height: 100%; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+  .ui-ecom-nav  { height: 6px; background: #0a0a0a; border-radius: 1px; }
+  .ui-ecom-hero { height: 18px; border-radius: 2px; }
+  .ui-ecom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; flex: 1; }
+  .ui-ecom-item { background: #e5e7eb; border-radius: 1px; }
+
+  /* Booking Calendar UI (TallerFlow) */
+  .ui-booking     { background: #050a0f; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 3px; }
+  .ui-booking-hdr { height: 6px; background: #0d1f2d; border-radius: 2px; border-bottom: 1px solid rgba(139,92,246,0.2); }
+  .ui-booking-cal { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+  .ui-day         { background: #0d1f2d; border-radius: 1px; }
+
+  /* Landing Page UI (SeedLanding) */
+  .ui-landing      { background: #050505; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 2px; }
+  .ui-landing-hero { height: 22px; background: linear-gradient(135deg, #0a1a0f, #051208); border-radius: 2px; border-top: 1.5px solid rgba(16,185,129,0.4); }
+  .ui-landing-btn  { height: 7px; background: #10b981; border-radius: 3px; width: 40%; margin-top: 2px; }
+
+  /* Phone UI (shared) */
+  .ui-phone    { height: 100%; padding: 3px; display: flex; flex-direction: column; gap: 2px; }
+  .ui-ph-bar   { height: 4px; border-radius: 2px; flex-shrink: 0; }
+  .ui-ph-card  { flex: 1; border-radius: 3px; border-left: 2px solid; }
+  .ui-ph-btn   { height: 6px; border-radius: 3px; margin: 0 2px; flex-shrink: 0; }
+
   /* ── Bento grid layout ── */
   .bento-grid {
     display: grid;
