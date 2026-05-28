@@ -40,7 +40,7 @@ const testimonials = [
 
   <div class="grid w-full max-w-6xl grid-cols-1 gap-px md:grid-cols-3">
     {testimonials.map(({ name, role, company, text, initials, color }) => (
-      <blockquote class="group flex flex-col gap-6 border border-default bg-offset p-8 transition-colors duration-300 hover:border-primary/30 cursor-default">
+      <blockquote class="group flex flex-col gap-6 border border-default bg-offset p-8 transition-colors duration-300 hover:border-primary/30 cursor-default js-testi-card">
         <!-- Stars -->
         <div class="flex gap-0.5" aria-label="5 de 5 estrellas" role="img">
           {Array.from({ length: 5 }).map(() => (

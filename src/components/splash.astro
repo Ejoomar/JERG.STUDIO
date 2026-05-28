@@ -47,7 +47,7 @@ const stats = [
     <!-- Headline MASIVO — 3 líneas, llena la pantalla -->
     <h1
       class="fade-up delay-1 uppercase"
-      style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(3.8rem, 11vw, 9.5rem); line-height: 0.92; letter-spacing: -0.025em; font-weight: 400; color: #f5f0e8;"
+      style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(2.8rem, 10vw, 9.5rem); line-height: 0.94; letter-spacing: -0.025em; font-weight: 400; color: #f5f0e8;"
     >
       CONSTRUIMOS<br/>
       <em style="color: #10b981; font-style: italic;">PRESENCIAS</em><br/>
@@ -150,8 +150,17 @@ const stats = [
 
   /* Ajuste móvil: stats más compactos */
   @media (max-width: 480px) {
-    .stats-row { gap: 1.5rem; }
-    .stats-row > div + div { padding-left: 1.5rem; }
+    .stats-row {
+      gap: 1.25rem 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      border-top: none;
+      padding-top: 0;
+    }
+    .stats-row > div {
+      border-left: none !important;
+      padding-left: 0 !important;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

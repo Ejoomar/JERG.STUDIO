@@ -26,6 +26,7 @@ a:focus-visible,
   background: #10b981;
   color: #050505;
   box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+  min-height: 44px;
 }
 .btn-primary:hover {
   @apply -translate-y-0.5;
@@ -36,6 +37,7 @@ a:focus-visible,
 .btn-ghost {
   @apply inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200;
   border: 1px solid rgba(255,255,255,0.1);
+  min-height: 44px;
 }
 .btn-ghost:hover {
   border-color: rgba(16, 185, 129, 0.5);
@@ -47,8 +49,8 @@ a:focus-visible,
 .fade-up {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .fade-up.visible {
   opacity: 1;

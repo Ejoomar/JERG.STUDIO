@@ -145,6 +145,16 @@ const siteUrl     = "https://jerg.studio";
     <script>
       import '../scripts/scrollytelling';
     </script>
+
+    <!-- Scroll animations: stagger + parallax -->
+    <script>
+      import { initScrollAnimations } from '../scripts/scroll-animations';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollAnimations);
+      } else {
+        initScrollAnimations();
+      }
+    </script>
   </body>
 </html>
 
@@ -349,5 +359,26 @@ const siteUrl     = "https://jerg.studio";
   :global(a.nav-link-active) {
     color: #10b981 !important;
     background: rgba(16, 185, 129, 0.07) !important;
+  }
+
+  /* ══════════════════════════════════
+     TOUCH DEVICE: hide custom cursor
+  ══════════════════════════════════ */
+  @media (hover: none) {
+    :global(#cursor-dot),
+    :global(#cursor-ring) {
+      display: none !important;
+    }
+  }
+
+  /* ══════════════════════════════════
+     MOBILE: nav link touch targets
+  ══════════════════════════════════ */
+  @media (max-width: 768px) {
+    :global(header nav a) {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
   }
 </style>

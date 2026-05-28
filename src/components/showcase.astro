@@ -51,12 +51,12 @@ const projects = [
   </Fragment>
 
   <!-- Bento grid -->
-  <div class="bento-grid w-full max-w-6xl fade-up">
+  <div class="bento-grid w-full max-w-6xl">
 
     <!-- P1: Featured (2 cols, 2 rows) -->
     <a
       href="#contact"
-      class="bento-card bento-big group"
+      class="bento-card bento-big group js-bento-card"
       style="--accent: #6366f1;"
       aria-label="Proyecto FounderOS — App Web SaaS"
     >
@@ -109,7 +109,7 @@ const projects = [
     <!-- P2: top-right -->
     <a
       href="#contact"
-      class="bento-card bento-sm group"
+      class="bento-card bento-sm group js-bento-card"
       style="--accent: #10b981;"
       aria-label="Proyecto PelicanDTC — E-commerce D2C"
     >
@@ -150,7 +150,7 @@ const projects = [
     <!-- P3: mid-right -->
     <a
       href="#contact"
-      class="bento-card bento-sm group"
+      class="bento-card bento-sm group js-bento-card"
       style="--accent: #8b5cf6;"
       aria-label="Proyecto TallerFlow — App Reservas"
     >
@@ -197,7 +197,7 @@ const projects = [
     <!-- P4: Full-width bottom (horizontal card) -->
     <a
       href="#contact"
-      class="bento-card bento-wide group"
+      class="bento-card bento-wide group js-bento-card"
       style="--accent: #10b981;"
       aria-label="Proyecto SeedLanding — Landing + Automatización"
     >
@@ -531,5 +531,20 @@ const projects = [
     .bento-big  { min-height: 340px; }
     .bento-sm   { min-height: 200px; }
     .bento-wide { min-height: 220px; }
+  }
+
+  /* Mobile: scale down device frames so they don't overflow */
+  @media (max-width: 640px) {
+    .device-scene {
+      transform: scale(0.65);
+      transform-origin: center center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .device-scene {
+      transform: scale(0.52);
+      transform-origin: center center;
+    }
   }
 </style>
