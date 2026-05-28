@@ -1,11 +1,11 @@
 /* Dark-only agency theme — no light mode toggle */
 [data-theme="dark"],
 :root {
-  --color-primary: #6366f1;
-  --color-secondary: #22d3ee;
-  --color-text: #f9fafb;
-  --color-text-offset: #9ca3af;
-  --color-background: #0a0a0a;
-  --color-background-offset: #111827;
+  --color-primary: #10b981;
+  --color-secondary: #34d399;
+  --color-text: #f5f0e8;
+  --color-text-offset: rgba(245, 240, 232, 0.45);
+  --color-background: #050505;
+  --color-background-offset: #0d0d0d;
   --color-border: rgba(255, 255, 255, 0.07);
 }

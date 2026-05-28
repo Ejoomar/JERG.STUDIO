@@ -39,12 +39,12 @@ const metrics = [
 
         <h2
           id="intro-heading"
-          class="font-display font-extrabold leading-[1.06]"
-          style="font-size: clamp(2rem, 4.5vw + 0.5rem, 3.6rem);"
+          class="leading-[1.06]"
+          style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(2rem, 4.5vw + 0.5rem, 3.6rem); font-weight: 400;"
           data-split
         >
           No vendemos proyectos.<br/>
-          <span class="gradient-text">Construimos</span> resultados.
+          <em class="accent-italic">Construimos</em> resultados.
         </h2>
 
         <p class="max-w-md text-offset leading-relaxed" style="font-size: 1.05rem; line-height: 1.75;">
@@ -110,7 +110,7 @@ const metrics = [
     left: 0;
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #6366f1, #22d3ee);
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   }
 
   .metric-card {
@@ -123,7 +123,7 @@ const metrics = [
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(to bottom, #6366f1, #22d3ee);
+    background: linear-gradient(to bottom, var(--color-primary), var(--color-secondary));
     opacity: 0;
     transition: opacity 0.25s;
   }
