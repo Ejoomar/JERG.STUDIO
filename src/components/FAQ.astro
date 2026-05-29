@@ -69,11 +69,10 @@ const faqs = [
             </svg>
           </button>
           <div
-            class="faq-answer overflow-hidden"
+            class="faq-answer"
             id={`faq-answer-${i}`}
             role="region"
             aria-labelledby={`faq-btn-${i}`}
-            style="max-height: 0;"
           >
             <p class="px-6 pb-5 text-sm text-offset leading-relaxed">{faq.a}</p>
           </div>
@@ -187,34 +186,42 @@ const faqs = [
   .faq-item.is-open {
     border-color: rgba(16, 185, 129, 0.3);
   }
+
+  /* ── Answer panel ── */
+  .faq-answer {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item.is-open .faq-answer {
+    max-height: 600px; /* generoso — ninguna respuesta supera esto */
+  }
 </style>
 
 <script>
-  document.querySelectorAll('.faq-item').forEach(item => {
-    const btn    = item.querySelector('.faq-btn')    as HTMLButtonElement;
-    const answer = item.querySelector('.faq-answer') as HTMLElement;
-    const icon   = item.querySelector('.faq-icon')   as HTMLElement;
+  document.querySelectorAll<HTMLElement>('.faq-item').forEach(item => {
+    const btn  = item.querySelector<HTMLButtonElement>('.faq-btn');
+    const icon = item.querySelector<HTMLElement>('.faq-icon');
+    if (!btn) return;
 
     btn.addEventListener('click', () => {
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      const isOpen = item.classList.contains('is-open');
 
       // Cerrar todos
-      document.querySelectorAll('.faq-item').forEach(other => {
-        const ob = other.querySelector('.faq-btn')    as HTMLButtonElement;
-        const oa = other.querySelector('.faq-answer') as HTMLElement;
-        const oi = other.querySelector('.faq-icon')   as HTMLElement;
-        ob.setAttribute('aria-expanded', 'false');
-        oa.style.maxHeight = '0';
-        oi.style.transform = '';
+      document.querySelectorAll<HTMLElement>('.faq-item').forEach(other => {
         other.classList.remove('is-open');
+        other.querySelector<HTMLButtonElement>('.faq-btn')
+          ?.setAttribute('aria-expanded', 'false');
+        const oi = other.querySelector<HTMLElement>('.faq-icon');
+        if (oi) oi.style.transform = '';
       });
 
       // Abrir el clickeado si estaba cerrado
       if (!isOpen) {
-        btn.setAttribute('aria-expanded', 'true');
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        icon.style.transform = 'rotate(180deg)';
         item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+        if (icon) icon.style.transform = 'rotate(180deg)';
       }
     });
   });
