@@ -34,7 +34,7 @@ function initHeroScrollParallax() {
 }
 
 // ─────────────────────────────────────
-// 2. FEATURES — stagger feat-items
+// 2. FEATURES — stagger feat-items (desktop) / simple fade (mobile)
 // ─────────────────────────────────────
 function initFeaturesStagger() {
   if (reduced) return;
@@ -42,22 +42,38 @@ function initFeaturesStagger() {
   const items = document.querySelectorAll<HTMLElement>(".js-feat-item");
   if (!items.length) return;
 
-  gsap.from(items, {
-    y: 40,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
-    stagger: 0.12,
-    scrollTrigger: {
-      trigger: "#features-list",
-      start: "top 82%",
-      once: true,
-    },
+  // Desktop: stagger con y
+  mm.add("(min-width: 769px)", () => {
+    gsap.from(items, {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: "#features-list",
+        start: "top 82%",
+        once: true,
+      },
+    });
+  });
+
+  // Mobile: solo fade, sin stagger ni y
+  mm.add("(max-width: 768px)", () => {
+    gsap.from(items, {
+      opacity: 0,
+      duration: 0.4,
+      scrollTrigger: {
+        trigger: "#features-list",
+        start: "top 85%",
+        once: true,
+      },
+    });
   });
 }
 
 // ─────────────────────────────────────
-// 3. SHOWCASE — stagger bento cards
+// 3. SHOWCASE — stagger bento cards + accent line slide-in
 // ─────────────────────────────────────
 function initShowcaseStagger() {
   if (reduced) return;
@@ -65,22 +81,53 @@ function initShowcaseStagger() {
   const cards = document.querySelectorAll<HTMLElement>(".js-bento-card");
   if (!cards.length) return;
 
-  gsap.from(cards, {
-    y: 60,
-    opacity: 0,
-    duration: 0.85,
-    ease: "power3.out",
-    stagger: 0.15,
-    scrollTrigger: {
-      trigger: ".bento-grid",
-      start: "top 80%",
-      once: true,
-    },
+  // Desktop: stagger completo + accent lines
+  mm.add("(min-width: 769px)", () => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".bento-grid",
+        start: "top 80%",
+        once: true,
+      },
+    });
+
+    // Cards entran con stagger
+    tl.from(cards, {
+      y: 60,
+      opacity: 0,
+      duration: 0.85,
+      ease: "power3.out",
+      stagger: 0.15,
+    });
+
+    // Accent lines slide-in con 0.1s de delay por card
+    cards.forEach((card, i) => {
+      const line = card.querySelector<HTMLElement>(".card-accent-line");
+      if (!line) return;
+      tl.to(
+        line,
+        { scaleX: 1, duration: 0.5, ease: "power2.out" },
+        i * 0.15 + 0.5   // se solapan ligeramente con la entrada del card
+      );
+    });
+  });
+
+  // Mobile: solo fade simple
+  mm.add("(max-width: 768px)", () => {
+    gsap.from(cards, {
+      opacity: 0,
+      duration: 0.4,
+      scrollTrigger: {
+        trigger: ".bento-grid",
+        start: "top 85%",
+        once: true,
+      },
+    });
   });
 }
 
 // ─────────────────────────────────────
-// 4. TESTIMONIALS — stagger cards
+// 4. TESTIMONIALS — stagger cards (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initTestimonialsStagger() {
   if (reduced) return;
@@ -88,22 +135,36 @@ function initTestimonialsStagger() {
   const cards = document.querySelectorAll<HTMLElement>(".js-testi-card");
   if (!cards.length) return;
 
-  gsap.from(cards, {
-    y: 40,
-    opacity: 0,
-    duration: 0.8,
-    ease: "power3.out",
-    stagger: 0.12,
-    scrollTrigger: {
-      trigger: "#testimonials .grid",
-      start: "top 82%",
-      once: true,
-    },
+  mm.add("(min-width: 769px)", () => {
+    gsap.from(cards, {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      stagger: 0.12,
+      scrollTrigger: {
+        trigger: "#testimonials .grid",
+        start: "top 82%",
+        once: true,
+      },
+    });
+  });
+
+  mm.add("(max-width: 768px)", () => {
+    gsap.from(cards, {
+      opacity: 0,
+      duration: 0.4,
+      scrollTrigger: {
+        trigger: "#testimonials",
+        start: "top 85%",
+        once: true,
+      },
+    });
   });
 }
 
 // ─────────────────────────────────────
-// 5. FAQ — stagger items
+// 5. FAQ — stagger items (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initFaqStagger() {
   if (reduced) return;
@@ -111,22 +172,36 @@ function initFaqStagger() {
   const items = document.querySelectorAll<HTMLElement>(".js-faq-item");
   if (!items.length) return;
 
-  gsap.from(items, {
-    y: 30,
-    opacity: 0,
-    duration: 0.7,
-    ease: "power3.out",
-    stagger: 0.09,
-    scrollTrigger: {
-      trigger: ".faq-list",
-      start: "top 82%",
-      once: true,
-    },
+  mm.add("(min-width: 769px)", () => {
+    gsap.from(items, {
+      y: 30,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.09,
+      scrollTrigger: {
+        trigger: ".faq-list",
+        start: "top 82%",
+        once: true,
+      },
+    });
+  });
+
+  mm.add("(max-width: 768px)", () => {
+    gsap.from(items, {
+      opacity: 0,
+      duration: 0.4,
+      scrollTrigger: {
+        trigger: ".faq-list",
+        start: "top 85%",
+        once: true,
+      },
+    });
   });
 }
 
 // ─────────────────────────────────────
-// 6. INTRO — stagger children of left col + metric cards
+// 6. INTRO — stagger children (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initIntroStagger() {
   if (reduced) return;
@@ -134,40 +209,59 @@ function initIntroStagger() {
   const leftCol = document.querySelector<HTMLElement>(".js-intro-left");
   const metrics = document.querySelectorAll<HTMLElement>(".js-intro-metrics .metric-card");
 
-  if (leftCol) {
-    const children = Array.from(leftCol.children) as HTMLElement[];
-    gsap.from(children, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: leftCol,
-        start: "top 82%",
-        once: true,
-      },
-    });
-  }
+  mm.add("(min-width: 769px)", () => {
+    if (leftCol) {
+      const children = Array.from(leftCol.children) as HTMLElement[];
+      gsap.from(children, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.12,
+        scrollTrigger: {
+          trigger: leftCol,
+          start: "top 82%",
+          once: true,
+        },
+      });
+    }
 
-  if (metrics.length) {
-    gsap.from(metrics, {
-      y: 25,
+    if (metrics.length) {
+      gsap.from(metrics, {
+        y: 25,
+        opacity: 0,
+        duration: 0.75,
+        ease: "power3.out",
+        stagger: 0.14,
+        scrollTrigger: {
+          trigger: ".js-intro-metrics",
+          start: "top 82%",
+          once: true,
+        },
+      });
+    }
+  });
+
+  mm.add("(max-width: 768px)", () => {
+    const targets = [
+      leftCol,
+      ...Array.from(metrics),
+    ].filter((el): el is HTMLElement => el !== null);
+    if (!targets.length) return;
+    gsap.from(targets, {
       opacity: 0,
-      duration: 0.75,
-      ease: "power3.out",
-      stagger: 0.14,
+      duration: 0.4,
       scrollTrigger: {
-        trigger: ".js-intro-metrics",
-        start: "top 82%",
+        trigger: "#intro",
+        start: "top 85%",
         once: true,
       },
     });
-  }
+  });
 }
 
 // ─────────────────────────────────────
-// 7. CONTACT FORM — stagger field groups
+// 7. CONTACT FORM — stagger fields (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initContactStagger() {
   if (reduced) return;
@@ -175,17 +269,31 @@ function initContactStagger() {
   const fields = document.querySelectorAll<HTMLElement>(".js-cf-field");
   if (!fields.length) return;
 
-  gsap.from(fields, {
-    y: 25,
-    opacity: 0,
-    duration: 0.7,
-    ease: "power3.out",
-    stagger: 0.1,
-    scrollTrigger: {
-      trigger: "#contact",
-      start: "top 80%",
-      once: true,
-    },
+  mm.add("(min-width: 769px)", () => {
+    gsap.from(fields, {
+      y: 25,
+      opacity: 0,
+      duration: 0.7,
+      ease: "power3.out",
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: "#contact",
+        start: "top 80%",
+        once: true,
+      },
+    });
+  });
+
+  mm.add("(max-width: 768px)", () => {
+    gsap.from(fields, {
+      opacity: 0,
+      duration: 0.4,
+      scrollTrigger: {
+        trigger: "#contact",
+        start: "top 85%",
+        once: true,
+      },
+    });
   });
 }
 

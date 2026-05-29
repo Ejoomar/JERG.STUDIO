@@ -111,24 +111,20 @@ const steps = [
   /* ── Section wrapper ── */
   .process-section {
     border-bottom: 1px solid var(--color-border);
-    overflow: hidden; /* clip horizontal track on mobile */
+    overflow: hidden;
   }
 
-  /* ── Pin zone (mobile: horizontal snap, desktop: GSAP pin) ── */
+  /* ── Pin zone ── */
+  /* Mobile: flujo vertical normal, sin overflow horizontal */
   #process-pin-zone {
     position: relative;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    overflow: visible;
   }
-  #process-pin-zone::-webkit-scrollbar { display: none; }
 
+  /* Desktop: GSAP pin + horizontal (gestionado por scrollytelling.ts) */
   @media (min-width: 768px) {
     #process-pin-zone {
       overflow: hidden;
-      scroll-snap-type: none;
       height: 100vh;
       display: flex;
       align-items: center;
@@ -136,33 +132,46 @@ const steps = [
   }
 
   /* ── Track ── */
+  /* Mobile: columna vertical */
   #process-track {
     display: flex;
+    flex-direction: column;
     will-change: transform;
   }
 
+  @media (min-width: 768px) {
+    #process-track {
+      flex-direction: row;
+    }
+  }
+
   /* ── Individual step ── */
+  /* Mobile: ancho completo, altura auto, apilado verticalmente */
   .process-step {
-    flex-shrink: 0;
-    width: 82vw;
-    min-height: 65vh;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    width: 100%;
+    min-height: auto;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 3rem 2rem;
-    border-right: 1px solid var(--color-border);
+    padding: 3.5rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    border-right: none;
+  }
+
+  .process-step:last-child {
+    border-bottom: none;
   }
 
   @media (min-width: 768px) {
     .process-step {
+      flex-shrink: 0;
       width: 100vw;
       height: 100vh;
       min-height: 100vh;
       padding: 4rem 8vw;
-      scroll-snap-align: none;
+      border-bottom: none;
+      border-right: 1px solid var(--color-border);
     }
   }
 
