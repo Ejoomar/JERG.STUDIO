@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor Premium</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #060606;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 1.75rem 2rem 2rem;
+    cursor: none;
+  }
+
+  h1 {
+    font-family: 'Georgia', serif;
+    font-size: clamp(1.3rem, 2.2vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+  .sub {
+    color: rgba(255,255,255,0.25);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 1.75rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .zone {
+    position: relative;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    height: 200px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.35s, background 0.35s;
+  }
+  .zone:hover { border-color: rgba(16,185,129,0.25); background: #0f0f0f; }
+  .zone.selected { border-color: #10b981 !important; }
+
+  /* noise texture */
+  .zone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px;
+    opacity: 0.018;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .zone-label {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 0.9rem;
+    right: 0.9rem;
+    z-index: 10;
+  }
+  .ltr {
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #10b981;
+    text-transform: uppercase;
+  }
+  .lname {
+    font-family: Georgia, serif;
+    font-size: 0.92rem;
+    font-weight: 400;
+    margin-top: 0.12rem;
+  }
+  .ldesc {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.3);
+    margin-top: 0.18rem;
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: none;
+    position: absolute;
+    top: 0.7rem; right: 0.7rem;
+    background: #10b981;
+    color: #000;
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    z-index: 20;
+    text-transform: uppercase;
+  }
+  .zone.selected .badge { display: block; }
+
+  .hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -65%);
+    font-size: 0.58rem;
+    color: rgba(255,255,255,0.1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    white-space: nowrap;
+    z-index: 5;
+  }
+  .zone:hover .hint { opacity: 0; }
+
+  .note {
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.05em;
+  }
+
+  /* ═══════════════════════
+     CURSOR ELEMENTS
+  ═══════════════════════ */
+
+  /* H — trail (kept) */
+  .trail { position:fixed; border-radius:50%; pointer-events:none; z-index:9997; background:#10b981; transform:translate(-50%,-50%); }
+
+  /* K — Double orbit */
+  #kInner {
+    position: fixed; width: 8px; height: 8px;
+    background: #f5f0e8;
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    display: none;
+  }
+  #kOuter {
+    position: fixed; width: 36px; height: 36px;
+    border: 1px solid rgba(245,240,232,0.25);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    display: none;
+    transition: width 0.25s, height 0.25s, border-color 0.25s;
+  }
+  #kOuter2 {
+    position: fixed; width: 58px; height: 58px;
+    border: 1px solid rgba(16,185,129,0.12);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9997;
+    transform: translate(-50%,-50%);
+    display: none;
+  }
+
+  /* L — Kinetic squish */
+  #lBlob {
+    position: fixed;
+    width: 16px; height: 16px;
+    background: rgba(16,185,129,0.9);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    display: none;
+    will-change: transform, width, height;
+    mix-blend-mode: screen;
+  }
+
+  /* M — SVG ribbon (canvas) */
+  #mCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9997;
+    display: none;
+  }
+  #mDot {
+    position: fixed;
+    width: 5px; height: 5px;
+    background: #10b981;
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    display: none;
+    transform: translate(-50%,-50%);
+  }
+
+  /* N — Pure ring, no dot */
+  #nRing {
+    position: fixed;
+    width: 20px; height: 20px;
+    border: 1.5px solid rgba(245,240,232,0.55);
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    display: none;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                height 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                border-color 0.3s;
+  }
+
+  /* P — Branded monogram */
+  #pDot {
+    position: fixed;
+    width: 4px; height: 4px;
+    background: #10b981;
+    border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    display: none;
+    transform: translate(-50%,-50%);
+  }
+  #pMono {
+    position: fixed;
+    pointer-events: none; z-index: 9999;
+    display: none;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: -0.02em;
+    transform: translate(8px, -50%);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+<!-- K elements -->
+<div id="kInner"></div>
+<div id="kOuter"></div>
+<div id="kOuter2"></div>
+
+<!-- L element -->
+<div id="lBlob"></div>
+
+<!-- M elements -->
+<canvas id="mCanvas"></canvas>
+<div id="mDot"></div>
+
+<!-- N element -->
+<div id="nRing"></div>
+
+<!-- P elements -->
+<div id="pDot"></div>
+<div id="pMono">JERG.</div>
+
+<!-- H trail dots created by JS -->
+
+<h1>Versión premium — elige tu cursor</h1>
+<p class="sub">pasa el mouse sobre cada zona para previsualizar en vivo</p>
+
+<div class="grid">
+
+  <!-- H KEPT -->
+  <div class="zone" id="zoneH" data-cursor="H" onclick="selectZone('H')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción H · anterior</div>
+      <div class="lname">Partículas / Trail</div>
+      <div class="ldesc">Estela de puntos que<br>se desvanecen. Fluido.</div>
+    </div>
+  </div>
+
+  <!-- K -->
+  <div class="zone" id="zoneK" data-cursor="K" onclick="selectZone('K')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción K</div>
+      <div class="lname">Doble órbita</div>
+      <div class="ldesc">Dot blanco + 2 anillos a<br>distintas velocidades. Hypnótico.</div>
+    </div>
+  </div>
+
+  <!-- L -->
+  <div class="zone" id="zoneL" data-cursor="L" onclick="selectZone('L')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción L</div>
+      <div class="lname">Squish cinético</div>
+      <div class="ldesc">Blob que se aplana con<br>la velocidad. Vivo y orgánico.</div>
+    </div>
+  </div>
+
+  <!-- M -->
+  <div class="zone" id="zoneM" data-cursor="M" onclick="selectZone('M')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción M</div>
+      <div class="lname">Ribbon / Cinta</div>
+      <div class="ldesc">Trazo continuo que dibuja<br>el recorrido. Como tinta.</div>
+    </div>
+  </div>
+
+  <!-- N -->
+  <div class="zone" id="zoneN" data-cursor="N" onclick="selectZone('N')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción N</div>
+      <div class="lname">Ring puro · sin punto</div>
+      <div class="ldesc">Solo un aro fino marfil.<br>Expande en hover. Máximo lujo.</div>
+    </div>
+  </div>
+
+  <!-- P -->
+  <div class="zone" id="zoneP" data-cursor="P" onclick="selectZone('P')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="ltr">Opción P</div>
+      <div class="lname">Monograma branded</div>
+      <div class="ldesc">Dot verde + "JERG." en<br>serif itálica. Firma de autor.</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note">H se mantiene del round anterior · ¿Quieres mezclar elementos? Dímelo en el chat</p>
+
+<script>
+  let mx = 0, my = 0;
+  let activeZone = null;
+
+  /* ── Trail for H ── */
+  const TRAIL = 10;
+  const tPos = Array.from({length: TRAIL}, () => ({x:0,y:0}));
+  const tDots = Array.from({length: TRAIL}, (_, i) => {
+    const d = document.createElement('div');
+    d.className = 'trail';
+    const s = Math.max(1.5, (TRAIL - i) * 1.4);
+    d.style.cssText = `width:${s}px;height:${s}px;opacity:0;`;
+    document.body.appendChild(d);
+    return d;
+  });
+
+  /* ── Double orbit lerp positions ── */
+  let k1x=0,k1y=0, k2x=0,k2y=0;
+
+  /* ── Canvas for M ── */
+  const canvas = document.getElementById('mCanvas');
+  const ctx = canvas.getContext('2d');
+  const mPoints = [];
+  const M_LEN = 28;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  /* ── L squish state ── */
+  let lLastX=0, lLastY=0;
+
+  /* ── Hide all ── */
+  function hideAll() {
+    ['kInner','kOuter','kOuter2','lBlob','mCanvas','mDot','nRing','pDot','pMono']
+      .forEach(id => document.getElementById(id).style.display='none');
+    tDots.forEach(d => { d.style.opacity=0; d.style.display='none'; });
+    mPoints.length = 0;
+  }
+
+  function showCursor(t) {
+    hideAll();
+    if (t==='H') tDots.forEach(d => d.style.display='block');
+    if (t==='K') { ['kInner','kOuter','kOuter2'].forEach(id => document.getElementById(id).style.display='block'); }
+    if (t==='L') document.getElementById('lBlob').style.display='block';
+    if (t==='M') { ['mCanvas','mDot'].forEach(id => document.getElementById(id).style.display='block'); }
+    if (t==='N') document.getElementById('nRing').style.display='block';
+    if (t==='P') { ['pDot','pMono'].forEach(id => document.getElementById(id).style.display='block'); }
+  }
+
+  /* ── Zone hover ── */
+  document.querySelectorAll('.zone').forEach(z => {
+    z.addEventListener('mouseenter', () => { activeZone = z.dataset.cursor; showCursor(activeZone); });
+    z.addEventListener('mouseleave', () => { activeZone = null; hideAll(); });
+
+    /* N: expand ring on zone hover (simulates button hover) */
+    z.addEventListener('mouseenter', () => {
+      if (activeZone === 'N') {
+        const r = document.getElementById('nRing');
+        r.style.width='38px'; r.style.height='38px';
+        r.style.borderColor='rgba(16,185,129,0.6)';
+      }
+    });
+    z.addEventListener('mouseleave', () => {
+      const r = document.getElementById('nRing');
+      r.style.width='20px'; r.style.height='20px';
+      r.style.borderColor='rgba(245,240,232,0.55)';
+    });
+  });
+
+  /* ── Mouse move ── */
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+
+    if (activeZone === 'L') {
+      const dx = mx - lLastX, dy = my - lLastY;
+      const speed = Math.sqrt(dx*dx + dy*dy);
+      lLastX=mx; lLastY=my;
+      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      const w = Math.min(16 + speed * 2.2, 52);
+      const h = Math.max(6, 16 - speed * 0.7);
+      const b = document.getElementById('lBlob');
+      b.style.width = w+'px';
+      b.style.height = h+'px';
+      b.style.left = (mx - w/2)+'px';
+      b.style.top = (my - h/2)+'px';
+      b.style.transform = `rotate(${angle}deg)`;
+      b.style.borderRadius = '999px';
+    }
+
+    if (activeZone === 'M') {
+      mPoints.unshift({x: mx, y: my});
+      if (mPoints.length > M_LEN) mPoints.pop();
+      document.getElementById('mDot').style.left=mx+'px';
+      document.getElementById('mDot').style.top=my+'px';
+    }
+
+    if (activeZone === 'N') {
+      document.getElementById('nRing').style.left=mx+'px';
+      document.getElementById('nRing').style.top=my+'px';
+    }
+
+    if (activeZone === 'P') {
+      document.getElementById('pDot').style.left=mx+'px';
+      document.getElementById('pDot').style.top=my+'px';
+      document.getElementById('pMono').style.left=mx+'px';
+      document.getElementById('pMono').style.top=my+'px';
+    }
+  });
+
+  /* ── RAF loop ── */
+  function loop() {
+    /* H trail */
+    if (activeZone === 'H') {
+      tPos.unshift({x:mx, y:my});
+      tPos.pop();
+      tDots.forEach((d,i) => {
+        d.style.left = tPos[i].x+'px';
+        d.style.top  = tPos[i].y+'px';
+        d.style.opacity = ((1 - i/TRAIL) * 0.9).toString();
+      });
+    }
+
+    /* K double orbit lerp */
+    if (activeZone === 'K') {
+      k1x += (mx - k1x) * 0.18;
+      k1y += (my - k1y) * 0.18;
+      k2x += (mx - k2x) * 0.07;
+      k2y += (my - k2y) * 0.07;
+
+      const ki = document.getElementById('kInner');
+      const ko = document.getElementById('kOuter');
+      const ko2= document.getElementById('kOuter2');
+
+      ki.style.left=mx+'px'; ki.style.top=my+'px';
+      ko.style.left=k1x+'px'; ko.style.top=k1y+'px';
+      ko2.style.left=k2x+'px'; ko2.style.top=k2y+'px';
+    }
+
+    /* M ribbon draw */
+    if (activeZone === 'M' && mPoints.length > 1) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(mPoints[0].x, mPoints[0].y);
+      for (let i = 1; i < mPoints.length - 1; i++) {
+        const cx = (mPoints[i].x + mPoints[i+1].x) / 2;
+        const cy = (mPoints[i].y + mPoints[i+1].y) / 2;
+        ctx.quadraticCurveTo(mPoints[i].x, mPoints[i].y, cx, cy);
+      }
+      const grad = ctx.createLinearGradient(
+        mPoints[mPoints.length-1].x, mPoints[mPoints.length-1].y,
+        mPoints[0].x, mPoints[0].y
+      );
+      grad.addColorStop(0, 'rgba(16,185,129,0)');
+      grad.addColorStop(0.5, 'rgba(16,185,129,0.25)');
+      grad.addColorStop(1, 'rgba(52,211,153,0.7)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.stroke();
+    } else if (activeZone !== 'M') {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* L idle reset */
+  setInterval(() => {
+    if (activeZone === 'L') {
+      const b = document.getElementById('lBlob');
+      b.style.width = '16px'; b.style.height = '16px';
+    }
+  }, 150);
+
+  /* ── Selection ── */
+  function selectZone(id) {
+    document.querySelectorAll('.zone').forEach(z => z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    if (window.__companion__) window.__companion__.select('option-'+id.toLowerCase(), 'Opción '+id);
+  }
+</script>
+</body>
+</html>

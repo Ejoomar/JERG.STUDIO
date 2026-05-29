@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor Premium v5</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #050505;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 1.6rem 2rem 2rem;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+  .sub {
+    color: rgba(255,255,255,0.2);
+    font-size: 0.63rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.65rem;
+    max-width: 1060px;
+    margin: 0 auto;
+  }
+  .zone {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    height: 190px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  .zone:hover { border-color: rgba(16,185,129,0.22); }
+  .zone.selected { border-color: #10b981 !important; }
+
+  /* unique ambient per zone */
+  #zoneH  { background: radial-gradient(ellipse at 40% 40%, #0c1a0e, #060606 70%); }
+  #zoneM  { background: radial-gradient(ellipse at 60% 60%, #091510, #060606 70%); }
+  #zoneU  { background: radial-gradient(ellipse at 30% 60%, #0e0e14, #060606 70%); }
+  #zoneV  { background: radial-gradient(ellipse at 70% 30%, #14100e, #060606 70%); }
+  #zoneW  { background: radial-gradient(ellipse at 50% 70%, #0e140e, #060606 70%); }
+  #zoneX  { background: radial-gradient(ellipse at 20% 50%, #0a0e14, #060606 70%); }
+  #zoneY  { background: radial-gradient(ellipse at 80% 50%, #14100a, #060606 70%); }
+  #zoneZ  { background: radial-gradient(ellipse at 50% 30%, #0a0a14, #060606 70%); }
+
+  .zone-label {
+    position: absolute;
+    bottom: 0.75rem; left: 0.8rem; right: 0.8rem;
+    z-index: 20;
+  }
+  .ltr { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.16em; color: #10b981; text-transform: uppercase; }
+  .lname { font-family: Georgia, serif; font-size: 0.85rem; font-weight: 400; margin-top: 0.1rem; line-height: 1.2; }
+  .ldesc { font-size: 0.6rem; color: rgba(255,255,255,0.26); margin-top: 0.14rem; line-height: 1.45; }
+
+  .badge {
+    display:none; position:absolute; top:0.6rem; right:0.6rem;
+    background:#10b981; color:#000; font-size:0.48rem; font-weight:800;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:0.14rem 0.42rem; border-radius:999px; z-index:30;
+  }
+  .zone.selected .badge { display:block; }
+
+  .kept-pill {
+    position:absolute; top:0.6rem; left:0.6rem;
+    background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.22);
+    color:#10b981; font-size:0.48rem; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:0.13rem 0.42rem; border-radius:999px; z-index:30;
+  }
+  .hint {
+    position:absolute; top:42%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:0.55rem; color:rgba(255,255,255,0.09);
+    letter-spacing:0.12em; text-transform:uppercase;
+    pointer-events:none; transition:opacity 0.25s; white-space:nowrap; z-index:5;
+  }
+  .zone:hover .hint { opacity:0; }
+  .note { text-align:center; margin-top:1rem; font-size:0.65rem; color:rgba(255,255,255,0.15); }
+
+  /* ═══ CURSOR ELEMENTS ═══ */
+
+  /* H trail */
+  .trail { position:fixed; border-radius:50%; pointer-events:none; z-index:9998; background:#10b981; transform:translate(-50%,-50%); }
+
+  /* M canvas */
+  #mCanvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+  #mDot    { position:fixed; width:5px; height:5px; background:#10b981; border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+
+  /* U ghost echoes */
+  .ghost { position:fixed; border-radius:50%; pointer-events:none; z-index:9996; border:1px solid rgba(16,185,129,0.5); transform:translate(-50%,-50%); display:none; }
+
+  /* V neon pulse */
+  #vDot {
+    position:fixed; width:5px; height:5px; background:#10b981; border-radius:50%;
+    pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%);
+    box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
+  }
+
+  /* W liquid mercury */
+  #wBlob {
+    position:fixed; pointer-events:none; z-index:9999; display:none;
+    transform:translate(-50%,-50%);
+    width:14px; height:14px;
+    background: radial-gradient(circle at 35% 35%, #c8fce8, #10b981 45%, #059669);
+    border-radius:50%;
+    box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 0 0 8px rgba(16,185,129,0.4);
+    filter: drop-shadow(0 0 3px rgba(52,211,153,0.5));
+  }
+
+  /* X ripple canvas */
+  #xCanvas { position:fixed; inset:0; pointer-events:none; z-index:9996; display:none; }
+  #xDot    { position:fixed; width:3px; height:3px; background:rgba(16,185,129,0.9); border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+
+  /* Y magnetic lines canvas */
+  #yCanvas { position:fixed; inset:0; pointer-events:none; z-index:9996; display:none; }
+
+  /* Z ink splat canvas */
+  #zCanvas { position:fixed; inset:0; pointer-events:none; z-index:9996; display:none; }
+  #zDot    { position:fixed; width:3px; height:3px; background:#f5f0e8; border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+</style>
+</head>
+<body>
+
+<!-- H --><!-- M -->
+<canvas id="mCanvas"></canvas><div id="mDot"></div>
+<!-- U --><div class="ghost" id="g1" style="width:12px;height:12px;opacity:0.55;"></div>
+          <div class="ghost" id="g2" style="width:18px;height:18px;opacity:0.3;"></div>
+          <div class="ghost" id="g3" style="width:26px;height:26px;opacity:0.12;"></div>
+<!-- V --><div id="vDot"></div>
+<!-- W --><div id="wBlob"></div>
+<!-- X --><canvas id="xCanvas"></canvas><div id="xDot"></div>
+<!-- Y --><canvas id="yCanvas"></canvas>
+<!-- Z --><canvas id="zCanvas"></canvas><div id="zDot"></div>
+
+<h1>6 nuevas opciones — H y M guardadas</h1>
+<p class="sub">pasa el mouse sobre cada zona · clic para elegir</p>
+
+<div class="grid">
+
+  <div class="zone" id="zoneH" data-cursor="H" onclick="selectZone('H')">
+    <div class="kept-pill">Guardado</div><div class="badge">✓</div>
+    <div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">H · guardado</div>
+      <div class="lname">Trail partículas</div>
+      <div class="ldesc">Estela de puntos verdes.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneM" data-cursor="M" onclick="selectZone('M')">
+    <div class="kept-pill">Guardado</div><div class="badge">✓</div>
+    <div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">M · guardado</div>
+      <div class="lname">Ribbon / Cinta</div>
+      <div class="ldesc">Trazo bezier como tinta.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneU" data-cursor="U" onclick="selectZone('U')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción U</div>
+      <div class="lname">Ecos fantasma</div>
+      <div class="ldesc">3 anillos que siguen a<br>distintas velocidades.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneV" data-cursor="V" onclick="selectZone('V')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción V</div>
+      <div class="lname">Neon latido</div>
+      <div class="ldesc">Dot que pulsa como<br>un corazón. Vivo.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneW" data-cursor="W" onclick="selectZone('W')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción W</div>
+      <div class="lname">Mercurio líquido</div>
+      <div class="ldesc">Esfera metálica 3D que<br>se deforma con velocidad.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneX" data-cursor="X" onclick="selectZone('X')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción X</div>
+      <div class="lname">Ondas / Ripple</div>
+      <div class="ldesc">Círculos que se expanden<br>al mover. Como agua.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneY" data-cursor="Y" onclick="selectZone('Y')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción Y</div>
+      <div class="lname">Campo magnético</div>
+      <div class="ldesc">Líneas curvas que emanan<br>del cursor. Orgánico.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneZ" data-cursor="Z" onclick="selectZone('Z')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción Z</div>
+      <div class="lname">Gota de tinta</div>
+      <div class="ldesc">Aparece al detenerse,<br>desaparece al mover.</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note">¿Una convence? Puedo combinar cualquier elemento con H o M</p>
+
+<script>
+  let mx=0, my=0, activeZone=null;
+  let wLastX=0, wLastY=0;
+
+  /* ── H trail ── */
+  const TRAIL=10;
+  const tPos=Array.from({length:TRAIL},()=>({x:0,y:0}));
+  const tDots=Array.from({length:TRAIL},(_,i)=>{
+    const d=document.createElement('div'); d.className='trail';
+    const s=Math.max(1.5,(TRAIL-i)*1.5);
+    d.style.cssText=`width:${s}px;height:${s}px;opacity:0;`;
+    document.body.appendChild(d); return d;
+  });
+
+  /* ── M ribbon ── */
+  const mC=document.getElementById('mCanvas'), mCtx=mC.getContext('2d');
+  const mPts=[]; const M_LEN=32;
+  const resizeC=()=>{ mC.width=innerWidth; mC.height=innerHeight; };
+  resizeC(); window.addEventListener('resize',resizeC);
+
+  /* ── U ghost positions ── */
+  const gEls=[document.getElementById('g1'),document.getElementById('g2'),document.getElementById('g3')];
+  const gLerps=[0.22,0.1,0.05];
+  const gPos=gEls.map(()=>({x:0,y:0}));
+
+  /* ── V pulse ── */
+  let vPulse=0;
+
+  /* ── W mercury ── */
+  let wLx=0, wLy=0;
+
+  /* ── X ripples ── */
+  const xC=document.getElementById('xCanvas'), xCtx=xC.getContext('2d');
+  const ripples=[];
+  const resizeX=()=>{ xC.width=innerWidth; xC.height=innerHeight; };
+  resizeX(); window.addEventListener('resize',resizeX);
+  let xLastDist=0;
+
+  /* ── Y magnetic ── */
+  const yC=document.getElementById('yCanvas'), yCtx=yC.getContext('2d');
+  const resizeY=()=>{ yC.width=innerWidth; yC.height=innerHeight; };
+  resizeY(); window.addEventListener('resize',resizeY);
+
+  /* ── Z ink ── */
+  const zC=document.getElementById('zCanvas'), zCtx=zC.getContext('2d');
+  const resizeZ=()=>{ zC.width=innerWidth; zC.height=innerHeight; };
+  resizeZ(); window.addEventListener('resize',resizeZ);
+  const splats=[]; let zIdle=0, zMoving=false, zLastMx=0, zLastMy=0;
+
+  /* ── Hide all ── */
+  function hideAll(){
+    tDots.forEach(d=>{d.style.opacity=0;d.style.display='none';});
+    gEls.forEach(d=>d.style.display='none');
+    ['mCanvas','mDot','vDot','wBlob','xCanvas','xDot','yCanvas','zCanvas','zDot']
+      .forEach(id=>document.getElementById(id).style.display='none');
+    mPts.length=0; ripples.length=0; splats.length=0;
+    mCtx.clearRect(0,0,mC.width,mC.height);
+    xCtx.clearRect(0,0,xC.width,xC.height);
+    yCtx.clearRect(0,0,yC.width,yC.height);
+    zCtx.clearRect(0,0,zC.width,zC.height);
+  }
+
+  function showCursor(t){
+    hideAll();
+    if(t==='H') tDots.forEach(d=>d.style.display='block');
+    if(t==='M'){['mCanvas','mDot'].forEach(id=>document.getElementById(id).style.display='block');}
+    if(t==='U') gEls.forEach(d=>d.style.display='block');
+    if(t==='V') document.getElementById('vDot').style.display='block';
+    if(t==='W') document.getElementById('wBlob').style.display='block';
+    if(t==='X'){['xCanvas','xDot'].forEach(id=>document.getElementById(id).style.display='block');}
+    if(t==='Y') document.getElementById('yCanvas').style.display='block';
+    if(t==='Z'){['zCanvas','zDot'].forEach(id=>document.getElementById(id).style.display='block');}
+  }
+
+  document.querySelectorAll('.zone').forEach(z=>{
+    z.addEventListener('mouseenter',()=>{ activeZone=z.dataset.cursor; showCursor(activeZone); });
+    z.addEventListener('mouseleave',()=>{ activeZone=null; hideAll(); });
+  });
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+
+    if(activeZone==='M'){
+      mPts.unshift({x:mx,y:my});
+      if(mPts.length>M_LEN) mPts.pop();
+      document.getElementById('mDot').style.left=mx+'px';
+      document.getElementById('mDot').style.top=my+'px';
+    }
+
+    if(activeZone==='W'){
+      const dx=mx-wLx, dy=my-wLy;
+      const speed=Math.sqrt(dx*dx+dy*dy);
+      wLx=mx; wLy=my;
+      const b=document.getElementById('wBlob');
+      const ang=Math.atan2(dy,dx)*180/Math.PI;
+      const w=Math.min(14+speed*1.8,40);
+      const h=Math.max(6,14-speed*0.7);
+      b.style.width=w+'px'; b.style.height=h+'px';
+      b.style.left=(mx-w/2)+'px'; b.style.top=(my-h/2)+'px';
+      b.style.transform=`rotate(${ang}deg)`;
+      b.style.borderRadius='999px';
+    }
+
+    if(activeZone==='X'){
+      const dist=Math.sqrt((mx-xLastDist)**2+(my-0)**2);
+      if(Math.abs(mx-xLastDist)>4 || ripples.length===0){
+        ripples.push({x:mx,y:my,r:0,alpha:0.7});
+        xLastDist=mx;
+      }
+      document.getElementById('xDot').style.left=mx+'px';
+      document.getElementById('xDot').style.top=my+'px';
+    }
+
+    if(activeZone==='Z'){
+      const moved=Math.sqrt((mx-zLastMx)**2+(my-zLastMy)**2);
+      zMoving=moved>2;
+      zLastMx=mx; zLastMy=my;
+      document.getElementById('zDot').style.left=mx+'px';
+      document.getElementById('zDot').style.top=my+'px';
+      if(zMoving){ zIdle=0; }
+    }
+  });
+
+  /* ── RAF ── */
+  let frame=0;
+  function loop(){
+    frame++;
+
+    /* H */
+    if(activeZone==='H'){
+      tPos.unshift({x:mx,y:my}); tPos.pop();
+      tDots.forEach((d,i)=>{
+        d.style.left=tPos[i].x+'px'; d.style.top=tPos[i].y+'px';
+        d.style.opacity=((1-i/TRAIL)*0.9).toString();
+      });
+    }
+
+    /* M */
+    if(activeZone==='M'&&mPts.length>1){
+      mCtx.clearRect(0,0,mC.width,mC.height);
+      mCtx.beginPath();
+      mCtx.moveTo(mPts[0].x,mPts[0].y);
+      for(let i=1;i<mPts.length-1;i++){
+        const cx=(mPts[i].x+mPts[i+1].x)/2, cy=(mPts[i].y+mPts[i+1].y)/2;
+        mCtx.quadraticCurveTo(mPts[i].x,mPts[i].y,cx,cy);
+      }
+      const g=mCtx.createLinearGradient(mPts[mPts.length-1].x,mPts[mPts.length-1].y,mPts[0].x,mPts[0].y);
+      g.addColorStop(0,'rgba(16,185,129,0)');
+      g.addColorStop(0.5,'rgba(16,185,129,0.2)');
+      g.addColorStop(1,'rgba(52,211,153,0.65)');
+      mCtx.strokeStyle=g; mCtx.lineWidth=1.5;
+      mCtx.lineCap='round'; mCtx.lineJoin='round'; mCtx.stroke();
+    } else if(activeZone!=='M'){ mCtx.clearRect(0,0,mC.width,mC.height); }
+
+    /* U ghost echoes */
+    if(activeZone==='U'){
+      gPos.forEach((p,i)=>{
+        p.x+=(mx-p.x)*gLerps[i];
+        p.y+=(my-p.y)*gLerps[i];
+        gEls[i].style.left=p.x+'px';
+        gEls[i].style.top=p.y+'px';
+      });
+    }
+
+    /* V neon pulse */
+    if(activeZone==='V'){
+      vPulse+=0.06;
+      const scale=1+Math.sin(vPulse)*0.5;
+      const glow=8+Math.sin(vPulse)*6;
+      const alpha=0.3+Math.sin(vPulse)*0.2;
+      const vd=document.getElementById('vDot');
+      vd.style.left=mx+'px'; vd.style.top=my+'px';
+      vd.style.boxShadow=`0 0 ${glow}px ${glow/2}px rgba(16,185,129,${alpha}), 0 0 ${glow*2}px rgba(16,185,129,${alpha*0.4})`;
+    }
+
+    /* W mercury idle reset */
+    if(activeZone==='W'){
+      const b=document.getElementById('wBlob');
+      const cw=parseFloat(b.style.width)||14;
+      const ch=parseFloat(b.style.height)||14;
+      if(cw>14){ b.style.width=(cw*0.88)+'px'; b.style.height=Math.min(ch*1.05,14)+'px'; }
+    }
+
+    /* X ripples */
+    if(activeZone==='X'){
+      if(frame%3===0&&(Math.abs(mx-(ripples[ripples.length-1]?.x||0))>8||ripples.length===0)){
+        ripples.push({x:mx,y:my,r:2,alpha:0.5});
+      }
+      xCtx.clearRect(0,0,xC.width,xC.height);
+      for(let i=ripples.length-1;i>=0;i--){
+        const rp=ripples[i];
+        rp.r+=1.4; rp.alpha-=0.012;
+        if(rp.alpha<=0){ ripples.splice(i,1); continue; }
+        xCtx.beginPath();
+        xCtx.arc(rp.x,rp.y,rp.r,0,Math.PI*2);
+        xCtx.strokeStyle=`rgba(16,185,129,${rp.alpha})`;
+        xCtx.lineWidth=1;
+        xCtx.stroke();
+      }
+    } else { xCtx.clearRect(0,0,xC.width,xC.height); }
+
+    /* Y magnetic field */
+    if(activeZone==='Y'){
+      yCtx.clearRect(0,0,yC.width,yC.height);
+      const NUM_LINES=12;
+      for(let l=0;l<NUM_LINES;l++){
+        const baseAngle=(l/NUM_LINES)*Math.PI*2;
+        yCtx.beginPath();
+        let px=mx+Math.cos(baseAngle)*6;
+        let py=my+Math.sin(baseAngle)*6;
+        yCtx.moveTo(px,py);
+        for(let s=0;s<18;s++){
+          const dist=Math.sqrt((px-mx)**2+(py-my)**2);
+          const angle=Math.atan2(py-my,px-mx);
+          const curl=Math.sin(angle*2+frame*0.02)*0.4;
+          px+=Math.cos(angle+curl)*2.2;
+          py+=Math.sin(angle+curl)*2.2;
+          yCtx.lineTo(px,py);
+        }
+        const fade=Math.min(l/NUM_LINES*0.5,0.35);
+        yCtx.strokeStyle=`rgba(16,185,129,${fade})`;
+        yCtx.lineWidth=0.8;
+        yCtx.stroke();
+      }
+      /* center dot */
+      yCtx.beginPath();
+      yCtx.arc(mx,my,2,0,Math.PI*2);
+      yCtx.fillStyle='rgba(16,185,129,0.8)';
+      yCtx.fill();
+    } else { yCtx.clearRect(0,0,yC.width,yC.height); }
+
+    /* Z ink splat */
+    if(activeZone==='Z'){
+      zCtx.clearRect(0,0,zC.width,zC.height);
+      if(!zMoving){ zIdle=Math.min(zIdle+1,60); }
+      const progress=zIdle/60;
+      if(progress>0.1){
+        const maxR=progress*18;
+        /* main drop */
+        zCtx.beginPath();
+        zCtx.arc(mx,my,maxR*0.5,0,Math.PI*2);
+        zCtx.fillStyle=`rgba(245,240,232,${progress*0.7})`;
+        zCtx.fill();
+        /* outer halo */
+        zCtx.beginPath();
+        zCtx.arc(mx,my,maxR,0,Math.PI*2);
+        zCtx.strokeStyle=`rgba(16,185,129,${progress*0.35})`;
+        zCtx.lineWidth=1;
+        zCtx.stroke();
+        /* micro splats */
+        for(let s=0;s<6;s++){
+          const a=(s/6)*Math.PI*2;
+          const sr=maxR*1.4;
+          zCtx.beginPath();
+          zCtx.arc(mx+Math.cos(a)*sr, my+Math.sin(a)*sr*0.7, progress*2.5, 0, Math.PI*2);
+          zCtx.fillStyle=`rgba(16,185,129,${progress*0.25})`;
+          zCtx.fill();
+        }
+      }
+      if(zMoving){ zIdle=Math.max(0,zIdle-6); }
+    } else { zCtx.clearRect(0,0,zC.width,zC.height); }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* ── Selection ── */
+  function selectZone(id){
+    document.querySelectorAll('.zone').forEach(z=>z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    if(window.__companion__) window.__companion__.select('option-'+id.toLowerCase(),'Opción '+id);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<title>JERG.STUDIO — Preview Final</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #030303;
+    color: #f5f0e8;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .hdr {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 58px;
+    border-bottom: 1px solid rgba(245,240,232,0.05);
+    background: rgba(5,5,5,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .hdr-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: #f5f0e8;
+  }
+  .hdr-logo span { color: #10b981; }
+  .hdr-nav {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .hdr-nav a {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .hdr-nav a:hover { color: #10b981; }
+  .hdr-cta {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.1rem;
+    border-radius: 6px;
+    background: #10b981;
+    color: #050505;
+    text-decoration: none;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 6vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle grid */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(16,185,129,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,185,129,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, black 20%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Radial glow */
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 55% 50% at 35% 45%, rgba(16,185,129,0.09) 0%, rgba(5,5,5,0.5) 60%, rgba(5,5,5,0.98) 100%);
+    pointer-events: none;
+  }
+
+  /* Decorative bg mark */
+  .hero-bg-mark {
+    position: absolute;
+    bottom: -4vw; right: -2vw;
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(10rem, 28vw, 28rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    color: rgba(16,185,129,0.035);
+    pointer-events: none;
+    user-select: none;
+    font-style: italic;
+  }
+
+  /* Accent line top */
+  .hero-accent-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, #10b981 0%, rgba(16,185,129,0.3) 40%, transparent 100%);
+  }
+
+  /* Content */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: #10b981;
+    margin-bottom: 2rem;
+  }
+
+  .hero-h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3.5rem, 9.5vw, 9rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: #f5f0e8;
+    margin-bottom: 2rem;
+  }
+  .hero-h1 em {
+    font-style: italic;
+    color: #10b981;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.38);
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    max-width: 28rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 3.5rem;
+  }
+  .btn-p {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background: #10b981;
+    color: #050505;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(16,185,129,0.3);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .btn-p:hover { box-shadow: 0 8px 36px rgba(16,185,129,0.45); transform: translateY(-1px); }
+  .btn-g {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid rgba(245,240,232,0.1);
+    color: rgba(245,240,232,0.7);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-g:hover { border-color: rgba(16,185,129,0.4); color: #10b981; }
+
+  /* Stats */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    border-top: 1px solid rgba(245,240,232,0.07);
+    padding-top: 2rem;
+  }
+  .stat + .stat {
+    border-left: 1px solid rgba(245,240,232,0.07);
+    padding-left: 2.5rem;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+    font-weight: 400;
+    color: #10b981;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-lbl {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+    margin-top: 0.3rem;
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 6vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+  .scroll-hint span {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.15);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 2rem;
+    background: linear-gradient(to bottom, #10b981, transparent);
+    opacity: 0.5;
+  }
+
+  /* ── FEATURES PREVIEW ── */
+  .section-preview {
+    background: #080808;
+    padding: 4rem 6vw;
+    border-top: 1px solid rgba(245,240,232,0.05);
+  }
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #10b981;
+    margin-bottom: 1.5rem;
+  }
+  .section-eyebrow::before, .section-eyebrow::after {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+  .section-h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #f5f0e8;
+    margin-bottom: 3rem;
+  }
+  .section-h2 em { color: #10b981; font-style: italic; }
+
+  /* Feat row preview */
+  .feat-row-preview {
+    border-top: 1px solid rgba(245,240,232,0.06);
+  }
+  .feat-row-item {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+  }
+  .feat-row-item.open {
+    border-left: 2px solid #10b981;
+    padding-left: 1rem;
+    background: rgba(16,185,129,0.03);
+  }
+  .feat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.75rem;
+    color: rgba(245,240,232,0.2);
+    font-style: italic;
+  }
+  .feat-row-item.open .feat-num { color: #10b981; }
+  .feat-title-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    color: rgba(245,240,232,0.85);
+    letter-spacing: -0.01em;
+  }
+  .feat-tag-pill {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    border: 1px solid rgba(16,185,129,0.25);
+    color: #10b981;
+  }
+
+  /* ── SHOWCASE PREVIEW ── */
+  .showcase-preview {
+    background: #050505;
+    padding: 4rem 6vw;
+    border-top: 1px solid rgba(245,240,232,0.05);
+  }
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 2.5rem;
+  }
+  .sc-item {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(245,240,232,0.06);
+    background: #0a0a0a;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .sc-item:hover { border-color: rgba(16,185,129,0.2); transform: translateY(-2px); }
+  .sc-device {
+    padding: 20px 16px 10px;
+    background: #0d0d0d;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    min-height: 160px;
+  }
+
+  /* Laptop CSS */
+  .css-laptop {
+    background: #181818;
+    border-radius: 6px 6px 0 0;
+    padding: 6px;
+    border: 1px solid #2a2a2a;
+    flex: 1;
+    position: relative;
+  }
+  .css-laptop::after {
+    content: '';
+    display: block;
+    height: 5px;
+    background: #1a1a1a;
+    border-radius: 0 0 3px 3px;
+    border: 1px solid #2a2a2a;
+    border-top: none;
+    margin: 0 -7px -6px;
+  }
+  .css-laptop-cam { width: 3px; height: 3px; border-radius: 50%; background: #2a2a2a; margin: 0 auto 4px; }
+  .css-laptop-scr { border-radius: 3px; overflow: hidden; aspect-ratio: 16/9; }
+
+  /* Phone CSS */
+  .css-phone {
+    background: #181818;
+    border-radius: 10px;
+    padding: 5px 3px;
+    border: 1px solid #2a2a2a;
+    width: 48px;
+    flex-shrink: 0;
+  }
+  .css-phone-notch { width: 16px; height: 3px; border-radius: 2px; background: #2a2a2a; margin: 0 auto 3px; }
+  .css-phone-scr { border-radius: 7px; overflow: hidden; aspect-ratio: 9/16; }
+
+  /* Proj UIs */
+  .pui-saas { background: #0d1117; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 3px; }
+  .pui-saas-hdr { height: 7px; background: #21262d; border-radius: 2px; }
+  .pui-saas-row { display: flex; gap: 3px; flex: 1; }
+  .pui-saas-side { width: 20px; background: #161b22; border-radius: 2px; }
+  .pui-saas-main { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .pui-saas-card { height: 8px; background: #21262d; border-radius: 2px; border-left: 2px solid #10b981; }
+  .pui-saas-line { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; }
+  .pui-saas-stat { height: 5px; background: rgba(16,185,129,0.5); border-radius: 2px; }
+
+  .pui-ecom { background: #fafaf9; height: 100%; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+  .pui-ecom-nav { height: 6px; background: #111; border-radius: 1px; }
+  .pui-ecom-hero { height: 16px; background: linear-gradient(90deg, #10b981, #059669); border-radius: 2px; }
+  .pui-ecom-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; flex: 1; }
+  .pui-ecom-item { background: #e5e7eb; border-radius: 1px; }
+
+  .pui-booking { background: #050a0f; height: 100%; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+  .pui-booking-hdr { height: 6px; background: #0d1f2d; border-radius: 2px; border-bottom: 1px solid rgba(16,185,129,0.2); }
+  .pui-booking-cal { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; }
+  .pui-booking-day { background: #0d1f2d; border-radius: 1px; }
+  .pui-booking-day.active { background: #10b981; }
+
+  .pui-landing { background: #050505; height: 100%; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+  .pui-landing-hero { height: 20px; background: linear-gradient(135deg, #0a1a0f, #051208); border-radius: 2px; border-top: 1px solid rgba(16,185,129,0.3); }
+  .pui-landing-txt { height: 5px; border-radius: 2px; background: rgba(245,240,232,0.08); }
+  .pui-landing-btn { height: 7px; background: #10b981; border-radius: 3px; width: 40%; }
+
+  /* Phone UIs */
+  .pui-phone { background: #050505; height: 100%; padding: 3px; display: flex; flex-direction: column; gap: 2px; }
+  .pui-phone-bar { height: 4px; border-radius: 2px; }
+  .pui-phone-card { flex: 1; border-radius: 3px; }
+  .pui-phone-btn { height: 6px; border-radius: 3px; margin: 0 2px; }
+
+  /* Sc meta */
+  .sc-meta {
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sc-proj-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.85);
+    letter-spacing: -0.01em;
+  }
+  .sc-proj-type {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  /* label top */
+  .sc-label {
+    position: absolute;
+    top: 10px; left: 14px;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.25);
+  }
+
+  /* ── Footer note ── */
+  .note {
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    background: rgba(16,185,129,0.04);
+    border: 1px solid rgba(16,185,129,0.12);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.5);
+    line-height: 1.7;
+    font-family: 'Inter', sans-serif;
+  }
+  .note strong { color: #10b981; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-logo">JERG<span>.</span>STUDIO</div>
+  <ul class="hdr-nav">
+    <li><a href="#">Capacidades</a></li>
+    <li><a href="#">Proceso</a></li>
+    <li><a href="#">Portfolio</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
+  <a href="#" class="hdr-cta">Iniciar proyecto</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-accent-line"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-bg-mark">JS</div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Agencia de Desarrollo Digital · Latinoamérica</p>
+
+    <h1 class="hero-h1">
+      CONSTRUIMOS<br/>
+      <em>PRESENCIAS</em><br/>
+      DIGITALES.
+    </h1>
+
+    <p class="hero-sub">
+      Código que convierte. Diseño que impacta.<br/>Resultados que se miden.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#" class="btn-p">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Iniciar proyecto
+      </a>
+      <a href="#" class="btn-g">
+        Capacidades
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">40+</div>
+        <div class="stat-lbl">Lanzamientos</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3 sem.</div>
+        <div class="stat-lbl">Entrega avg</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-lbl">Satisfacción</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- FEATURES PREVIEW -->
+<section class="section-preview">
+  <span class="section-eyebrow">Capacidades</span>
+  <h2 class="section-h2">Seis disciplinas.<br/><em>Un propósito.</em></h2>
+
+  <div class="feat-row-preview">
+    <div class="feat-row-item open">
+      <span class="feat-num">01</span>
+      <span class="feat-title-text">Páginas Web</span>
+      <span class="feat-tag-pill">Web</span>
+    </div>
+    <div class="feat-row-item">
+      <span class="feat-num">02</span>
+      <span class="feat-title-text">Sistemas a Medida</span>
+      <span class="feat-tag-pill" style="border-color:rgba(245,240,232,0.1);color:rgba(245,240,232,0.3);">Software</span>
+    </div>
+    <div class="feat-row-item">
+      <span class="feat-num">03</span>
+      <span class="feat-title-text">E-commerce</span>
+      <span class="feat-tag-pill" style="border-color:rgba(245,240,232,0.1);color:rgba(245,240,232,0.3);">Tienda</span>
+    </div>
+    <div class="feat-row-item">
+      <span class="feat-num">04</span>
+      <span class="feat-title-text">Apps Web y Móvil</span>
+      <span class="feat-tag-pill" style="border-color:rgba(245,240,232,0.1);color:rgba(245,240,232,0.3);">Apps</span>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE PREVIEW -->
+<section class="showcase-preview">
+  <span class="section-eyebrow">Portfolio</span>
+  <h2 class="section-h2">Trabajo real.<br/><em>Resultados medibles.</em></h2>
+
+  <div class="showcase-grid">
+
+    <!-- FounderOS -->
+    <div class="sc-item">
+      <div class="sc-device">
+        <span class="sc-label">App SaaS</span>
+        <div class="css-laptop">
+          <div class="css-laptop-cam"></div>
+          <div class="css-laptop-scr">
+            <div class="pui-saas" style="height:90px;">
+              <div class="pui-saas-hdr"></div>
+              <div class="pui-saas-row" style="flex:1">
+                <div class="pui-saas-side"></div>
+                <div class="pui-saas-main">
+                  <div class="pui-saas-card"></div>
+                  <div class="pui-saas-stat" style="width:65%"></div>
+                  <div class="pui-saas-line" style="width:80%"></div>
+                  <div class="pui-saas-line" style="width:50%"></div>
+                  <div class="pui-saas-card"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="css-phone">
+          <div class="css-phone-notch"></div>
+          <div class="css-phone-scr">
+            <div class="pui-phone" style="height:80px;">
+              <div class="pui-phone-bar" style="background:#10b981;"></div>
+              <div class="pui-phone-card" style="background:#0d1117;border-left:2px solid #10b981;"></div>
+              <div class="pui-phone-btn" style="background:#10b981;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-meta">
+        <span class="sc-proj-name">FounderOS</span>
+        <span class="sc-proj-type" style="color:#10b981;border-color:rgba(16,185,129,0.25);">App SaaS</span>
+      </div>
+    </div>
+
+    <!-- PelicanDTC -->
+    <div class="sc-item">
+      <div class="sc-device">
+        <span class="sc-label">E-commerce D2C</span>
+        <div class="css-laptop">
+          <div class="css-laptop-cam"></div>
+          <div class="css-laptop-scr">
+            <div class="pui-ecom" style="height:90px;">
+              <div class="pui-ecom-nav"></div>
+              <div class="pui-ecom-hero"></div>
+              <div class="pui-ecom-grid" style="flex:1;">
+                <div class="pui-ecom-item"></div>
+                <div class="pui-ecom-item"></div>
+                <div class="pui-ecom-item"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="css-phone">
+          <div class="css-phone-notch"></div>
+          <div class="css-phone-scr">
+            <div class="pui-phone" style="height:80px;">
+              <div class="pui-phone-bar" style="background:#059669;"></div>
+              <div class="pui-phone-card" style="background:#fafaf9;"></div>
+              <div class="pui-phone-btn" style="background:#10b981;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-meta">
+        <span class="sc-proj-name">PelicanDTC</span>
+        <span class="sc-proj-type" style="color:#34d399;border-color:rgba(52,211,153,0.25);">E-commerce</span>
+      </div>
+    </div>
+
+    <!-- TallerFlow -->
+    <div class="sc-item">
+      <div class="sc-device">
+        <span class="sc-label">App Reservas</span>
+        <div class="css-laptop">
+          <div class="css-laptop-cam"></div>
+          <div class="css-laptop-scr">
+            <div class="pui-booking" style="height:90px;">
+              <div class="pui-booking-hdr"></div>
+              <div class="pui-booking-cal" style="flex:1;">
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day active"></div>
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day active"></div>
+                <div class="pui-booking-day active"></div>
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day"></div>
+                <div class="pui-booking-day active"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="css-phone">
+          <div class="css-phone-notch"></div>
+          <div class="css-phone-scr">
+            <div class="pui-phone" style="height:80px;background:#050a0f;">
+              <div class="pui-phone-bar" style="background:#10b981;"></div>
+              <div class="pui-phone-card" style="background:#0d1f2d;border-left:2px solid #10b981;"></div>
+              <div class="pui-phone-btn" style="background:#10b981;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-meta">
+        <span class="sc-proj-name">TallerFlow</span>
+        <span class="sc-proj-type" style="color:#a78bfa;border-color:rgba(167,139,250,0.25);">App</span>
+      </div>
+    </div>
+
+    <!-- SeedLanding -->
+    <div class="sc-item">
+      <div class="sc-device">
+        <span class="sc-label">Landing + Automación</span>
+        <div class="css-laptop">
+          <div class="css-laptop-cam"></div>
+          <div class="css-laptop-scr">
+            <div class="pui-landing" style="height:90px;">
+              <div class="pui-landing-hero"></div>
+              <div class="pui-landing-txt" style="width:70%;margin-top:4px;"></div>
+              <div class="pui-landing-txt" style="width:55%;"></div>
+              <div class="pui-landing-btn" style="margin-top:4px;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="css-phone">
+          <div class="css-phone-notch"></div>
+          <div class="css-phone-scr">
+            <div class="pui-phone" style="height:80px;">
+              <div class="pui-phone-bar" style="background:#10b981;"></div>
+              <div class="pui-phone-card" style="background:#0a1a0f;border-top:2px solid #10b981;"></div>
+              <div class="pui-phone-btn" style="background:#10b981;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-meta">
+        <span class="sc-proj-name">SeedLanding</span>
+        <span class="sc-proj-type" style="color:#10b981;border-color:rgba(16,185,129,0.25);">Landing</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- APPROVAL NOTE -->
+<div style="padding:2rem 6vw 3rem;">
+  <div class="note">
+    <strong>Sistema de diseño completo:</strong> Negro #050505 · Esmeralda #10b981 · Texto cálido #f5f0e8 · <strong>DM Serif Display</strong> para titulares · <strong>Inter Variable</strong> para cuerpo · CSS device mockups sin imágenes externas.<br/><br/>
+    ¿Apruebas este diseño? Si sí, escribo el spec completo y el plan de implementación.
+  </div>
+</div>
+
+</body>
+</html>

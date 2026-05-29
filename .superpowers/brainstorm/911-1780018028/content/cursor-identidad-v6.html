@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor — Identidad del Estudio</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #050505;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 1.5rem 2rem 2rem;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.2rem, 2vw, 1.7rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.15rem;
+  }
+  .sub {
+    color: rgba(255,255,255,0.22);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .concept-note {
+    display: inline-block;
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+    color: rgba(16,185,129,0.85);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    margin-bottom: 1.4rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.65rem;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .zone {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 10px;
+    height: 195px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  .zone:hover { border-color: rgba(16,185,129,0.25); }
+  .zone.selected { border-color: #10b981 !important; }
+
+  #zoneH { background: radial-gradient(ellipse at 40% 40%, #0c1a0e, #050505 70%); }
+  #zoneM { background: radial-gradient(ellipse at 60% 60%, #091510, #050505 70%); }
+  #zoneA2{ background: radial-gradient(ellipse at 30% 60%, #0a0a0d, #050505 70%); }
+  #zoneB2{ background: radial-gradient(ellipse at 70% 30%, #0d0a0a, #050505 70%); }
+  #zoneC2{ background: radial-gradient(ellipse at 50% 70%, #0a0d0a, #050505 70%); }
+  #zoneD2{ background: radial-gradient(ellipse at 20% 50%, #0a0c0e, #050505 70%); }
+  #zoneE2{ background: radial-gradient(ellipse at 80% 60%, #0e0a0a, #050505 70%); }
+  #zoneF2{ background: radial-gradient(ellipse at 50% 30%, #090a0e, #050505 70%); }
+
+  .zone-label {
+    position: absolute;
+    bottom: 0.75rem; left: 0.8rem; right: 0.8rem;
+    z-index: 20;
+  }
+  .ltr { font-size: 0.54rem; font-weight: 700; letter-spacing: 0.16em; color: #10b981; text-transform: uppercase; }
+  .lname { font-family: Georgia, serif; font-size: 0.83rem; font-weight: 400; margin-top: 0.1rem; line-height: 1.2; }
+  .ltag { font-size: 0.58rem; color: rgba(16,185,129,0.5); margin-top: 0.08rem; letter-spacing: 0.06em; font-style: italic; }
+  .ldesc { font-size: 0.58rem; color: rgba(255,255,255,0.25); margin-top: 0.1rem; line-height: 1.45; }
+
+  .badge { display:none; position:absolute; top:0.6rem; right:0.6rem;
+    background:#10b981; color:#000; font-size:0.47rem; font-weight:800;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:0.12rem 0.4rem; border-radius:999px; z-index:30; }
+  .zone.selected .badge { display:block; }
+
+  .kept-pill { position:absolute; top:0.6rem; left:0.6rem;
+    background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2);
+    color:#10b981; font-size:0.47rem; font-weight:700;
+    letter-spacing:0.1em; text-transform:uppercase;
+    padding:0.12rem 0.4rem; border-radius:999px; z-index:30; }
+
+  .hint { position:absolute; top:41%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:0.54rem; color:rgba(255,255,255,0.08);
+    letter-spacing:0.12em; text-transform:uppercase;
+    pointer-events:none; transition:opacity 0.25s; white-space:nowrap; z-index:5; }
+  .zone:hover .hint { opacity:0; }
+
+  .note { text-align:center; margin-top:1rem; font-size:0.64rem; color:rgba(255,255,255,0.15); }
+
+  /* ═══ CURSORS ═══ */
+  /* H trail */
+  .trail { position:fixed; border-radius:50%; pointer-events:none; z-index:9997; background:#10b981; transform:translate(-50%,-50%); }
+  /* M canvas */
+  #mCanvas { position:fixed; inset:0; pointer-events:none; z-index:9996; display:none; }
+  #mDot    { position:fixed; width:5px; height:5px; background:#10b981; border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+
+  /* A2: código flotante */
+  .code-char { position:fixed; pointer-events:none; z-index:9998; font-family:'Courier New',monospace;
+    font-size:10px; font-weight:700; color:#10b981; display:none;
+    transform:translate(-50%,-50%); line-height:1; }
+
+  /* B2: trazado circuito canvas */
+  #b2Canvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+  #b2Dot    { position:fixed; width:4px; height:4px; background:#10b981; border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%);
+    box-shadow:0 0 4px rgba(16,185,129,0.8); }
+
+  /* C2: terminal cursor */
+  #c2Block { position:fixed; width:10px; height:14px; background:#f5f0e8; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+  .c2under { position:fixed; pointer-events:none; z-index:9997; height:1px;
+    background:rgba(245,240,232,0.35); display:none; }
+
+  /* D2: pluma digital canvas */
+  #d2Canvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+  #d2Nib    { position:fixed; pointer-events:none; z-index:9999; display:none; }
+
+  /* E2: píxeles que emergen */
+  #e2Canvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+
+  /* F2: selector bounding box */
+  #f2Canvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+  #f2Dot    { position:fixed; width:3px; height:3px; background:rgba(16,185,129,0.9); border-radius:50%; pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+</style>
+</head>
+<body>
+
+<!-- H --><div id="mCanvas-h" style="display:none"></div>
+<!-- M --><canvas id="mCanvas"></canvas><div id="mDot"></div>
+<!-- A2 código --><div class="code-char" id="cc0"></div><div class="code-char" id="cc1"></div><div class="code-char" id="cc2"></div><div class="code-char" id="cc3"></div><div class="code-char" id="cc4"></div><div class="code-char" id="cc5"></div>
+<!-- B2 circuito --><canvas id="b2Canvas"></canvas><div id="b2Dot"></div>
+<!-- C2 terminal --><div id="c2Block"></div>
+<!-- D2 pluma --><canvas id="d2Canvas"></canvas>
+<svg id="d2Nib" width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <path d="M2 16L6 10L12 4L14 6L8 12L2 16Z" stroke="#f5f0e8" stroke-width="1.2" fill="rgba(245,240,232,0.08)"/>
+  <circle cx="13" cy="5" r="1.5" fill="#10b981"/>
+</svg>
+<!-- E2 píxeles --><canvas id="e2Canvas"></canvas>
+<!-- F2 selector --><canvas id="f2Canvas"></canvas><div id="f2Dot"></div>
+
+<h1>El cursor como firma del estudio</h1>
+<p class="sub">Construimos cosas digitales — el cursor debe sentirse así</p>
+<div class="concept-note">💡 Cada opción transmite: precisión técnica · creatividad · agencia digital</div>
+
+<div class="grid">
+
+  <div class="zone" id="zoneH" data-cursor="H" onclick="selectZone('H')">
+    <div class="kept-pill">Guardado</div><div class="badge">✓</div>
+    <div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">H · guardado</div>
+      <div class="lname">Trail partículas</div>
+      <div class="ldesc">Estela de puntos verdes.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneM" data-cursor="M" onclick="selectZone('M')">
+    <div class="kept-pill">Guardado</div><div class="badge">✓</div>
+    <div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">M · guardado</div>
+      <div class="lname">Ribbon / Cinta</div>
+      <div class="ldesc">Trazo bezier continuo.</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneA2" data-cursor="A2" onclick="selectZone('A2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción A</div>
+      <div class="lname">Código flotante</div>
+      <div class="ltag">{ } &lt; &gt; / ; _ emanan del cursor</div>
+      <div class="ldesc">Sensación: "somos developers".</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneB2" data-cursor="B2" onclick="selectZone('B2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción B</div>
+      <div class="lname">Trazado de circuito</div>
+      <div class="ltag">Rutas de PCB en tiempo real</div>
+      <div class="ldesc">Sensación: "construimos sistemas".</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneC2" data-cursor="C2" onclick="selectZone('C2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción C</div>
+      <div class="lname">Terminal que escribe</div>
+      <div class="ltag">Bloque parpadeante + rastro</div>
+      <div class="ldesc">Sensación: "código en vivo".</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneD2" data-cursor="D2" onclick="selectZone('D2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción D</div>
+      <div class="lname">Pluma + trazo ink</div>
+      <div class="ltag">Nib que dibuja en el espacio</div>
+      <div class="ldesc">Sensación: "diseño con intención".</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneE2" data-cursor="E2" onclick="selectZone('E2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción E</div>
+      <div class="lname">Píxeles emergentes</div>
+      <div class="ltag">Grid de puntos que se enciende</div>
+      <div class="ldesc">Sensación: "renderizamos mundos".</div>
+    </div>
+  </div>
+
+  <div class="zone" id="zoneF2" data-cursor="F2" onclick="selectZone('F2')">
+    <div class="badge">✓</div><div class="hint">Pasa aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción F</div>
+      <div class="lname">Selector de diseño</div>
+      <div class="ltag">Bounding box que se forma</div>
+      <div class="ldesc">Sensación: "somos diseñadores".</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note">¿Cuál transmite mejor lo que es JERG.STUDIO? También puedo mezclar con H o M</p>
+
+<script>
+  let mx=0, my=0, activeZone=null;
+  const CHARS=['{','}','<','>','/','()','_',';','[ ]','→','*'];
+
+  /* ── H trail ── */
+  const TRAIL=10;
+  const tPos=Array.from({length:TRAIL},()=>({x:0,y:0}));
+  const tDots=Array.from({length:TRAIL},(_,i)=>{
+    const d=document.createElement('div'); d.className='trail';
+    const s=Math.max(1.5,(TRAIL-i)*1.5);
+    d.style.cssText=`width:${s}px;height:${s}px;opacity:0;`;
+    document.body.appendChild(d); return d;
+  });
+
+  /* ── M ribbon ── */
+  const mC=document.getElementById('mCanvas'), mCtx=mC.getContext('2d');
+  const mPts=[]; const M_LEN=32;
+  const setSize=()=>{ mC.width=innerWidth; mC.height=innerHeight; };
+  setSize(); window.addEventListener('resize',setSize);
+
+  /* ── A2 code chars ── */
+  const ccs=Array.from({length:6},(_,i)=>document.getElementById('cc'+i));
+  const ccState=Array.from({length:6},()=>({x:0,y:0,vy:-0.6,alpha:0,char:'',active:false}));
+
+  /* ── B2 circuit ── */
+  const b2C=document.getElementById('b2Canvas'), b2Ctx=b2C.getContext('2d');
+  const setB2=()=>{ b2C.width=innerWidth; b2C.height=innerHeight; };
+  setB2(); window.addEventListener('resize',setB2);
+  const b2Pts=[]; let b2Dir='h'; let b2LastX=0, b2LastY=0;
+  let b2Anchor={x:0,y:0};
+
+  /* ── C2 terminal ── */
+  let c2Blink=0;
+  const c2Unders=Array.from({length:6},()=>{
+    const d=document.createElement('div'); d.className='c2under';
+    document.body.appendChild(d); return d;
+  });
+  const c2UPos=Array.from({length:6},()=>({x:0,y:0,alpha:0}));
+
+  /* ── D2 pen ── */
+  const d2C=document.getElementById('d2Canvas'), d2Ctx=d2C.getContext('2d');
+  const setD2=()=>{ d2C.width=innerWidth; d2C.height=innerHeight; };
+  setD2(); window.addEventListener('resize',setD2);
+  const d2Pts=[]; let d2LastA=0; let d2LastDist=0;
+
+  /* ── E2 pixels ── */
+  const e2C=document.getElementById('e2Canvas'), e2Ctx=e2C.getContext('2d');
+  const setE2=()=>{ e2C.width=innerWidth; e2C.height=innerHeight; };
+  setE2(); window.addEventListener('resize',setE2);
+  const e2Pixels=[];
+  const GRID=14;
+
+  /* ── F2 selector ── */
+  const f2C=document.getElementById('f2Canvas'), f2Ctx=f2C.getContext('2d');
+  const setF2=()=>{ f2C.width=innerWidth; f2C.height=innerHeight; };
+  setF2(); window.addEventListener('resize',setF2);
+  let f2Boxes=[]; let f2LastSpawn=0;
+
+  /* ── hide all ── */
+  function hideAll(){
+    tDots.forEach(d=>{d.style.opacity=0;d.style.display='none';});
+    ccs.forEach(c=>c.style.display='none');
+    c2Unders.forEach(u=>u.style.display='none');
+    ['mCanvas','mDot','b2Canvas','b2Dot','c2Block','d2Canvas','d2Nib','e2Canvas','f2Canvas','f2Dot']
+      .forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+    mPts.length=0; b2Pts.length=0; d2Pts.length=0; e2Pixels.length=0; f2Boxes.length=0;
+    [mCtx,b2Ctx,d2Ctx,e2Ctx,f2Ctx].forEach(c=>c.clearRect(0,0,99999,99999));
+  }
+
+  function showCursor(t){
+    hideAll();
+    if(t==='H') tDots.forEach(d=>d.style.display='block');
+    if(t==='M'){['mCanvas','mDot'].forEach(id=>document.getElementById(id).style.display='block');}
+    if(t==='A2') ccs.forEach(c=>c.style.display='block');
+    if(t==='B2'){['b2Canvas','b2Dot'].forEach(id=>document.getElementById(id).style.display='block'); b2Anchor={x:mx,y:my}; b2Dir='h';}
+    if(t==='C2'){document.getElementById('c2Block').style.display='block'; c2Unders.forEach(u=>u.style.display='block');}
+    if(t==='D2'){['d2Canvas','d2Nib'].forEach(id=>document.getElementById(id).style.display='block');}
+    if(t==='E2') document.getElementById('e2Canvas').style.display='block';
+    if(t==='F2'){['f2Canvas','f2Dot'].forEach(id=>document.getElementById(id).style.display='block');}
+  }
+
+  document.querySelectorAll('.zone').forEach(z=>{
+    z.addEventListener('mouseenter',()=>{ activeZone=z.dataset.cursor; showCursor(activeZone); });
+    z.addEventListener('mouseleave',()=>{ activeZone=null; hideAll(); });
+  });
+
+  let spawnTimer=0;
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+
+    if(activeZone==='M'){
+      mPts.unshift({x:mx,y:my});
+      if(mPts.length>M_LEN) mPts.pop();
+      document.getElementById('mDot').style.left=mx+'px';
+      document.getElementById('mDot').style.top=my+'px';
+    }
+
+    if(activeZone==='B2'){
+      const dx=Math.abs(mx-b2LastX), dy=Math.abs(my-b2LastY);
+      if(dx>dy){ b2Dir='h'; } else { b2Dir='v'; }
+      b2LastX=mx; b2LastY=my;
+      document.getElementById('b2Dot').style.left=mx+'px';
+      document.getElementById('b2Dot').style.top=my+'px';
+    }
+
+    if(activeZone==='C2'){
+      /* shift underscores */
+      for(let i=c2UPos.length-1;i>0;i--){
+        c2UPos[i].x=c2UPos[i-1].x; c2UPos[i].y=c2UPos[i-1].y;
+        c2UPos[i].alpha=c2UPos[i-1].alpha*(0.75);
+      }
+      c2UPos[0]={x:mx,y:my,alpha:0.6};
+      document.getElementById('c2Block').style.left=mx+'px';
+      document.getElementById('c2Block').style.top=my+'px';
+    }
+
+    if(activeZone==='D2'){
+      d2Pts.unshift({x:mx,y:my});
+      if(d2Pts.length>40) d2Pts.pop();
+      /* position nib */
+      const n=document.getElementById('d2Nib');
+      n.style.left=(mx+2)+'px'; n.style.top=(my+2)+'px';
+      n.style.transform='translate(0,0)';
+    }
+
+    if(activeZone==='E2'){
+      /* snap to grid */
+      const gx=Math.round(mx/GRID)*GRID;
+      const gy=Math.round(my/GRID)*GRID;
+      for(let ox=-2;ox<=2;ox++){
+        for(let oy=-2;oy<=2;oy++){
+          const px=gx+ox*GRID, py=gy+oy*GRID;
+          const dist=Math.sqrt((px-mx)**2+(py-my)**2);
+          const fade=Math.max(0,1-dist/38);
+          if(fade>0.05 && !e2Pixels.find(p=>p.x===px&&p.y===py)){
+            e2Pixels.push({x:px,y:py,alpha:fade*0.85,decay:0.025+Math.random()*0.02});
+          }
+        }
+      }
+    }
+
+    if(activeZone==='F2'){
+      document.getElementById('f2Dot').style.left=mx+'px';
+      document.getElementById('f2Dot').style.top=my+'px';
+      if(Date.now()-f2LastSpawn>600){
+        f2Boxes.push({x:mx,y:my,w:0,h:0,alpha:0.7,growing:true});
+        f2LastSpawn=Date.now();
+      }
+    }
+  });
+
+  let frame=0;
+  function loop(){
+    frame++;
+
+    /* H */
+    if(activeZone==='H'){
+      tPos.unshift({x:mx,y:my}); tPos.pop();
+      tDots.forEach((d,i)=>{
+        d.style.left=tPos[i].x+'px'; d.style.top=tPos[i].y+'px';
+        d.style.opacity=((1-i/TRAIL)*0.9).toString();
+      });
+    }
+
+    /* M */
+    if(activeZone==='M'&&mPts.length>1){
+      mCtx.clearRect(0,0,mC.width,mC.height);
+      mCtx.beginPath(); mCtx.moveTo(mPts[0].x,mPts[0].y);
+      for(let i=1;i<mPts.length-1;i++){
+        const cx=(mPts[i].x+mPts[i+1].x)/2, cy=(mPts[i].y+mPts[i+1].y)/2;
+        mCtx.quadraticCurveTo(mPts[i].x,mPts[i].y,cx,cy);
+      }
+      const g=mCtx.createLinearGradient(mPts[mPts.length-1].x,mPts[mPts.length-1].y,mPts[0].x,mPts[0].y);
+      g.addColorStop(0,'rgba(16,185,129,0)');
+      g.addColorStop(0.5,'rgba(16,185,129,0.2)');
+      g.addColorStop(1,'rgba(52,211,153,0.65)');
+      mCtx.strokeStyle=g; mCtx.lineWidth=1.5; mCtx.lineCap='round'; mCtx.stroke();
+    } else if(activeZone!=='M') mCtx.clearRect(0,0,mC.width,mC.height);
+
+    /* A2: code chars spawn + float */
+    if(activeZone==='A2'){
+      spawnTimer++;
+      if(spawnTimer%9===0){
+        const slot=ccState.findIndex(s=>!s.active);
+        if(slot>=0){
+          ccState[slot]={
+            x:mx+(Math.random()-0.5)*14, y:my,
+            vy:-(0.5+Math.random()*0.8),
+            vx:(Math.random()-0.5)*0.6,
+            alpha:0.9,
+            char:CHARS[Math.floor(Math.random()*CHARS.length)],
+            active:true
+          };
+        }
+      }
+      ccState.forEach((s,i)=>{
+        if(!s.active){ ccs[i].style.opacity=0; return; }
+        s.y+=s.vy; s.x+=s.vx; s.alpha-=0.022;
+        if(s.alpha<=0){ s.active=false; return; }
+        ccs[i].style.left=s.x+'px'; ccs[i].style.top=s.y+'px';
+        ccs[i].style.opacity=s.alpha;
+        ccs[i].style.transform=`translate(-50%,-50%) scale(${0.7+s.alpha*0.4})`;
+        ccs[i].textContent=s.char;
+      });
+    }
+
+    /* B2: circuit traces */
+    if(activeZone==='B2'){
+      b2Ctx.clearRect(0,0,b2C.width,b2C.height);
+      if(b2Pts.length>1){
+        b2Ctx.beginPath();
+        b2Ctx.moveTo(b2Pts[0].x,b2Pts[0].y);
+        for(let i=1;i<b2Pts.length;i++){
+          const prev=b2Pts[i-1], cur=b2Pts[i];
+          /* right-angle routing */
+          const midX=prev.x, midY=cur.y;
+          b2Ctx.lineTo(midX,midY);
+          b2Ctx.lineTo(cur.x,cur.y);
+        }
+        const g=b2Ctx.createLinearGradient(b2Pts[b2Pts.length-1].x,b2Pts[b2Pts.length-1].y,b2Pts[0].x,b2Pts[0].y);
+        g.addColorStop(0,'rgba(16,185,129,0)');
+        g.addColorStop(0.4,'rgba(16,185,129,0.15)');
+        g.addColorStop(1,'rgba(52,211,153,0.7)');
+        b2Ctx.strokeStyle=g; b2Ctx.lineWidth=1;
+        b2Ctx.setLineDash([]); b2Ctx.stroke();
+        /* node dots at turns */
+        b2Pts.slice(-8).forEach((p,idx)=>{
+          if(idx%2===0){
+            b2Ctx.beginPath();
+            b2Ctx.arc(p.x,p.y,1.5,0,Math.PI*2);
+            b2Ctx.fillStyle=`rgba(16,185,129,${0.3+idx*0.04})`;
+            b2Ctx.fill();
+          }
+        });
+      }
+      if(frame%3===0){ b2Pts.push({x:mx,y:my}); if(b2Pts.length>30) b2Pts.shift(); }
+    } else { b2Ctx.clearRect(0,0,b2C.width,b2C.height); }
+
+    /* C2: terminal block blink */
+    if(activeZone==='C2'){
+      c2Blink+=0.08;
+      const vis=Math.sin(c2Blink)>0;
+      document.getElementById('c2Block').style.opacity=vis?'1':'0.15';
+      c2Unders.forEach((u,i)=>{
+        const s=c2UPos[i];
+        if(!s||s.alpha<0.02){ u.style.opacity=0; return; }
+        u.style.display='block';
+        u.style.left=(s.x-5)+'px';
+        u.style.top=(s.y+8)+'px';
+        u.style.width='10px';
+        u.style.opacity=s.alpha;
+        s.alpha*=0.88;
+      });
+    }
+
+    /* D2: pen ink trail */
+    if(activeZone==='D2'&&d2Pts.length>1){
+      d2Ctx.clearRect(0,0,d2C.width,d2C.height);
+      d2Ctx.beginPath(); d2Ctx.moveTo(d2Pts[0].x,d2Pts[0].y);
+      for(let i=1;i<d2Pts.length-1;i++){
+        const cx=(d2Pts[i].x+d2Pts[i+1].x)/2, cy=(d2Pts[i].y+d2Pts[i+1].y)/2;
+        d2Ctx.quadraticCurveTo(d2Pts[i].x,d2Pts[i].y,cx,cy);
+      }
+      const g=d2Ctx.createLinearGradient(d2Pts[d2Pts.length-1].x,d2Pts[d2Pts.length-1].y,d2Pts[0].x,d2Pts[0].y);
+      g.addColorStop(0,'rgba(245,240,232,0)');
+      g.addColorStop(0.3,'rgba(245,240,232,0.12)');
+      g.addColorStop(1,'rgba(245,240,232,0.55)');
+      d2Ctx.strokeStyle=g; d2Ctx.lineWidth=2;
+      d2Ctx.lineCap='round'; d2Ctx.lineJoin='round'; d2Ctx.stroke();
+    } else if(activeZone!=='D2') d2Ctx.clearRect(0,0,d2C.width,d2C.height);
+
+    /* E2: pixel grid */
+    if(activeZone==='E2'){
+      e2Ctx.clearRect(0,0,e2C.width,e2C.height);
+      for(let i=e2Pixels.length-1;i>=0;i--){
+        const p=e2Pixels[i];
+        p.alpha-=p.decay;
+        if(p.alpha<=0){ e2Pixels.splice(i,1); continue; }
+        e2Ctx.fillStyle=`rgba(16,185,129,${p.alpha})`;
+        e2Ctx.fillRect(p.x-2,p.y-2,4,4);
+      }
+    } else { e2Ctx.clearRect(0,0,e2C.width,e2C.height); }
+
+    /* F2: bounding boxes */
+    if(activeZone==='F2'){
+      f2Ctx.clearRect(0,0,f2C.width,f2C.height);
+      f2Boxes.forEach((b,i)=>{
+        if(b.growing){
+          b.w=Math.min(b.w+3,55); b.h=Math.min(b.h+2,38);
+          if(b.w>=55) b.growing=false;
+        } else { b.alpha-=0.008; }
+        if(b.alpha<=0){ f2Boxes.splice(i,1); return; }
+        const x=b.x-b.w/2, y=b.y-b.h/2;
+        f2Ctx.strokeStyle=`rgba(16,185,129,${b.alpha*0.7})`;
+        f2Ctx.lineWidth=1;
+        f2Ctx.setLineDash([4,3]);
+        f2Ctx.strokeRect(x,y,b.w,b.h);
+        /* corner accents */
+        f2Ctx.setLineDash([]);
+        f2Ctx.strokeStyle=`rgba(16,185,129,${b.alpha})`;
+        const cs=6;
+        [[x,y],[x+b.w,y],[x,y+b.h],[x+b.w,y+b.h]].forEach(([cx,cy])=>{
+          f2Ctx.beginPath();
+          f2Ctx.arc(cx,cy,1.5,0,Math.PI*2);
+          f2Ctx.fillStyle=`rgba(16,185,129,${b.alpha})`;
+          f2Ctx.fill();
+        });
+      });
+    } else { f2Ctx.clearRect(0,0,f2C.width,f2C.height); }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  function selectZone(id){
+    document.querySelectorAll('.zone').forEach(z=>z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    if(window.__companion__) window.__companion__.select('option-'+id.toLowerCase(),'Opción '+id);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JERG.STUDIO — Enfoque de Animaciones de Scroll</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #050505;
+      color: #f5f0e8;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: #f5f0e8;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    h1 em { color: #10b981; font-style: italic; }
+
+    .subtitle {
+      text-align: center;
+      color: rgba(245,240,232,0.35);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 56px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto 48px;
+    }
+
+    .card {
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 32px;
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .card:hover { border-color: rgba(16,185,129,0.4); transform: translateY(-4px); }
+
+    .card-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .badge-a { background: rgba(255,255,255,0.06); color: rgba(245,240,232,0.5); }
+    .badge-b { background: rgba(16,185,129,0.15); color: #10b981; }
+    .badge-b::after { content: " ✦ Recomendado"; }
+    .badge-c { background: rgba(139,92,246,0.15); color: #a78bfa; }
+
+    .card h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+    .card h2 em { font-style: italic; color: #10b981; }
+
+    .card-desc {
+      color: rgba(245,240,232,0.5);
+      font-size: 0.875rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .effects-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .effects-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: rgba(245,240,232,0.65);
+      line-height: 1.5;
+    }
+    .effects-list li span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .dot-a { background: rgba(255,255,255,0.25); }
+    .dot-b { background: #10b981; }
+    .dot-c { background: #a78bfa; }
+
+    /* Mini preview */
+    .preview {
+      background: #111;
+      border-radius: 10px;
+      padding: 16px;
+      overflow: hidden;
+      height: 130px;
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* === OPTION A: Subtle fades === */
+    .preview-a .block {
+      height: 18px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.08);
+      margin-bottom: 10px;
+    }
+    .preview-a .block-sm { width: 60%; }
+    .preview-a .block-md { width: 85%; }
+    .preview-a .block-lg { width: 100%; }
+    .preview-a .fade-in {
+      animation: fadeUp 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0.15; transform: translateY(6px); }
+      to   { opacity: 1;    transform: translateY(0); }
+    }
+
+    /* === OPTION B: Staggered reveals + stats pulse === */
+    .preview-b {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      padding: 20px 16px 16px;
+    }
+    .bar {
+      flex: 1;
+      border-radius: 6px 6px 0 0;
+      background: rgba(16,185,129,0.2);
+      border: 1px solid rgba(16,185,129,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .bar::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(16,185,129,0.5), transparent);
+      animation: barGrow 2s ease-in-out infinite alternate;
+    }
+    .bar-1 { height: 60px; }
+    .bar-2 { height: 80px; animation-delay: 0.1s; }
+    .bar-3 { height: 50px; animation-delay: 0.2s; }
+    .bar-4 { height: 95px; animation-delay: 0.3s; }
+    .bar-5 { height: 70px; animation-delay: 0.4s; }
+    @keyframes barGrow {
+      from { height: 0%; }
+      to   { height: 100%; }
+    }
+    .preview-b .line-top {
+      position: absolute;
+      top: 16px; left: 16px; right: 16px;
+    }
+    .line-top .num {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.3rem;
+      color: #10b981;
+      animation: countPulse 2s ease-in-out infinite alternate;
+    }
+    @keyframes countPulse {
+      from { opacity: 0.3; }
+      to   { opacity: 1; }
+    }
+    .line-top .label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(245,240,232,0.3);
+    }
+
+    /* === OPTION C: Dramatic reveals === */
+    .preview-c {
+      background: #0a0a0a;
+    }
+    .clip-reveal {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      padding: 24px;
+    }
+    .clip-text {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: #f5f0e8;
+      overflow: hidden;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      animation: clipReveal 2.5s ease-in-out infinite alternate;
+      line-height: 1;
+    }
+    .clip-text em { color: #10b981; font-style: italic; }
+    @keyframes clipReveal {
+      from { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); opacity: 0; }
+      to   { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); opacity: 1; }
+    }
+    .clip-line {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      right: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, #10b981, transparent);
+      animation: lineSlide 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes lineSlide {
+      from { transform: scaleX(0); transform-origin: left; }
+      to   { transform: scaleX(1); transform-origin: left; }
+    }
+
+    /* Perf + mobile tags */
+    .meta-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(245,240,232,0.45);
+    }
+    .meta-green { border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+    .meta-yellow { border-color: rgba(251,191,36,0.3); color: #fcd34d; }
+    .meta-red { border-color: rgba(239,68,68,0.3); color: #fca5a5; }
+
+    /* Mobile section */
+    .mobile-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .mobile-section h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .mobile-section h2 em { color: #10b981; font-style: italic; }
+    .mobile-section .desc {
+      color: rgba(245,240,232,0.45);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .issues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .issue-card {
+      background: #111;
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .issue-icon { font-size: 1.4rem; margin-bottom: 8px; }
+    .issue-title { font-size: 0.8rem; font-weight: 600; color: #f5f0e8; margin-bottom: 4px; }
+    .issue-desc { font-size: 0.75rem; color: rgba(245,240,232,0.4); line-height: 1.5; }
+
+    .question-box {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      text-align: center;
+      padding: 32px;
+      background: rgba(16,185,129,0.05);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 16px;
+    }
+    .question-box p {
+      color: rgba(245,240,232,0.7);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+    .question-box strong { color: #10b981; }
+  </style>
+</head>
+<body>
+
+  <h1>¿Qué nivel de <em>movimiento</em> queremos?</h1>
+  <p class="subtitle">3 enfoques — elige el que mejor describe lo que buscas</p>
+
+  <div class="grid">
+
+    <!-- OPTION A -->
+    <div class="card">
+      <div class="card-badge badge-a">Opción A</div>
+      <h2>Suave &amp; Elegante</h2>
+      <p class="card-desc">
+        Solo fade-in con desplazamiento hacia arriba al hacer scroll. Limpio, sin distracciones. El contenido aparece con gracia. Sin parallax, sin efectos complejos.
+      </p>
+      <div class="preview preview-a">
+        <div class="block block-lg fade-in" style="animation-delay:0s"></div>
+        <div class="block block-sm fade-in" style="animation-delay:0.15s"></div>
+        <div class="block block-md fade-in" style="animation-delay:0.3s"></div>
+        <div class="block block-lg fade-in" style="animation-delay:0.45s"></div>
+      </div>
+      <br/>
+      <ul class="effects-list">
+        <li><span class="dot dot-a"></span>Fade-up en cada sección al entrar al viewport</li>
+        <li><span class="dot dot-a"></span>Stagger suave en listas y grids</li>
+        <li><span class="dot dot-a"></span>Sin parallax ni efectos de texto complejos</li>
+      </ul>
+      <div class="meta-row">
+        <span class="meta-tag meta-green">⚡ Muy rápido en móvil</span>
+        <span class="meta-tag meta-green">0 riesgo de jank</span>
+        <span class="meta-tag">Impacto: bajo</span>
+      </div>
+    </div>
+
+    <!-- OPTION B (recommended) -->
+    <div class="card" style="border-color: rgba(16,185,129,0.3);">
+      <div class="card-badge badge-b">Opción B</div>
+      <h2>Impacto <em>Calibrado</em></h2>
+      <p class="card-desc">
+        Fade-ups staggered + contadores animados + parallax muy sutil en el hero. Secciones clave con reveals progresivos. Todo con ScrollTrigger, respeta <code>prefers-reduced-motion</code>.
+      </p>
+      <div class="preview preview-b">
+        <div class="line-top">
+          <div class="num">40+</div>
+          <div class="label">Lanzamientos</div>
+        </div>
+        <div class="bar bar-1"></div>
+        <div class="bar bar-2"></div>
+        <div class="bar bar-3"></div>
+        <div class="bar bar-4"></div>
+        <div class="bar bar-5"></div>
+      </div>
+      <br/>
+      <ul class="effects-list">
+        <li><span class="dot dot-b"></span>Hero: parallax suave en el texto al scroll (5–10px)</li>
+        <li><span class="dot dot-b"></span>Intro/Features: fade-up staggered por item</li>
+        <li><span class="dot dot-b"></span>Stats: contadores animados al entrar al viewport</li>
+        <li><span class="dot dot-b"></span>Showcase: cards con entrada escalonada + hover depth</li>
+        <li><span class="dot dot-b"></span>Process: cada paso revela en secuencia con scroll</li>
+        <li><span class="dot dot-b"></span>FAQ: expand suave con altura animada</li>
+      </ul>
+      <div class="meta-row">
+        <span class="meta-tag meta-green">✓ Móvil optimizado</span>
+        <span class="meta-tag meta-green">GPU compositor</span>
+        <span class="meta-tag meta-green">Impacto: alto</span>
+      </div>
+    </div>
+
+    <!-- OPTION C -->
+    <div class="card">
+      <div class="card-badge badge-c">Opción C</div>
+      <h2>Reveal <em>Dramático</em></h2>
+      <p class="card-desc">
+        Texto que aparece línea por línea con clip-path, secciones con wipe horizontal, números que se cuentan con overshoot. Más espectacular, mayor peso de procesamiento.
+      </p>
+      <div class="preview preview-c">
+        <div class="clip-reveal">
+          <div class="clip-text">PRESENCIAS<br/><em>DIGITALES.</em></div>
+        </div>
+        <div class="clip-line"></div>
+      </div>
+      <br/>
+      <ul class="effects-list">
+        <li><span class="dot dot-c"></span>Headlines: reveal char-by-char con clip-path</li>
+        <li><span class="dot dot-c"></span>Secciones: wipe horizontal al entrar</li>
+        <li><span class="dot dot-c"></span>Imágenes: parallax agresivo (20–40px)</li>
+        <li><span class="dot dot-c"></span>Transiciones: pinning de secciones completas</li>
+        <li><span class="dot dot-c"></span>Stats: contadores con spring/overshoot</li>
+      </ul>
+      <div class="meta-row">
+        <span class="meta-tag meta-yellow">⚠ Móvil requiere cuidado</span>
+        <span class="meta-tag meta-yellow">JS intensivo</span>
+        <span class="meta-tag meta-green">Impacto: máximo</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile fixes -->
+  <div class="mobile-section">
+    <h2>También: fixes de <em>móvil</em></h2>
+    <p class="desc">
+      Independientemente del nivel de animación elegido, hay ajustes de mobile que haremos en todos los casos:
+    </p>
+    <div class="issues-grid">
+      <div class="issue-card">
+        <div class="issue-icon">📐</div>
+        <div class="issue-title">Hero typography</div>
+        <div class="issue-desc">El h1 del hero es demasiado grande en pantallas de 375px. Ajustamos el clamp para que respire.</div>
+      </div>
+      <div class="issue-card">
+        <div class="issue-icon">📊</div>
+        <div class="issue-title">Stats row en móvil</div>
+        <div class="issue-desc">Los 3 stats quedan comprimidos. Cambiamos a 2-column grid en pantallas pequeñas.</div>
+      </div>
+      <div class="issue-card">
+        <div class="issue-icon">🎯</div>
+        <div class="issue-title">Touch targets</div>
+        <div class="issue-desc">CTAs y links del nav deben tener mínimo 44px de área táctil.</div>
+      </div>
+      <div class="issue-card">
+        <div class="issue-icon">⚡</div>
+        <div class="issue-title">Animaciones en móvil</div>
+        <div class="issue-desc">Las animaciones GSAP pesadas se desactivan en móvil usando gsap.matchMedia().</div>
+      </div>
+      <div class="issue-card">
+        <div class="issue-icon">📱</div>
+        <div class="issue-title">Showcase cards</div>
+        <div class="issue-desc">Los device mockups CSS se simplifican o reescalan en pantallas &lt;480px.</div>
+      </div>
+      <div class="issue-card">
+        <div class="issue-icon">🔄</div>
+        <div class="issue-title">Horizontal scroll</div>
+        <div class="issue-desc">El scroll horizontal del Process Section se convierte en vertical en móvil.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="question-box">
+    <p>
+      <strong>¿Cuál de las 3 opciones se siente bien para JERG.STUDIO?</strong><br/>
+      La <strong>Opción B</strong> es mi recomendación — máximo impacto con mínimo riesgo de performance, y todos los fixes de móvil incluidos.<br/>
+      Pero si quieres más intensidad, podemos ir a C, o más minimalismo con A.
+    </p>
+  </div>
+
+</body>
+</html>

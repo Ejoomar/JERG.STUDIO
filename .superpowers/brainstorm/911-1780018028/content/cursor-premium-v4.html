@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor Premium v4</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #060606;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 1.75rem 2rem 2rem;
+    cursor: none;
+    overflow-x: hidden;
+  }
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.2rem;
+  }
+  .sub {
+    color: rgba(255,255,255,0.22);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    max-width: 1020px;
+    margin: 0 auto;
+  }
+  .zone {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.055);
+    border-radius: 10px;
+    height: 205px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  /* unique bg per zone */
+  #zoneH  { background: radial-gradient(ellipse at 30% 30%, #0d1a10 0%, #080808 70%); }
+  #zoneM  { background: radial-gradient(ellipse at 70% 60%, #0a100d 0%, #080808 70%); }
+  #zoneQ  { background: radial-gradient(ellipse at 20% 70%, #0d0d10 0%, #080808 70%); }
+  #zoneR  { background: radial-gradient(ellipse at 80% 30%, #120d10 0%, #080808 70%); }
+  #zoneS  { background: radial-gradient(ellipse at 50% 50%, #0d1010 0%, #080808 70%); }
+  #zoneT  { background: radial-gradient(ellipse at 60% 40%, #100d0d 0%, #080808 70%); }
+  .zone:hover { border-color: rgba(16,185,129,0.28); }
+  .zone.selected { border-color: #10b981 !important; }
+
+  .zone-label {
+    position: absolute;
+    bottom: 0.8rem; left: 0.85rem; right: 0.85rem;
+    z-index: 20;
+  }
+  .ltr { font-size: 0.57rem; font-weight: 700; letter-spacing: 0.18em; color: #10b981; text-transform: uppercase; }
+  .lname { font-family: Georgia, serif; font-size: 0.9rem; font-weight: 400; margin-top: 0.1rem; }
+  .ldesc { font-size: 0.63rem; color: rgba(255,255,255,0.28); margin-top: 0.16rem; line-height: 1.5; }
+
+  .badge {
+    display: none; position: absolute; top: 0.65rem; right: 0.65rem;
+    background: #10b981; color: #000;
+    font-size: 0.5rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.16rem 0.45rem; border-radius: 999px; z-index: 30;
+  }
+  .zone.selected .badge { display: block; }
+
+  .kept-pill {
+    position: absolute; top: 0.65rem; left: 0.65rem;
+    background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25);
+    color: #10b981; font-size: 0.5rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.14rem 0.45rem; border-radius: 999px; z-index: 30;
+  }
+
+  .hint {
+    position: absolute; top: 44%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.57rem; color: rgba(255,255,255,0.1);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    pointer-events: none; transition: opacity 0.25s; white-space: nowrap; z-index: 5;
+  }
+  .zone:hover .hint { opacity: 0; }
+  .note { text-align:center; margin-top:1.1rem; font-size:0.67rem; color:rgba(255,255,255,0.16); }
+
+  /* ═══════ CURSOR ELEMENTS ═══════ */
+
+  /* H - trail */
+  .trail { position:fixed; border-radius:50%; pointer-events:none; z-index:9998;
+           background:#10b981; transform:translate(-50%,-50%); }
+
+  /* M - canvas ribbon */
+  #mCanvas { position:fixed; inset:0; pointer-events:none; z-index:9997; display:none; }
+  #mDot { position:fixed; width:5px; height:5px; background:#10b981; border-radius:50%;
+          pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+
+  /* Q - comet */
+  #qDot { position:fixed; width:5px; height:5px; background:#f5f0e8; border-radius:50%;
+          pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%);
+          box-shadow: 0 0 6px 1px rgba(245,240,232,0.4); }
+  #qTail { position:fixed; pointer-events:none; z-index:9997; display:none;
+           height:1px; transform-origin: right center; }
+
+  /* R - spring elastic */
+  #rDot { position:fixed; width:10px; height:10px;
+          border:1.5px solid rgba(245,240,232,0.7); border-radius:50%;
+          pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+  #rTrail { position:fixed; width:3px; height:3px; background:rgba(16,185,129,0.6);
+            border-radius:50%; pointer-events:none; z-index:9998;
+            display:none; transform:translate(-50%,-50%); }
+
+  /* S - scanlines */
+  #sH { position:fixed; height:1px; left:0; right:0; pointer-events:none; z-index:9997; display:none;
+        background: linear-gradient(90deg, transparent 0%, rgba(16,185,129,0.18) 30%, rgba(16,185,129,0.5) 50%, rgba(16,185,129,0.18) 70%, transparent 100%); }
+  #sV { position:fixed; width:1px; top:0; bottom:0; pointer-events:none; z-index:9997; display:none;
+        background: linear-gradient(180deg, transparent 0%, rgba(16,185,129,0.18) 30%, rgba(16,185,129,0.5) 50%, rgba(16,185,129,0.18) 70%, transparent 100%); }
+  #sDot { position:fixed; width:4px; height:4px; background:#10b981; border-radius:50%;
+          pointer-events:none; z-index:9999; display:none; transform:translate(-50%,-50%); }
+
+  /* T - orbiting electrons */
+  .electron { position:fixed; border-radius:50%; pointer-events:none; z-index:9998; display:none; }
+</style>
+</head>
+<body>
+
+<!-- H -->
+<!-- M -->
+<canvas id="mCanvas"></canvas>
+<div id="mDot"></div>
+<!-- Q -->
+<div id="qDot"></div>
+<div id="qTail"></div>
+<!-- R -->
+<div id="rTrail"></div>
+<div id="rDot"></div>
+<!-- S -->
+<div id="sH"></div><div id="sV"></div><div id="sDot"></div>
+<!-- T electrons created by JS -->
+
+<h1>Nuevas opciones premium</h1>
+<p class="sub">H y M se mantienen · pasa el mouse para previsualizar</p>
+
+<div class="grid">
+
+  <!-- H KEPT -->
+  <div class="zone" id="zoneH" data-cursor="H" onclick="selectZone('H')">
+    <div class="kept-pill">Guardado</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción H · anterior</div>
+      <div class="lname">Trail de partículas</div>
+      <div class="ldesc">Estela de puntos que<br>se desvanecen. Fluido.</div>
+    </div>
+  </div>
+
+  <!-- M KEPT -->
+  <div class="zone" id="zoneM" data-cursor="M" onclick="selectZone('M')">
+    <div class="kept-pill">Guardado</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción M · anterior</div>
+      <div class="lname">Ribbon / Cinta</div>
+      <div class="ldesc">Trazo bezier continuo.<br>Como tinta sobre papel.</div>
+    </div>
+  </div>
+
+  <!-- Q COMET -->
+  <div class="zone" id="zoneQ" data-cursor="Q" onclick="selectZone('Q')">
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción Q</div>
+      <div class="lname">Cometa direccional</div>
+      <div class="ldesc">Dot blanco con estela que<br>apunta hacia donde viene. Veloz.</div>
+    </div>
+  </div>
+
+  <!-- R SPRING -->
+  <div class="zone" id="zoneR" data-cursor="R" onclick="selectZone('R')">
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción R</div>
+      <div class="lname">Resorte elástico</div>
+      <div class="ldesc">Anillo que sobrepasa y rebota<br>al detenerte. Físico y elegante.</div>
+    </div>
+  </div>
+
+  <!-- S SCANLINES -->
+  <div class="zone" id="zoneS" data-cursor="S" onclick="selectZone('S')">
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción S</div>
+      <div class="lname">Líneas de escáner</div>
+      <div class="ldesc">Cruz de líneas que se extienden<br>por toda la pantalla. Quirúrgico.</div>
+    </div>
+  </div>
+
+  <!-- T ELECTRONS -->
+  <div class="zone" id="zoneT" data-cursor="T" onclick="selectZone('T')">
+    <div class="badge">✓ Elegido</div>
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="zone-label">
+      <div class="ltr">Opción T</div>
+      <div class="lname">Electrones orbitales</div>
+      <div class="ldesc">5 micro-puntos girando alrededor<br>del cursor. Magnético y único.</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note">¿Alguna te convence? También puedo combinar H + M con elementos de estas nuevas opciones</p>
+
+<script>
+  let mx = 0, my = 0;
+  let activeZone = null;
+
+  /* ── H trail ── */
+  const TRAIL = 10;
+  const tPos = Array.from({length: TRAIL}, () => ({x:0,y:0}));
+  const tDots = Array.from({length: TRAIL}, (_, i) => {
+    const d = document.createElement('div');
+    d.className = 'trail';
+    const s = Math.max(1.5, (TRAIL - i) * 1.5);
+    d.style.cssText = `width:${s}px;height:${s}px;opacity:0;`;
+    document.body.appendChild(d);
+    return d;
+  });
+
+  /* ── M canvas ribbon ── */
+  const canvas = document.getElementById('mCanvas');
+  const ctx = canvas.getContext('2d');
+  const mPts = [];
+  const M_LEN = 32;
+  function resizeC() { canvas.width=innerWidth; canvas.height=innerHeight; }
+  resizeC(); window.addEventListener('resize', resizeC);
+
+  /* ── Q comet ── */
+  let qLastX = 0, qLastY = 0;
+  let qAngle = 0;
+
+  /* ── R spring ── */
+  let rX = 0, rY = 0, rVx = 0, rVy = 0;
+  const R_STIFFNESS = 0.15, R_DAMPING = 0.72;
+
+  /* ── T electrons ── */
+  const NUM_E = 5;
+  let eAngle = 0;
+  const electrons = Array.from({length: NUM_E}, (_, i) => {
+    const d = document.createElement('div');
+    d.className = 'electron';
+    const idx = i % 3;
+    const sizes = [2.5, 3.5, 2];
+    const s = sizes[idx];
+    const colors = ['rgba(16,185,129,0.9)','rgba(52,211,153,0.6)','rgba(245,240,232,0.4)'];
+    d.style.cssText = `width:${s}px;height:${s}px;background:${colors[idx]};`;
+    document.body.appendChild(d);
+    return d;
+  });
+
+  /* ── Show / hide ── */
+  function hideAll() {
+    tDots.forEach(d => { d.style.opacity=0; d.style.display='none'; });
+    electrons.forEach(d => d.style.display='none');
+    ['mCanvas','mDot','qDot','qTail','rDot','rTrail','sH','sV','sDot'].forEach(id => {
+      document.getElementById(id).style.display='none';
+    });
+    mPts.length = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  function showCursor(t) {
+    hideAll();
+    if (t==='H') tDots.forEach(d => d.style.display='block');
+    if (t==='M') { document.getElementById('mCanvas').style.display='block'; document.getElementById('mDot').style.display='block'; }
+    if (t==='Q') { document.getElementById('qDot').style.display='block'; document.getElementById('qTail').style.display='block'; }
+    if (t==='R') { document.getElementById('rDot').style.display='block'; document.getElementById('rTrail').style.display='block'; rX=mx; rY=my; rVx=0; rVy=0; }
+    if (t==='S') { ['sH','sV','sDot'].forEach(id => document.getElementById(id).style.display='block'); }
+    if (t==='T') electrons.forEach(d => d.style.display='block');
+  }
+
+  /* ── Zone events ── */
+  document.querySelectorAll('.zone').forEach(z => {
+    z.addEventListener('mouseenter', () => { activeZone = z.dataset.cursor; showCursor(activeZone); });
+    z.addEventListener('mouseleave', () => { activeZone = null; hideAll(); });
+  });
+
+  /* ── Mouse move ── */
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+
+    if (activeZone === 'Q') {
+      const dx = mx - qLastX, dy = my - qLastY;
+      const speed = Math.sqrt(dx*dx + dy*dy);
+      if (speed > 0.5) qAngle = Math.atan2(dy, dx);
+      qLastX=mx; qLastY=my;
+
+      const qd = document.getElementById('qDot');
+      const qt = document.getElementById('qTail');
+      qd.style.left=mx+'px'; qd.style.top=my+'px';
+
+      const tailLen = Math.min(speed * 3, 55);
+      const tx = mx - Math.cos(qAngle) * tailLen;
+      const ty = my - Math.sin(qAngle) * tailLen;
+      const dist = Math.sqrt((mx-tx)**2 + (my-ty)**2);
+      const ang = Math.atan2(my-ty, mx-tx) * 180/Math.PI;
+      qt.style.width = dist + 'px';
+      qt.style.left = tx + 'px';
+      qt.style.top  = ty + 'px';
+      qt.style.transform = `rotate(${ang}deg)`;
+      qt.style.background = `linear-gradient(90deg, transparent, rgba(245,240,232,${Math.min(speed*0.04, 0.55)}))`;
+    }
+
+    if (activeZone === 'S') {
+      document.getElementById('sH').style.top = my+'px';
+      document.getElementById('sV').style.left = mx+'px';
+      document.getElementById('sDot').style.left=mx+'px';
+      document.getElementById('sDot').style.top=my+'px';
+    }
+
+    if (activeZone === 'M') {
+      mPts.unshift({x:mx, y:my});
+      if (mPts.length > M_LEN) mPts.pop();
+      document.getElementById('mDot').style.left=mx+'px';
+      document.getElementById('mDot').style.top=my+'px';
+    }
+  });
+
+  /* ── RAF ── */
+  function loop() {
+    /* H */
+    if (activeZone === 'H') {
+      tPos.unshift({x:mx, y:my}); tPos.pop();
+      tDots.forEach((d,i) => {
+        d.style.left=tPos[i].x+'px'; d.style.top=tPos[i].y+'px';
+        d.style.opacity = ((1 - i/TRAIL)*0.9).toString();
+      });
+    }
+
+    /* M ribbon */
+    if (activeZone === 'M' && mPts.length > 1) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      ctx.moveTo(mPts[0].x, mPts[0].y);
+      for (let i=1; i<mPts.length-1; i++) {
+        const cx=(mPts[i].x+mPts[i+1].x)/2, cy=(mPts[i].y+mPts[i+1].y)/2;
+        ctx.quadraticCurveTo(mPts[i].x, mPts[i].y, cx, cy);
+      }
+      const g = ctx.createLinearGradient(mPts[mPts.length-1].x, mPts[mPts.length-1].y, mPts[0].x, mPts[0].y);
+      g.addColorStop(0, 'rgba(16,185,129,0)');
+      g.addColorStop(0.5,'rgba(16,185,129,0.2)');
+      g.addColorStop(1,'rgba(52,211,153,0.65)');
+      ctx.strokeStyle=g; ctx.lineWidth=1.5;
+      ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.stroke();
+    } else if (activeZone!=='M') {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+    }
+
+    /* R spring physics */
+    if (activeZone === 'R') {
+      const fx = (mx - rX) * R_STIFFNESS;
+      const fy = (my - rY) * R_STIFFNESS;
+      rVx = (rVx + fx) * R_DAMPING;
+      rVy = (rVy + fy) * R_DAMPING;
+      rX += rVx; rY += rVy;
+
+      const stretch = Math.sqrt(rVx*rVx + rVy*rVy);
+      const w = 10 + stretch * 1.5;
+      const h = Math.max(6, 10 - stretch * 0.8);
+      const ang = Math.atan2(rVy, rVx) * 180/Math.PI;
+
+      const rd = document.getElementById('rDot');
+      rd.style.left=rX+'px'; rd.style.top=rY+'px';
+      rd.style.width=Math.min(w,32)+'px'; rd.style.height=Math.min(h,14)+'px';
+      rd.style.borderRadius='999px';
+      rd.style.transform=`translate(-50%,-50%) rotate(${ang}deg)`;
+
+      document.getElementById('rTrail').style.left=mx+'px';
+      document.getElementById('rTrail').style.top=my+'px';
+    }
+
+    /* T electrons */
+    if (activeZone === 'T') {
+      eAngle += 0.045;
+      const radii = [18, 26, 22, 14, 30];
+      electrons.forEach((el, i) => {
+        const phase = (2*Math.PI*i/NUM_E) + eAngle * (i%2===0 ? 1 : -1.3);
+        const r = radii[i];
+        const ex = mx + Math.cos(phase) * r;
+        const ey = my + Math.sin(phase) * r * 0.55;
+        el.style.left=ex+'px'; el.style.top=ey+'px';
+        el.style.transform='translate(-50%,-50%)';
+      });
+    }
+
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* ── Selection ── */
+  function selectZone(id) {
+    document.querySelectorAll('.zone').forEach(z => z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    if (window.__companion__) window.__companion__.select('option-'+id.toLowerCase(), 'Opción '+id);
+  }
+</script>
+</body>
+</html>

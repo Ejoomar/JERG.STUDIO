@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor — Más Opciones</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #080808;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    cursor: none;
+  }
+
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: rgba(255,255,255,0.3);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .zone {
+    position: relative;
+    background: #0f0f0f;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    height: 210px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.3s;
+    user-select: none;
+  }
+  .zone:hover { border-color: rgba(16,185,129,0.3); }
+  .zone.selected { border-color: #10b981; }
+
+  /* subtle grid */
+  .zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  .zone-label {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    z-index: 10;
+  }
+  .zone-letter {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #10b981;
+    text-transform: uppercase;
+  }
+  .zone-name {
+    font-family: Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin-top: 0.15rem;
+    line-height: 1.2;
+  }
+  .zone-desc {
+    font-size: 0.67rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: none;
+    position: absolute;
+    top: 0.75rem; right: 0.75rem;
+    background: #10b981;
+    color: #000;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    z-index: 20;
+  }
+  .zone.selected .badge { display: block; }
+
+  .hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -70%);
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.12);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .zone:hover .hint { opacity: 0; }
+
+  .footer {
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* ══════════════════════════
+     CURSOR ELEMENTS
+  ══════════════════════════ */
+
+  /* E: Corner brackets */
+  .cb { position: fixed; width: 10px; height: 10px; pointer-events: none; z-index: 9999; display: none; }
+  #cb-tl { border-top: 1.5px solid #10b981; border-left: 1.5px solid #10b981; }
+  #cb-tr { border-top: 1.5px solid #10b981; border-right: 1.5px solid #10b981; }
+  #cb-bl { border-bottom: 1.5px solid #10b981; border-left: 1.5px solid #10b981; }
+  #cb-br { border-bottom: 1.5px solid #10b981; border-right: 1.5px solid #10b981; }
+
+  /* F: Slash diagonal */
+  #cursorF {
+    position: fixed;
+    width: 28px; height: 1.5px;
+    background: linear-gradient(90deg, transparent, #10b981, transparent);
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    transform-origin: center;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  /* G: Spotlight radial */
+  #cursorG {
+    position: fixed;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    display: none;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
+  }
+  #cursorG-dot {
+    position: fixed;
+    width: 4px; height: 4px;
+    background: #34d399;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    transform: translate(-50%, -50%);
+  }
+
+  /* H: Partícula trail */
+  .trail-dot {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    background: #10b981;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s, width 0.4s, height 0.4s;
+  }
+
+  /* I: Arrow geométrica */
+  #cursorI {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    transform-origin: 2px 2px;
+  }
+
+  /* J: Coordenadas */
+  #cursorJ-dot {
+    position: fixed;
+    width: 3px; height: 3px;
+    background: #10b981;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    transform: translate(-50%, -50%);
+  }
+  #cursorJ-txt {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    font-size: 9px;
+    font-family: 'Courier New', monospace;
+    color: rgba(16,185,129,0.7);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    transform: translate(8px, -50%);
+  }
+</style>
+</head>
+<body>
+
+<!-- E: Brackets -->
+<div class="cb" id="cb-tl"></div>
+<div class="cb" id="cb-tr"></div>
+<div class="cb" id="cb-bl"></div>
+<div class="cb" id="cb-br"></div>
+
+<!-- F: Slash -->
+<div id="cursorF"></div>
+
+<!-- G: Spotlight -->
+<div id="cursorG"></div>
+<div id="cursorG-dot"></div>
+
+<!-- H: Trail dots (creados por JS) -->
+
+<!-- I: Arrow SVG -->
+<svg id="cursorI" width="18" height="18" viewBox="0 0 18 18" fill="none">
+  <path d="M2 2L16 2L16 16" stroke="#f5f0e8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 2L2 16" stroke="#f5f0e8" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+<!-- J: Coords -->
+<div id="cursorJ-dot"></div>
+<div id="cursorJ-txt">0, 0</div>
+
+<h1>Más estilos de cursor</h1>
+<p class="subtitle">Pasa el mouse sobre cada zona · Clic para seleccionar</p>
+
+<div class="grid">
+
+  <!-- E -->
+  <div class="zone" id="zoneE" data-cursor="E" onclick="selectZone('E')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción E</div>
+      <div class="zone-name">Corner brackets</div>
+      <div class="zone-desc">4 esquinas que enmarcan<br>el cursor. Preciso y editorial.</div>
+    </div>
+  </div>
+
+  <!-- F -->
+  <div class="zone" id="zoneF" data-cursor="F" onclick="selectZone('F')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción F</div>
+      <div class="zone-name">Slash diagonal</div>
+      <div class="zone-desc">Línea que rota con<br>la velocidad. Gestual.</div>
+    </div>
+  </div>
+
+  <!-- G -->
+  <div class="zone" id="zoneG" data-cursor="G" onclick="selectZone('G')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción G</div>
+      <div class="zone-name">Spotlight</div>
+      <div class="zone-desc">Halo de luz verde que<br>ilumina el fondo. Atmosférico.</div>
+    </div>
+  </div>
+
+  <!-- H -->
+  <div class="zone" id="zoneH" data-cursor="H" onclick="selectZone('H')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción H</div>
+      <div class="zone-name">Partículas / Trail</div>
+      <div class="zone-desc">Estela de puntos que<br>se desvanecen. Fluido.</div>
+    </div>
+  </div>
+
+  <!-- I -->
+  <div class="zone" id="zoneI" data-cursor="I" onclick="selectZone('I')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción I</div>
+      <div class="zone-name">Flecha geométrica</div>
+      <div class="zone-desc">Arrow diagonal en blanco<br>marfil. Sobrio y distinto.</div>
+    </div>
+  </div>
+
+  <!-- J -->
+  <div class="zone" id="zoneJ" data-cursor="J" onclick="selectZone('J')">
+    <div class="hint">Pasa el mouse aquí</div>
+    <div class="badge">✓ Elegido</div>
+    <div class="zone-label">
+      <div class="zone-letter">Opción J</div>
+      <div class="zone-name">Coordenadas</div>
+      <div class="zone-desc">Dot + X,Y en mono.<br>Dev vibe elegante.</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer">¿Alguna se acerca? También puedo combinar elementos — dímelo en el chat</p>
+
+<script>
+  let mx = 0, my = 0;
+  let fAngle = 45;
+  let fLastX = 0, fLastY = 0;
+  let activeZone = null;
+
+  /* ── Trail dots for H ── */
+  const TRAIL = 8;
+  const trailDots = [];
+  const trailPos = Array.from({length: TRAIL}, () => ({x: 0, y: 0}));
+  for (let i = 0; i < TRAIL; i++) {
+    const d = document.createElement('div');
+    d.className = 'trail-dot';
+    const size = (TRAIL - i) * 1.5 + 1;
+    d.style.width = size + 'px';
+    d.style.height = size + 'px';
+    d.style.opacity = 0;
+    d.style.display = 'none';
+    document.body.appendChild(d);
+    trailDots.push(d);
+  }
+
+  /* ── Bracket elements ── */
+  const cbSize = 14; // half-span
+  const cbs = {
+    tl: document.getElementById('cb-tl'),
+    tr: document.getElementById('cb-tr'),
+    bl: document.getElementById('cb-bl'),
+    br: document.getElementById('cb-br'),
+  };
+
+  /* ── Hide all ── */
+  function hideAll() {
+    ['cb-tl','cb-tr','cb-bl','cb-br','cursorF','cursorG','cursorG-dot','cursorI','cursorJ-dot','cursorJ-txt']
+      .forEach(id => { const el=document.getElementById(id); if(el) el.style.display='none'; });
+    trailDots.forEach(d => { d.style.display='none'; d.style.opacity=0; });
+  }
+
+  function showCursor(type) {
+    hideAll();
+    if (type === 'E') {
+      Object.values(cbs).forEach(el => el.style.display='block');
+    }
+    if (type === 'F') document.getElementById('cursorF').style.display='block';
+    if (type === 'G') {
+      document.getElementById('cursorG').style.display='block';
+      document.getElementById('cursorG-dot').style.display='block';
+    }
+    if (type === 'H') trailDots.forEach(d => d.style.display='block');
+    if (type === 'I') document.getElementById('cursorI').style.display='block';
+    if (type === 'J') {
+      document.getElementById('cursorJ-dot').style.display='block';
+      document.getElementById('cursorJ-txt').style.display='block';
+    }
+  }
+
+  /* ── Zone events ── */
+  document.querySelectorAll('.zone').forEach(z => {
+    z.addEventListener('mouseenter', () => { activeZone = z.dataset.cursor; showCursor(activeZone); });
+    z.addEventListener('mouseleave', () => { activeZone = null; hideAll(); });
+  });
+
+  /* ── Mouse move ── */
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+
+    // E: brackets
+    if (activeZone === 'E') {
+      const s = cbSize;
+      cbs.tl.style.left=(mx-s)+'px'; cbs.tl.style.top=(my-s)+'px';
+      cbs.tr.style.left=(mx+s-10)+'px'; cbs.tr.style.top=(my-s)+'px';
+      cbs.bl.style.left=(mx-s)+'px'; cbs.bl.style.top=(my+s-10)+'px';
+      cbs.br.style.left=(mx+s-10)+'px'; cbs.br.style.top=(my+s-10)+'px';
+    }
+
+    // F: slash rotating
+    if (activeZone === 'F') {
+      const dx = mx - fLastX, dy = my - fLastY;
+      const speed = Math.sqrt(dx*dx+dy*dy);
+      if (speed > 1) fAngle = Math.atan2(dy, dx) * 180/Math.PI;
+      fLastX=mx; fLastY=my;
+      const f = document.getElementById('cursorF');
+      f.style.left=mx+'px'; f.style.top=my+'px';
+      f.style.transform=`translate(-50%,-50%) rotate(${fAngle}deg)`;
+    }
+
+    // G: spotlight
+    if (activeZone === 'G') {
+      const g=document.getElementById('cursorG');
+      const gd=document.getElementById('cursorG-dot');
+      g.style.left=mx+'px'; g.style.top=my+'px';
+      gd.style.left=mx+'px'; gd.style.top=my+'px';
+    }
+
+    // I: arrow
+    if (activeZone === 'I') {
+      const arrow=document.getElementById('cursorI');
+      arrow.style.left=mx+'px'; arrow.style.top=my+'px';
+      arrow.style.transform=`translate(0,0)`;
+    }
+
+    // J: coords
+    if (activeZone === 'J') {
+      const zone = document.getElementById('zoneJ').getBoundingClientRect();
+      const rx = Math.round(mx - zone.left);
+      const ry = Math.round(my - zone.top);
+      document.getElementById('cursorJ-dot').style.left=mx+'px';
+      document.getElementById('cursorJ-dot').style.top=my+'px';
+      document.getElementById('cursorJ-txt').style.left=mx+'px';
+      document.getElementById('cursorJ-txt').style.top=my+'px';
+      document.getElementById('cursorJ-txt').textContent=`${rx}, ${ry}`;
+    }
+  });
+
+  /* ── Trail animation ── */
+  let trailHead = 0;
+  function animTrail() {
+    if (activeZone === 'H') {
+      trailPos.unshift({x: mx, y: my});
+      trailPos.pop();
+      trailDots.forEach((d, i) => {
+        d.style.left = trailPos[i].x + 'px';
+        d.style.top  = trailPos[i].y + 'px';
+        d.style.opacity = (1 - i/TRAIL) * 0.85;
+      });
+    }
+    requestAnimationFrame(animTrail);
+  }
+  animTrail();
+
+  /* ── Selection ── */
+  function selectZone(id) {
+    document.querySelectorAll('.zone').forEach(z => z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    if (window.__companion__) window.__companion__.select('option-'+id.toLowerCase(), 'Opción '+id);
+  }
+</script>
+</body>
+</html>

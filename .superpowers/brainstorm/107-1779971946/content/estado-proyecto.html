@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JERG.STUDIO — Tablero de Estado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #050505;
+      color: #f5f0e8;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding: 48px 24px 80px;
+    }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(2rem,4vw,2.8rem); font-weight: 400; color: #f5f0e8; margin-bottom: 6px; }
+    .header h1 em { color: #10b981; font-style: italic; }
+    .header p { color: rgba(245,240,232,0.35); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
+    .live-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 999px; padding: 4px 14px; font-size: 0.7rem; font-weight: 600; color: #10b981; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+    .url-chip { display: inline-block; background: #0d0d0d; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 5px 14px; font-size: 0.76rem; color: rgba(245,240,232,0.5); margin-top: 8px; }
+    .url-chip a { color: #10b981; text-decoration: none; }
+
+    /* Stats */
+    .stats-top { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; max-width: 760px; margin: 0 auto 40px; }
+    @media(max-width:600px){ .stats-top { grid-template-columns: repeat(2,1fr); } }
+    .stat-card { background: #0d0d0d; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px 16px; text-align: center; }
+    .stat-num { font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; font-weight: 400; line-height: 1; margin-bottom: 5px; }
+    .stat-num.green { background: linear-gradient(90deg,#10b981,#34d399); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .stat-num.red   { color: #ef4444; }
+    .stat-num.yellow{ color: #fbbf24; }
+    .stat-num.blue  { color: #60a5fa; }
+    .stat-label { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(245,240,232,0.3); }
+
+    /* Board */
+    .board { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media(max-width:820px){ .board { grid-template-columns: 1fr; } }
+    .column { display: flex; flex-direction: column; gap: 7px; }
+
+    .section-label {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 0.85rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(245,240,232,0.4); margin-bottom: 6px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .section-label.later { margin-top: 18px; }
+
+    .item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 13px; border-radius: 10px; font-size: 0.79rem; line-height: 1.5; }
+    .item-done     { background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.14); }
+    .item-critical { background: rgba(239,68,68,0.06);  border: 1px solid rgba(239,68,68,0.22); }
+    .item-high     { background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.16); }
+    .item-medium   { background: rgba(96,165,250,0.04); border: 1px solid rgba(96,165,250,0.13); }
+    .item-low      { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); }
+
+    .badge { display: inline-flex; align-items: center; justify-content: center; font-size: 0.56rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 1px; white-space: nowrap; }
+    .badge-done     { background: rgba(16,185,129,0.2);  color: #10b981; }
+    .badge-critical { background: rgba(239,68,68,0.2);   color: #ef4444; }
+    .badge-high     { background: rgba(251,191,36,0.2);  color: #fbbf24; }
+    .badge-medium   { background: rgba(96,165,250,0.2);  color: #60a5fa; }
+    .badge-low      { background: rgba(255,255,255,0.1); color: rgba(245,240,232,0.45); }
+
+    .item-text strong { display: block; font-weight: 600; margin-bottom: 1px; color: #f5f0e8; }
+    .item-text span   { color: rgba(245,240,232,0.38); font-size: 0.72rem; }
+    .item-critical .item-text strong { color: #fca5a5; }
+    .item-high     .item-text strong { color: #fde68a; }
+    .item-medium   .item-text strong { color: #bfdbfe; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="live-badge"><div class="live-dot"></div>En producción</div>
+    <h1>JERG.STUDIO — <em>Tablero de Estado</em></h1>
+    <p>Landing page · Astro v4 · GSAP 3 · Tailwind CSS · Vercel</p>
+    <div class="url-chip">🌐 <a href="https://devagency-landing.vercel.app" target="_blank">devagency-landing.vercel.app</a></div>
+  </div>
+
+  <div class="stats-top">
+    <div class="stat-card"><div class="stat-num green">18</div><div class="stat-label">Completado</div></div>
+    <div class="stat-card"><div class="stat-num red">5</div><div class="stat-label">Crítico</div></div>
+    <div class="stat-card"><div class="stat-num yellow">6</div><div class="stat-label">Pendiente</div></div>
+    <div class="stat-card"><div class="stat-num blue">5</div><div class="stat-label">Deuda técnica</div></div>
+  </div>
+
+  <div class="board">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="column">
+      <div class="section-label">✅ Implementado</div>
+
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Rediseño visual completo</strong><span>Paleta esmeralda · DM Serif Display · layout editorial</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Menú mobile — crash del invariant</strong><span>Selector ul → .mobile-nav-links · invariant removido</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Teléfono footer corregido</strong><span>+1 (555) 000-0000 → +56 9 6765 7198</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Animaciones de scroll (7 secciones)</strong><span>Hero parallax · stagger desktop · fade simple mobile</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Showcase accent line animation</strong><span>Línea slide-in por card con delay escalonado</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Process mobile → stack vertical</strong><span>Desktop: carrusel GSAP · Mobile: pasos apilados</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>FAQ accordion arreglado</strong><span>JS inline maxHeight · sin conflictos de scope Astro</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Mobile fixes completos</strong><span>h1 clamp · stats wrap · device scaling · touch 44px</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Menú mobile rediseñado</strong><span>Fondo sólido · links serif grandes · CTA WhatsApp</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>CTAs reducidos</strong><span>Ghost WA duplicado · 6x "Iniciar proyecto" eliminados</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Servicio 06 — precios reales</strong><span>1 mes gratis · $40/mes opcional · sin permanencia</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>FAQs actualizadas (8 preguntas)</strong><span>Hosting/seguridad · integraciones · contacto internacional</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Stat counters animados</strong><span>Count-up al entrar viewport con ScrollTrigger</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Tech badges del hero eliminados</strong><span>Evita repetición con la sección de stack más abajo</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Meta tags SEO básicos</strong><span>Title · description · canonical · OG · Twitter card · JSON-LD</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>WhatsApp FAB mobile bug</strong><span>Label oculto ≤768px (antes solo ≤480px)</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Cursor oculto en touch devices</strong><span>@media (hover:none) + @media (pointer:coarse)</span></div></div>
+      <div class="item item-done"><span class="badge badge-done">✓</span><div class="item-text"><strong>Descubrimiento flexible</strong><span>WhatsApp / email / videollamada · sin llamada obligatoria</span></div></div>
+    </div>
+
+    <!-- COLUMNA DERECHA -->
+    <div class="column">
+      <div class="section-label">🔴 Crítico — rompe funcionalidad o credibilidad</div>
+
+      <div class="item item-critical"><span class="badge badge-critical">!</span><div class="item-text"><strong>Formulario no envía nada</strong><span>Simula envío con setTimeout · cada lead se pierde · resend/supabase instalados pero sin conectar</span></div></div>
+      <div class="item item-critical"><span class="badge badge-critical">!</span><div class="item-text"><strong>OG image no existe</strong><span>/og-image.jpg no está en /public · shares sin imagen · public/social.jpg sin referenciar</span></div></div>
+      <div class="item item-critical"><span class="badge badge-critical">!</span><div class="item-text"><strong>Hero parallax muerto — falta id="splash"</strong><span>scroll-animations.ts busca #splash h1 · retorna null · animación se cancela</span></div></div>
+      <div class="item item-critical"><span class="badge badge-critical">!</span><div class="item-text"><strong>astro.config.mjs — adapter y site incorrectos</strong><span>Netlify adapter + URL del template original · debería ser output:static + site:jerg.studio</span></div></div>
+      <div class="item item-critical"><span class="badge badge-critical">!</span><div class="item-text"><strong>Testimonios completamente falsos</strong><span>"¿Eres el primero?" con 5 estrellas · necesita reemplazarse con capturas reales o eliminarse</span></div></div>
+
+      <div class="section-label later">🟡 Alto — dañan credibilidad</div>
+
+      <div class="item item-high"><span class="badge badge-high">↑</span><div class="item-text"><strong>Portafolio sin proyectos verificables</strong><span>4 proyectos sin URLs live · métricas sin fuente · decidir: casos reales o ejemplos ilustrativos</span></div></div>
+      <div class="item item-high"><span class="badge badge-high">↑</span><div class="item-text"><strong>Estadísticas inconsistentes</strong><span>100% vs 98% satisfacción · 40+ vs 50+ proyectos · unificar un número</span></div></div>
+      <div class="item item-high"><span class="badge badge-high">↑</span><div class="item-text"><strong>Tech stack desactualizado</strong><span>Muestra Solid/Preact/Lit que no se usan · falta Astro, Next.js, TypeScript, n8n</span></div></div>
+
+      <div class="section-label later">🔵 Medio — SEO y legal</div>
+
+      <div class="item item-medium"><span class="badge badge-medium">SEO</span><div class="item-text"><strong>Sin sitemap ni robots.txt</strong><span>@astrojs/sitemap no configurado · Google no recibe mapa del sitio</span></div></div>
+      <div class="item item-medium"><span class="badge badge-medium">SEO</span><div class="item-text"><strong>Sin FAQ JSON-LD schema</strong><span>Google muestra FAQs en resultados con structured data · oportunidad perdida</span></div></div>
+      <div class="item item-medium"><span class="badge badge-medium">Analytics</span><div class="item-text"><strong>Sin analytics configurado</strong><span>Vercel Analytics o Plausible · sin datos de visitas ni conversiones</span></div></div>
+      <div class="item item-medium"><span class="badge badge-medium">Legal</span><div class="item-text"><strong>/privacidad y /terminos → 404</strong><span>El footer las enlaza · páginas no existen · obligatorio al recopilar datos</span></div></div>
+
+      <div class="section-label later">⚪ Deuda técnica</div>
+
+      <div class="item item-low"><span class="badge badge-low">bajo</span><div class="item-text"><strong>CSS muerto: section-grain y section-accent-top</strong><span>Definidos en global.css pero sin usar en ningún componente</span></div></div>
+      <div class="item item-low"><span class="badge badge-low">bajo</span><div class="item-text"><strong>Dependencias muertas</strong><span>resend + @supabase/supabase-js instalados sin usar</span></div></div>
+      <div class="item item-low"><span class="badge badge-low">bajo</span><div class="item-text"><strong>og:locale incorrecto</strong><span>es_ES (España) en vez de es_419 (Latinoamérica)</span></div></div>
+      <div class="item item-low"><span class="badge badge-low">bajo</span><div class="item-text"><strong>RAF cursor loop indefinido</strong><span>Corre aunque el cursor esté quieto · drena batería en desktop</span></div></div>
+      <div class="item item-low"><span class="badge badge-low">bajo</span><div class="item-text"><strong>GSAP registrado 2 veces</strong><span>scrollytelling.ts y scroll-animations.ts ambos hacen registerPlugin</span></div></div>
+    </div>
+
+  </div>
+
+</body>
+</html>

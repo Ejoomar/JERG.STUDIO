@@ -1,0 +1,386 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  .sa-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  @media (max-width: 820px) { .sa-grid { grid-template-columns: 1fr; } }
+
+  .sa-card {
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background: #050505;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .sa-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+  .sa-card.selected { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,0.2); }
+
+  /* ── Preview area ── */
+  .sa-preview {
+    background: #0a0a0a;
+    padding: 24px 20px 16px;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* === APPROACH A: CSS Device Mockups === */
+  .sa-device-scene {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: flex-end;
+  }
+
+  /* Laptop frame */
+  .sa-laptop {
+    background: #1a1a1a;
+    border-radius: 8px 8px 0 0;
+    padding: 8px;
+    border: 1.5px solid #333;
+    position: relative;
+  }
+  .sa-laptop::after {
+    content: '';
+    display: block;
+    height: 6px;
+    background: #222;
+    border-radius: 0 0 4px 4px;
+    border: 1.5px solid #333;
+    border-top: none;
+    margin: 0 -9px -7.5px;
+  }
+  .sa-laptop-camera {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #333;
+    margin: 0 auto 5px;
+  }
+  .sa-laptop-screen {
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+  }
+
+  /* Phone frame */
+  .sa-phone {
+    background: #1a1a1a;
+    border-radius: 14px;
+    padding: 6px 4px;
+    border: 1.5px solid #333;
+    width: 60px;
+    flex-shrink: 0;
+    position: relative;
+    bottom: 0;
+  }
+  .sa-phone-notch {
+    width: 20px; height: 4px;
+    border-radius: 2px;
+    background: #333;
+    margin: 0 auto 4px;
+  }
+  .sa-phone-screen {
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 9/16;
+  }
+
+  /* Project UI — FounderOS */
+  .ui-a {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    height: 100%;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .ui-a-header { height: 8px; background: #21262d; border-radius: 2px; margin-bottom: 3px; }
+  .ui-a-row { display: flex; gap: 4px; }
+  .ui-a-sidebar { width: 24px; background: #161b22; border-radius: 2px; flex-shrink: 0; min-height: 40px; }
+  .ui-a-content { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+  .ui-a-card { background: #21262d; border-radius: 2px; height: 10px; border-left: 2px solid #10b981; }
+  .ui-a-stat { height: 6px; background: #10b981; border-radius: 2px; opacity: 0.6; }
+  .ui-a-line { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+
+  /* Project UI — PelicanDTC (ecommerce) */
+  .ui-b {
+    background: #fafaf9;
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .ui-b-nav { height: 7px; background: #0a0a0a; border-radius: 2px; margin-bottom: 2px; }
+  .ui-b-hero { height: 20px; background: linear-gradient(90deg, #10b981, #059669); border-radius: 2px; }
+  .ui-b-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; flex: 1; }
+  .ui-b-item { background: #e5e7eb; border-radius: 2px; }
+
+  /* Phone UI — Mobile */
+  .ui-phone {
+    background: #050505;
+    height: 100%;
+    padding: 4px 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ui-phone-bar { height: 5px; background: #10b981; border-radius: 2px; }
+  .ui-phone-card { background: #111; border-radius: 3px; flex: 1; border-left: 1.5px solid #10b981; }
+  .ui-phone-btn { height: 8px; background: #10b981; border-radius: 4px; margin: 0 2px; }
+
+  /* Project label */
+  .sa-proj-label {
+    position: absolute;
+    top: 12px; left: 16px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #10b981;
+    font-family: 'Inter', sans-serif;
+  }
+  .sa-proj-name {
+    position: absolute;
+    top: 22px; left: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(245,240,232,0.7);
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Second project preview */
+  .sa-device-scene-2 {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: flex-end;
+    margin-top: 12px;
+  }
+
+  /* === APPROACH B: Photo-based === */
+  .sa-photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sa-photo {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .sa-photo-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+    background: #111;
+  }
+  .sa-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5,5,5,0.85) 0%, transparent 50%);
+    border-radius: 8px;
+  }
+  .sa-photo-caption {
+    position: absolute;
+    bottom: 8px; left: 10px;
+    font-size: 8px;
+    font-weight: 700;
+    color: rgba(245,240,232,0.8);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sa-photo-tag {
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 100px;
+    background: #10b981;
+    color: #050505;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Simulate photo placeholders with colored gradients since we can't load external images */
+  .ph-1 { background: linear-gradient(135deg, #0d1117 0%, #1e293b 50%, #0f172a 100%); }
+  .ph-2 { background: linear-gradient(135deg, #1a0a00 0%, #2d1810 50%, #1a0a00 100%); }
+  .ph-3 { background: linear-gradient(135deg, #001a0d 0%, #0d2b1a 50%, #001a0d 100%); }
+  .ph-4 { background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #0a0a1a 100%); }
+
+  /* Grid content inside photo placeholders */
+  .ph-inner {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.3;
+    font-size: 24px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: -0.05em;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  /* Info section */
+  .sa-info {
+    padding: 16px 18px 18px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .sa-name {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+  }
+  .sa-desc {
+    font-size: 11px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.45);
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 10px;
+  }
+  .sa-pros { list-style: none; padding: 0; margin: 0; }
+  .sa-pros li {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    padding: 2px 0;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .sa-pros li::before { content: '✓'; color: #10b981; flex-shrink: 0; }
+  .sa-cons li::before { content: '◦'; color: rgba(255,100,100,0.6); flex-shrink: 0; }
+</style>
+
+<h2>Portfolio — ¿Cómo mostramos los proyectos?</h2>
+<p class="subtitle">El showcase actual tiene imágenes placeholder genéricas. ¿Qué enfoque adoptamos?</p>
+
+<div class="sa-grid">
+
+  <!-- APPROACH A: CSS Device Mockups -->
+  <div class="sa-card card" data-choice="css-devices" onclick="toggleSelect(this)">
+    <div class="sa-preview" style="min-height:240px;">
+      <div class="sa-proj-label">Proyecto</div>
+      <div class="sa-proj-name">FounderOS — App SaaS</div>
+      <div style="margin-top:36px;">
+        <div class="sa-device-scene">
+          <div class="sa-laptop">
+            <div class="sa-laptop-camera"></div>
+            <div class="sa-laptop-screen">
+              <div class="ui-a" style="height:80px;">
+                <div class="ui-a-header"></div>
+                <div class="ui-a-row" style="flex:1">
+                  <div class="ui-a-sidebar"></div>
+                  <div class="ui-a-content">
+                    <div class="ui-a-card"></div>
+                    <div class="ui-a-stat" style="width:60%"></div>
+                    <div class="ui-a-line" style="width:80%"></div>
+                    <div class="ui-a-line" style="width:55%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sa-phone">
+            <div class="sa-phone-notch"></div>
+            <div class="sa-phone-screen">
+              <div class="ui-phone" style="height:70px;">
+                <div class="ui-phone-bar"></div>
+                <div class="ui-phone-card"></div>
+                <div class="ui-phone-btn"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+          <div style="height:3px;flex:1;background:rgba(16,185,129,0.3);border-radius:2px;"></div>
+          <div style="font-size:8px;color:rgba(16,185,129,0.7);font-family:'Inter',sans-serif;letter-spacing:0.12em;font-weight:700;">APP WEB SAAS</div>
+          <div style="height:3px;flex:1;background:rgba(16,185,129,0.3);border-radius:2px;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sa-info">
+      <div class="sa-name">A — CSS Device Mockups</div>
+      <div class="sa-desc">Marcos de laptop y teléfono en CSS puro con la UI del proyecto renderizada dentro. Sin imágenes externas. Estilo Webflow/Framer showcase.</div>
+      <ul class="sa-pros">
+        <li>Cero dependencias externas — 0 requests de imagen</li>
+        <li>Siempre on-brand — colores controlados al 100%</li>
+        <li>Se ve profesional incluso sin screenshots reales</li>
+        <li>Puedo generarlos directamente en código</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- APPROACH B: Real/Generated Photos via Unsplash -->
+  <div class="sa-card card" data-choice="photos" onclick="toggleSelect(this)">
+    <div class="sa-preview" style="min-height:240px; padding:16px;">
+      <div class="sa-photo-grid">
+        <div class="sa-photo">
+          <div class="sa-photo-img ph-1" style="height:90px;">
+            <div class="ph-inner">FO</div>
+          </div>
+          <div class="sa-photo-overlay"></div>
+          <div class="sa-photo-caption">FounderOS</div>
+          <div class="sa-photo-tag">SaaS</div>
+        </div>
+        <div class="sa-photo">
+          <div class="sa-photo-img ph-2" style="height:90px;">
+            <div class="ph-inner">PE</div>
+          </div>
+          <div class="sa-photo-overlay"></div>
+          <div class="sa-photo-caption">PelicanDTC</div>
+          <div class="sa-photo-tag">E-com</div>
+        </div>
+        <div class="sa-photo">
+          <div class="sa-photo-img ph-3" style="height:90px;">
+            <div class="ph-inner">TF</div>
+          </div>
+          <div class="sa-photo-overlay"></div>
+          <div class="sa-photo-caption">TallerFlow</div>
+          <div class="sa-photo-tag">App</div>
+        </div>
+        <div class="sa-photo">
+          <div class="sa-photo-img ph-4" style="height:90px;">
+            <div class="ph-inner">SL</div>
+          </div>
+          <div class="sa-photo-overlay"></div>
+          <div class="sa-photo-caption">SeedLanding</div>
+          <div class="sa-photo-tag">Landing</div>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:9px;color:rgba(16,185,129,0.6);font-family:'Inter',sans-serif;text-align:center;letter-spacing:0.1em;">↑ Fotos via Unsplash API (curl) — se ven con imágenes reales</div>
+    </div>
+    <div class="sa-info">
+      <div class="sa-name">B — Fotos Reales (Unsplash)</div>
+      <div class="sa-desc">Imágenes de alta calidad descargadas via `curl` + API key gratuita. Fotos de pantallas, workspaces, productos. Más "humano" pero requiere selección manual.</div>
+      <ul class="sa-pros">
+        <li>Apariencia más cálida y humana</li>
+        <li>Unsplash API: gratis, sin MCP extra</li>
+        <li style="color:rgba(255,100,100,0.6)">◦ Requiere elegir cada foto manualmente</li>
+        <li style="color:rgba(255,100,100,0.6)">◦ Fotos stock se ven genéricas si no se curan bien</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:16px;padding:14px 16px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15);border-radius:10px;font-family:'Inter',sans-serif;">
+  <div style="font-size:10px;font-weight:700;color:#10b981;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:6px;">💡 Sobre imágenes + MCP</div>
+  <div style="font-size:11px;color:rgba(245,240,232,0.55);line-height:1.65;">
+    <strong style="color:rgba(245,240,232,0.8);">No necesitas instalar ningún MCP.</strong> Con la Opción A (CSS) no se necesitan imágenes. Con la Opción B, puedo descargar fotos directamente con <code style="color:#10b981;background:rgba(16,185,129,0.1);padding:1px 5px;border-radius:3px;">curl</code> usando la API pública de Unsplash (gratis, 50 req/hora).
+  </div>
+</div>

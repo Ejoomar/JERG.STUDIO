@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cursor — Opciones</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: #0a0a0a;
+    color: #f5f0e8;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    cursor: none;
+  }
+
+  h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 400;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    color: rgba(255,255,255,0.35);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 2.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .zone {
+    position: relative;
+    background: #111;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    height: 240px;
+    overflow: hidden;
+    cursor: none;
+    transition: border-color 0.3s;
+  }
+  .zone:hover { border-color: rgba(16,185,129,0.35); }
+
+  .zone-label {
+    position: absolute;
+    bottom: 1rem; left: 1rem;
+    z-index: 10;
+  }
+  .zone-label .letter {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #10b981;
+    text-transform: uppercase;
+  }
+  .zone-label h3 {
+    font-family: Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-top: 0.15rem;
+  }
+  .zone-label p {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+  }
+
+  /* Subtle grid bg inside zones */
+  .zone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
+
+  /* ─── CURSOR A: Crosshair elegante ─── */
+  #cursorA-h, #cursorA-v {
+    position: fixed;
+    background: #10b981;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.2s;
+    display: none;
+  }
+  #cursorA-h { width: 20px; height: 1px; transform: translate(-50%, -50%); }
+  #cursorA-v { width: 1px; height: 20px; transform: translate(-50%, -50%); }
+  #cursorA-dot {
+    position: fixed;
+    width: 3px; height: 3px;
+    background: #10b981;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+  /* ─── CURSOR B: Blob morfológico ─── */
+  #cursorB {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: #10b981;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    display: none;
+    mix-blend-mode: screen;
+    transition: width 0.15s, height 0.15s, border-radius 0.15s, opacity 0.2s;
+  }
+
+  /* ─── CURSOR C: Texto follower ─── */
+  #cursorC {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    transform: translate(-50%, -50%);
+  }
+  #cursorC-dot {
+    width: 5px; height: 5px;
+    background: #10b981;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #cursorC-label {
+    position: absolute;
+    top: 50%; left: 14px;
+    transform: translateY(-50%);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #10b981;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ─── CURSOR D: Ring fino invert ─── */
+  #cursorD-ring {
+    position: fixed;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(245,240,232,0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    display: none;
+    transition: width 0.2s, height 0.2s, border-color 0.2s, opacity 0.2s;
+  }
+  #cursorD-dot {
+    position: fixed;
+    width: 4px; height: 4px;
+    background: #f5f0e8;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+
+  .hover-hint {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .zone:hover .hover-hint { opacity: 0; }
+
+  .selected-badge {
+    display: none;
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: #10b981;
+    color: #000;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    z-index: 10;
+  }
+  .zone.selected .selected-badge { display: block; }
+  .zone.selected { border-color: #10b981; }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSORES -->
+<!-- A: Crosshair -->
+<div id="cursorA-h"></div>
+<div id="cursorA-v"></div>
+<div id="cursorA-dot"></div>
+<!-- B: Blob -->
+<div id="cursorB"></div>
+<!-- C: Texto -->
+<div id="cursorC"><div id="cursorC-dot"></div><span id="cursorC-label">EXPLORAR</span></div>
+<!-- D: Ring fino -->
+<div id="cursorD-ring"></div>
+<div id="cursorD-dot"></div>
+
+<h1>Elige el estilo de cursor</h1>
+<p class="subtitle">PASA EL MOUSE SOBRE CADA ZONA PARA PREVISUALIZAR · HAZ CLIC PARA SELECCIONAR</p>
+
+<div class="grid">
+
+  <!-- ZONA A -->
+  <div class="zone" id="zoneA" data-cursor="A" onclick="selectZone('A')">
+    <div class="hover-hint">Pasa el mouse aquí</div>
+    <div class="selected-badge">✓ Seleccionado</div>
+    <div class="zone-label">
+      <div class="letter">Opción A</div>
+      <h3>Crosshair minimalista</h3>
+      <p>Cruz de líneas finas. Preciso,<br>arquitectónico, editorial.</p>
+    </div>
+  </div>
+
+  <!-- ZONA B -->
+  <div class="zone" id="zoneB" data-cursor="B" onclick="selectZone('B')">
+    <div class="hover-hint">Pasa el mouse aquí</div>
+    <div class="selected-badge">✓ Seleccionado</div>
+    <div class="zone-label">
+      <div class="letter">Opción B</div>
+      <h3>Blob morfológico</h3>
+      <p>Mancha verde que se alarga<br>con la velocidad. Orgánico.</p>
+    </div>
+  </div>
+
+  <!-- ZONA C -->
+  <div class="zone" id="zoneC" data-cursor="C" onclick="selectZone('C')">
+    <div class="hover-hint">Pasa el mouse aquí</div>
+    <div class="selected-badge">✓ Seleccionado</div>
+    <div class="zone-label">
+      <div class="letter">Opción C</div>
+      <h3>Texto seguidor</h3>
+      <p>Dot + etiqueta contextual.<br>Estilo agencia de moda.</p>
+    </div>
+  </div>
+
+  <!-- ZONA D -->
+  <div class="zone" id="zoneD" data-cursor="D" onclick="selectZone('D')">
+    <div class="hover-hint">Pasa el mouse aquí</div>
+    <div class="selected-badge">✓ Seleccionado</div>
+    <div class="zone-label">
+      <div class="letter">Opción D</div>
+      <h3>Ring fino ivory</h3>
+      <p>Aro delgado color crema.<br>Sin punto. Ultra limpio.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="footer-note">También puedes mezclar elementos de distintas opciones — dímelo en el chat</p>
+
+<script>
+  // ── Cursor state ──
+  let activeZone = null;
+  let mx = 0, my = 0;
+  let blobVx = 0, blobVy = 0, lastBlobX = 0, lastBlobY = 0;
+  let ringX = 0, ringY = 0;
+
+  const aH = document.getElementById('cursorA-h');
+  const aV = document.getElementById('cursorA-v');
+  const aDot = document.getElementById('cursorA-dot');
+  const bBlob = document.getElementById('cursorB');
+  const cWrap = document.getElementById('cursorC');
+  const dRing = document.getElementById('cursorD-ring');
+  const dDot  = document.getElementById('cursorD-dot');
+
+  function hideAll() {
+    [aH,aV,aDot,bBlob,cWrap,dRing,dDot].forEach(el => el.style.display='none');
+  }
+
+  function showCursor(type) {
+    hideAll();
+    if (type === 'A') { aH.style.display='block'; aV.style.display='block'; aDot.style.display='block'; }
+    if (type === 'B') { bBlob.style.display='block'; }
+    if (type === 'C') { cWrap.style.display='block'; }
+    if (type === 'D') { dRing.style.display='block'; dDot.style.display='block'; }
+  }
+
+  // ── Zone hover detection ──
+  document.querySelectorAll('.zone').forEach(zone => {
+    zone.addEventListener('mouseenter', () => {
+      activeZone = zone.dataset.cursor;
+      showCursor(activeZone);
+    });
+    zone.addEventListener('mouseleave', () => {
+      activeZone = null;
+      hideAll();
+    });
+  });
+
+  // ── Mouse tracking ──
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+
+    // A: Crosshair
+    if (activeZone === 'A') {
+      aH.style.left = mx+'px'; aH.style.top = my+'px';
+      aV.style.left = mx+'px'; aV.style.top = my+'px';
+      aDot.style.left = mx+'px'; aDot.style.top = my+'px';
+    }
+
+    // B: Blob velocity
+    if (activeZone === 'B') {
+      const vx = mx - lastBlobX;
+      const vy = my - lastBlobY;
+      const speed = Math.sqrt(vx*vx + vy*vy);
+      lastBlobX = mx; lastBlobY = my;
+      const stretch = Math.min(speed * 0.6, 2.5);
+      const angle = Math.atan2(vy, vx) * 180 / Math.PI;
+      const w = 12 + speed * 1.8;
+      const h = Math.max(8, 12 - speed * 0.5);
+      bBlob.style.width  = Math.min(w, 44) + 'px';
+      bBlob.style.height = Math.min(h, 16) + 'px';
+      bBlob.style.borderRadius = '999px';
+      bBlob.style.transform = `translate(-50%,-50%) rotate(${angle}deg)`;
+      bBlob.style.left = mx+'px'; bBlob.style.top = my+'px';
+    }
+
+    // C: Text follower
+    if (activeZone === 'C') {
+      cWrap.style.left = mx+'px'; cWrap.style.top = my+'px';
+    }
+
+    // D: Ring (lerp handled in RAF)
+    if (activeZone === 'D') {
+      dDot.style.left = mx+'px'; dDot.style.top = my+'px';
+    }
+  });
+
+  // ── RAF loop for ring lerp ──
+  function raf() {
+    if (activeZone === 'D') {
+      ringX += (mx - ringX) * 0.12;
+      ringY += (my - ringY) * 0.12;
+      dRing.style.left = ringX+'px';
+      dRing.style.top  = ringY+'px';
+    }
+    requestAnimationFrame(raf);
+  }
+  raf();
+
+  // ── Selection ──
+  let selected = null;
+  function selectZone(id) {
+    document.querySelectorAll('.zone').forEach(z => z.classList.remove('selected'));
+    document.getElementById('zone'+id).classList.add('selected');
+    selected = id;
+    // Fire event for companion
+    if (window.__companion__) {
+      window.__companion__.select('option-'+id.toLowerCase(), 'Opción '+id);
+    }
+  }
+
+  // B: reset blob when idle
+  setInterval(() => {
+    if (activeZone === 'B') {
+      bBlob.style.width  = '12px';
+      bBlob.style.height = '12px';
+    }
+  }, 200);
+</script>
+</body>
+</html>

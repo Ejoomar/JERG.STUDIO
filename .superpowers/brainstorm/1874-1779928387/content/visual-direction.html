@@ -1,0 +1,401 @@
+<style>
+  .vd-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+  }
+  @media (max-width: 900px) {
+    .vd-grid { grid-template-columns: 1fr; }
+  }
+  .vd-card {
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    background: #111;
+  }
+  .vd-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  .vd-card.selected { border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99,102,241,0.25); }
+
+  /* Hero preview mockup */
+  .vd-hero {
+    height: 280px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 28px 24px;
+  }
+  .vd-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 700;
+    opacity: 0.6;
+  }
+  .vd-headline {
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .vd-sub {
+    font-size: 11px;
+    line-height: 1.6;
+    max-width: 220px;
+    opacity: 0.5;
+  }
+  .vd-cta-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    align-items: center;
+  }
+  .vd-btn {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 7px 14px;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+  .vd-stats {
+    position: absolute;
+    bottom: 16px;
+    left: 24px;
+    display: flex;
+    gap: 16px;
+  }
+  .vd-stat-num { font-size: 18px; font-weight: 900; line-height: 1; }
+  .vd-stat-lbl { font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.4; margin-top: 2px; }
+
+  /* Card info */
+  .vd-info {
+    padding: 16px 18px 18px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .vd-name {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .vd-desc { font-size: 11px; line-height: 1.6; opacity: 0.55; }
+  .vd-palette {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+  }
+  .vd-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .vd-tag {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+    margin-right: 4px;
+    margin-top: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    opacity: 0.7;
+  }
+
+  /* ══ DIRECTION A: Editorial / Swiss-Dark ══ */
+  .dir-a .vd-hero {
+    background: #050505;
+    font-family: 'Georgia', serif;
+  }
+  .dir-a .vd-eyebrow { color: #d4a853; }
+  .dir-a .vd-headline { color: #f5f0e8; font-size: 32px; }
+  .dir-a .vd-headline span { color: #d4a853; }
+  .dir-a .vd-sub { color: #f5f0e8; }
+  .dir-a .vd-btn-primary {
+    background: #d4a853; color: #050505;
+  }
+  .dir-a .vd-btn-ghost {
+    border: 1px solid rgba(212,168,83,0.3); color: #d4a853;
+  }
+  .dir-a .vd-stat-num { color: #d4a853; }
+  .dir-a .vd-stat-lbl { color: #f5f0e8; }
+  /* Decorative rule lines */
+  .dir-a .vd-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #d4a853, transparent);
+  }
+  .dir-a .vd-hero::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, #d4a853 0%, transparent 60%);
+  }
+  /* Big decorative number */
+  .dir-a .vd-bg-num {
+    position: absolute;
+    right: -10px; bottom: -20px;
+    font-size: 120px;
+    font-weight: 900;
+    color: rgba(212,168,83,0.06);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+    font-family: 'Georgia', serif;
+  }
+
+  /* ══ DIRECTION B: Neo-Brutalist ══ */
+  .dir-b .vd-hero {
+    background: #f0f0ee;
+    font-family: 'Arial Black', 'Arial', sans-serif;
+  }
+  .dir-b .vd-eyebrow { color: #0a0a0a; opacity: 0.4; }
+  .dir-b .vd-headline { color: #0a0a0a; font-size: 30px; }
+  .dir-b .vd-headline span { color: #ff3b00; }
+  .dir-b .vd-sub { color: #0a0a0a; }
+  .dir-b .vd-btn-primary {
+    background: #0a0a0a; color: #f0f0ee;
+    border: 2px solid #0a0a0a;
+  }
+  .dir-b .vd-btn-ghost {
+    border: 2px solid #0a0a0a; color: #0a0a0a;
+    background: transparent;
+  }
+  .dir-b .vd-stat-num { color: #ff3b00; font-size: 22px; }
+  .dir-b .vd-stat-lbl { color: #0a0a0a; }
+  /* Hard border accent */
+  .dir-b .vd-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: #ff3b00;
+  }
+  /* Big raw block */
+  .dir-b .vd-hero::after {
+    content: 'JERG';
+    position: absolute;
+    right: 12px; bottom: -8px;
+    font-size: 90px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.05);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    pointer-events: none;
+  }
+  .dir-b .vd-stats {
+    border-top: 2px solid #0a0a0a;
+    padding-top: 10px;
+    bottom: 10px; left: 28px; right: 24px;
+  }
+
+  /* ══ DIRECTION C: Cyber-Premium / SaaS ══ */
+  .dir-c .vd-hero {
+    background: #060612;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+  }
+  .dir-c .vd-eyebrow { color: #7c3aed; }
+  .dir-c .vd-headline { color: #fff; font-size: 30px; }
+  .dir-c .vd-headline span {
+    background: linear-gradient(120deg, #818cf8, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dir-c .vd-sub { color: #fff; }
+  .dir-c .vd-btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #34d399); color: #fff;
+    box-shadow: 0 0 20px rgba(124,58,237,0.4);
+  }
+  .dir-c .vd-btn-ghost {
+    border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7);
+  }
+  .dir-c .vd-stat-num {
+    background: linear-gradient(90deg, #818cf8, #34d399);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dir-c .vd-stat-lbl { color: #fff; }
+  /* Glow overlay */
+  .dir-c .vd-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 30%, rgba(124,58,237,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(52,211,153,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  /* Grid lines */
+  .dir-c .vd-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(124,58,237,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(124,58,237,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+  /* Glass card element */
+  .dir-c .vd-glass {
+    position: absolute;
+    right: 16px; top: 50%;
+    transform: translateY(-50%);
+    width: 90px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+  .dir-c .vd-glass-line {
+    height: 6px; border-radius: 3px; margin-bottom: 5px;
+  }
+</style>
+
+<h2>Dirección visual para JERG.STUDIO</h2>
+<p class="subtitle">Tres identidades distintas. ¿Cuál refleja mejor la energía de tu agencia?</p>
+
+<div class="vd-grid">
+
+  <!-- DIRECTION A: Editorial Dorado -->
+  <div class="vd-card dir-a card" data-choice="editorial" onclick="toggleSelect(this)">
+    <div class="vd-hero">
+      <div class="vd-bg-num">JS</div>
+      <p class="vd-eyebrow">Agencia de Desarrollo Digital</p>
+      <h3 class="vd-headline">CONSTRUIMOS<br/><span>PRESENCIAS</span><br/>DIGITALES.</h3>
+      <p class="vd-sub">Código que convierte. Diseño que impacta.</p>
+      <div class="vd-cta-row">
+        <span class="vd-btn vd-btn-primary">Iniciar proyecto</span>
+        <span class="vd-btn vd-btn-ghost">Capacidades →</span>
+      </div>
+      <div class="vd-stats">
+        <div>
+          <div class="vd-stat-num">40+</div>
+          <div class="vd-stat-lbl">Lanzamientos</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">3sem</div>
+          <div class="vd-stat-lbl">Entrega avg</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">100%</div>
+          <div class="vd-stat-lbl">Satisfacción</div>
+        </div>
+      </div>
+    </div>
+    <div class="vd-info">
+      <div class="vd-name">A — Editorial Dorado</div>
+      <div class="vd-desc">Negro profundo con acento oro. Influencia de revista de arquitectura y lujo austero. Tipografía serif para el titular, sans para el cuerpo. Muy diferente al mercado.</div>
+      <div class="vd-palette">
+        <div class="vd-swatch" style="background:#050505;"></div>
+        <div class="vd-swatch" style="background:#d4a853;"></div>
+        <div class="vd-swatch" style="background:#f5f0e8;"></div>
+        <div class="vd-swatch" style="background:#1a1408;"></div>
+      </div>
+      <span class="vd-tag">Lujo austero</span>
+      <span class="vd-tag">Editorial</span>
+      <span class="vd-tag">Muy diferenciado</span>
+    </div>
+  </div>
+
+  <!-- DIRECTION B: Neo-Brutalist -->
+  <div class="vd-card dir-b card" data-choice="brutalist" onclick="toggleSelect(this)">
+    <div class="vd-hero">
+      <p class="vd-eyebrow">Agencia de Desarrollo Digital</p>
+      <h3 class="vd-headline" style="padding-left:12px;">CONSTRUIMOS<br/><span>PRESENCIAS</span><br/>DIGITALES.</h3>
+      <p class="vd-sub" style="color:#0a0a0a;padding-left:12px;">Código que convierte. Diseño que impacta.</p>
+      <div class="vd-cta-row" style="padding-left:12px;">
+        <span class="vd-btn vd-btn-primary">Iniciar proyecto</span>
+        <span class="vd-btn vd-btn-ghost">Capacidades →</span>
+      </div>
+      <div class="vd-stats">
+        <div>
+          <div class="vd-stat-num">40+</div>
+          <div class="vd-stat-lbl">Lanzamientos</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">3sem</div>
+          <div class="vd-stat-lbl">Entrega avg</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">100%</div>
+          <div class="vd-stat-lbl">Satisfacción</div>
+        </div>
+      </div>
+    </div>
+    <div class="vd-info">
+      <div class="vd-name">B — Neo-Brutal Startup</div>
+      <div class="vd-desc">Fondo claro, negro duro, naranja-rojo de acento. Sin filtros, sin adornos. Transmite: "somos directos, cobramos por resultados". Referencia: linear.app, Basecamp, Stripe (beta).</div>
+      <div class="vd-palette">
+        <div class="vd-swatch" style="background:#f0f0ee; border-color:#ccc;"></div>
+        <div class="vd-swatch" style="background:#0a0a0a;"></div>
+        <div class="vd-swatch" style="background:#ff3b00;"></div>
+        <div class="vd-swatch" style="background:#e8e4e0; border-color:#ccc;"></div>
+      </div>
+      <span class="vd-tag">Neo-brutalismo</span>
+      <span class="vd-tag">Directo</span>
+      <span class="vd-tag">Confianza radical</span>
+    </div>
+  </div>
+
+  <!-- DIRECTION C: Cyber-Premium -->
+  <div class="vd-card dir-c card" data-choice="cyberpremium" onclick="toggleSelect(this)">
+    <div class="vd-hero">
+      <p class="vd-eyebrow" style="position:relative;z-index:2;">Agencia de Desarrollo Digital</p>
+      <h3 class="vd-headline" style="position:relative;z-index:2;">CONSTRUIMOS<br/><span>PRESENCIAS</span><br/>DIGITALES.</h3>
+      <p class="vd-sub" style="position:relative;z-index:2;">Código que convierte. Diseño que impacta.</p>
+      <div class="vd-cta-row" style="position:relative;z-index:2;">
+        <span class="vd-btn vd-btn-primary">Iniciar proyecto</span>
+        <span class="vd-btn vd-btn-ghost">Capacidades →</span>
+      </div>
+      <div class="vd-stats" style="position:relative;z-index:2;">
+        <div>
+          <div class="vd-stat-num">40+</div>
+          <div class="vd-stat-lbl">Lanzamientos</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">3sem</div>
+          <div class="vd-stat-lbl">Entrega avg</div>
+        </div>
+        <div>
+          <div class="vd-stat-num">100%</div>
+          <div class="vd-stat-lbl">Satisfacción</div>
+        </div>
+      </div>
+      <!-- Glass card -->
+      <div class="vd-glass" style="position:relative;z-index:2;">
+        <div class="vd-glass-line" style="background:linear-gradient(90deg,#818cf8,#34d399);width:70%"></div>
+        <div class="vd-glass-line" style="background:rgba(255,255,255,0.15);width:90%"></div>
+        <div class="vd-glass-line" style="background:rgba(255,255,255,0.08);width:55%"></div>
+        <div style="font-size:7px;color:rgba(255,255,255,0.4);margin-top:6px;letter-spacing:0.1em;">PROYECTO ACTIVO</div>
+        <div style="font-size:10px;color:#34d399;font-weight:700;margin-top:2px;">En progreso ✓</div>
+      </div>
+    </div>
+    <div class="vd-info">
+      <div class="vd-name">C — Cyber-Premium SaaS</div>
+      <div class="vd-desc">Evolución del actual: violeta + verde esmeralda en lugar de indigo+cyan. Glassmorphism, rejilla de fondo, glows de color. Referencia: Vercel, Clerk, Linear — el lenguaje visual del SaaS moderno.</div>
+      <div class="vd-palette">
+        <div class="vd-swatch" style="background:#060612;"></div>
+        <div class="vd-swatch" style="background:#7c3aed;"></div>
+        <div class="vd-swatch" style="background:#34d399;"></div>
+        <div class="vd-swatch" style="background:#818cf8;"></div>
+      </div>
+      <span class="vd-tag">SaaS premium</span>
+      <span class="vd-tag">Glassmorphism</span>
+      <span class="vd-tag">Evolución segura</span>
+    </div>
+  </div>
+
+</div>
