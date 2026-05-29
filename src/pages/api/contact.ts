@@ -1,31 +1,111 @@
 import type { APIRoute } from "astro";
+import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
 export const prerender = false;
 
-const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
-const TO_EMAIL = "Jerg.studio@gmail.com";
+// ── Env vars ──────────────────────────────────────────────
+const SUPABASE_URL              = import.meta.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+const RESEND_API_KEY            = import.meta.env.RESEND_API_KEY;
+const CALLMEBOT_PHONE           = import.meta.env.CALLMEBOT_PHONE;
+const CALLMEBOT_API_KEY         = import.meta.env.CALLMEBOT_API_KEY;
 
-// Simple in-memory rate limit: max 5 submissions per IP per 10 minutes
-const rateMap = new Map<string, { count: number; ts: number }>();
-const RATE_LIMIT = 5;
-const RATE_WINDOW_MS = 10 * 60 * 1000;
+// Resend free tier: onboarding@resend.dev can only send to the account owner email
+const TO_EMAIL = "elflaco0800@gmail.com";
+
+// ── In-memory rate limiter ─────────────────────────────────
+const rateLimitMap = new Map<string, number[]>();
+const RATE_LIMIT   = 5;
+const RATE_WINDOW  = 10 * 60 * 1000; // 10 minutes
+
+setInterval(() => {
+  const cutoff = Date.now() - RATE_WINDOW;
+  rateLimitMap.forEach((timestamps, ip) => {
+    const recent = timestamps.filter((t) => t > cutoff);
+    if (recent.length === 0) rateLimitMap.delete(ip);
+    else rateLimitMap.set(ip, recent);
+  });
+}, 10 * 60 * 1000);
 
 function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateMap.get(ip);
-  if (!entry || now - entry.ts > RATE_WINDOW_MS) {
-    rateMap.set(ip, { count: 1, ts: now });
-    return false;
-  }
-  if (entry.count >= RATE_LIMIT) return true;
-  entry.count++;
+  if (!ip || ip === "unknown") return false; // fail open
+  const now    = Date.now();
+  const cutoff = now - RATE_WINDOW;
+  const hits   = (rateLimitMap.get(ip) ?? []).filter((t) => t > cutoff);
+  if (hits.length >= RATE_LIMIT) return true;
+  rateLimitMap.set(ip, [...hits, now]);
   return false;
 }
 
-export const POST: APIRoute = async ({ request }) => {
-  const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+// ── XSS helper ────────────────────────────────────────────
+function esc(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// ── Validation ────────────────────────────────────────────
+function validate(body: Record<string, unknown>): string | null {
+  const { name, email, service, message } = body;
+  if (!name    || typeof name    !== "string" || name.trim().length    < 2)   return "Nombre inválido";
+  if (!email   || typeof email   !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Email inválido";
+  if (!service || typeof service !== "string" || service.trim().length === 0) return "Servicio requerido";
+  if (!message || typeof message !== "string" || message.trim().length < 10)  return "Mensaje muy corto";
+  if ((name    as string).length > 100)  return "Nombre demasiado largo";
+  if ((email   as string).length > 254)  return "Email demasiado largo";
+  if ((message as string).length > 2000) return "Mensaje demasiado largo";
+  return null;
+}
+
+// ── Fire-and-forget: Email ─────────────────────────────────
+async function notifyEmail(
+  name: string, email: string, phone: string, service: string, message: string
+): Promise<void> {
+  if (!RESEND_API_KEY) return;
+  const resend = new Resend(RESEND_API_KEY);
+  await resend.emails.send({
+    from:     "JERG.STUDIO Contacto <onboarding@resend.dev>",
+    to:       TO_EMAIL,
+    reply_to: email,
+    subject:  `Nuevo contacto: ${esc(service)} — ${esc(name)}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
+        <h2 style="color:#10b981;margin-bottom:24px">Nuevo mensaje de contacto</h2>
+        <table style="width:100%;border-collapse:collapse">
+          <tr><td style="padding:8px 0;color:#666;width:120px"><strong>Nombre</strong></td><td>${esc(name)}</td></tr>
+          <tr><td style="padding:8px 0;color:#666"><strong>Email</strong></td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+          <tr><td style="padding:8px 0;color:#666"><strong>Teléfono</strong></td><td>${esc(phone || "—")}</td></tr>
+          <tr><td style="padding:8px 0;color:#666"><strong>Servicio</strong></td><td>${esc(service)}</td></tr>
+        </table>
+        <hr style="margin:24px 0;border:none;border-top:1px solid #eee"/>
+        <p style="color:#666;margin-bottom:8px"><strong>Mensaje:</strong></p>
+        <p style="background:#f9f9f9;padding:16px;border-radius:8px;white-space:pre-wrap">${esc(message)}</p>
+      </div>`,
+  });
+}
+
+// ── Fire-and-forget: WhatsApp ──────────────────────────────
+async function notifyWhatsApp(
+  name: string, email: string, service: string
+): Promise<void> {
+  if (!CALLMEBOT_API_KEY || !CALLMEBOT_PHONE) return;
+  if (CALLMEBOT_API_KEY === "PENDIENTE" || CALLMEBOT_API_KEY === "pendiente") return;
+  const text = encodeURIComponent(
+    `🚀 Nuevo lead JERG.STUDIO\nNombre: ${name}\nEmail: ${email}\nServicio: ${service}`
+  );
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${text}&apikey=${CALLMEBOT_API_KEY}`;
+  await fetch(url);
+}
+
+// ── Main handler ──────────────────────────────────────────
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim()
+    ?? clientAddress
+    ?? "unknown";
 
   if (isRateLimited(ip)) {
     return new Response(JSON.stringify({ error: "Too many requests" }), {
@@ -34,7 +114,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  let body: Record<string, string>;
+  // Parse body
+  let body: Record<string, unknown>;
   try {
     body = await request.json();
   } catch {
@@ -44,53 +125,56 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { name, email, phone, service, message } = body;
-
-  if (!name || !email || !service || !message) {
-    return new Response(JSON.stringify({ error: "Missing required fields" }), {
+  // Validate
+  const validationError = validate(body);
+  if (validationError) {
+    return new Response(JSON.stringify({ error: validationError }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  if (!RESEND_API_KEY) {
-    console.error("RESEND_API_KEY not set");
-    return new Response(JSON.stringify({ error: "Server misconfiguration" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+  const name    = (body.name    as string).trim();
+  const email   = (body.email   as string).trim();
+  const phone   = (body.phone   as string | undefined)?.trim() ?? "";
+  const service = (body.service as string).trim();
+  const message = (body.message as string).trim();
+
+  // ── Critical path: save to Supabase ───────────────────────
+  if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      const { error: dbError } = await supabase
+        .from("contact_submissions")
+        .insert({ name, email, phone, service, message, ip });
+
+      if (dbError) {
+        console.error("Supabase error:", dbError);
+        return new Response(JSON.stringify({ error: "Error al guardar. Intenta de nuevo." }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    } catch (err) {
+      console.error("Supabase exception:", err);
+      return new Response(JSON.stringify({ error: "Error al guardar. Intenta de nuevo." }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
   }
 
-  const resend = new Resend(RESEND_API_KEY);
-
-  const { error } = await resend.emails.send({
-    from: "JERG.STUDIO Contacto <onboarding@resend.dev>",
-    to: TO_EMAIL,
-    reply_to: email,
-    subject: `Nuevo contacto: ${service} — ${name}`,
-    html: `
-      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
-        <h2 style="color:#10b981;margin-bottom:24px">Nuevo mensaje de contacto</h2>
-        <table style="width:100%;border-collapse:collapse">
-          <tr><td style="padding:8px 0;color:#666;width:120px"><strong>Nombre</strong></td><td style="padding:8px 0">${name}</td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Email</strong></td><td style="padding:8px 0"><a href="mailto:${email}">${email}</a></td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Teléfono</strong></td><td style="padding:8px 0">${phone || "—"}</td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Servicio</strong></td><td style="padding:8px 0">${service}</td></tr>
-        </table>
-        <hr style="margin:24px 0;border:none;border-top:1px solid #eee"/>
-        <p style="color:#666;margin-bottom:8px"><strong>Mensaje:</strong></p>
-        <p style="background:#f9f9f9;padding:16px;border-radius:8px;white-space:pre-wrap">${message}</p>
-      </div>
-    `,
+  // ── Fire-and-forget notifications (don't block 200) ───────
+  Promise.allSettled([
+    notifyEmail(name, email, phone, service, message),
+    notifyWhatsApp(name, email, service),
+  ]).then((results) => {
+    results.forEach((r, i) => {
+      if (r.status === "rejected") {
+        console.error(`Notification ${i} failed:`, r.reason);
+      }
+    });
   });
-
-  if (error) {
-    console.error("Resend error:", error);
-    return new Response(JSON.stringify({ error: "Failed to send email" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
 
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
