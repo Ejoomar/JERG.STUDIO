@@ -285,29 +285,38 @@ const contactInfo = [
     const inputs = [...form.querySelectorAll<HTMLInputElement>('.cf-input')];
     if (!inputs.map(validate).every(Boolean)) return;
 
-    const name    = (form.querySelector('#cf-name')    as HTMLInputElement).value.trim();
-    const email   = (form.querySelector('#cf-email')   as HTMLInputElement).value.trim();
-    const phone   = (form.querySelector('#cf-phone')   as HTMLInputElement).value.trim();
-    const service = (form.querySelector('#cf-service') as HTMLSelectElement).value;
-    const message = (form.querySelector('#cf-message') as HTMLTextAreaElement).value.trim();
+    const [nameEl, emailEl, phoneEl, serviceEl, messageEl] = inputs;
+    const name    = nameEl.value.trim();
+    const email   = emailEl.value.trim();
+    const phone   = phoneEl.value.trim();
+    const service = serviceEl.value;
+    const message = messageEl.value.trim();
 
+    const originalText = submitText.textContent;
     submitBtn.disabled = true;
     submitText.textContent = 'Enviando…';
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, phone, service, message }),
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
 
       if (res.status === 429) {
+        submitText.textContent = originalText;
         submitText.textContent = 'Demasiados intentos. Espera unos minutos.';
         submitBtn.disabled = false;
         return;
       }
 
       if (!res.ok) {
+        submitText.textContent = originalText;
         submitText.textContent = 'Error al enviar. Intenta de nuevo.';
         submitBtn.disabled = false;
         return;
@@ -320,6 +329,8 @@ const contactInfo = [
       successMsg.classList.add('flex');
 
     } catch {
+      clearTimeout(timeoutId);
+      submitText.textContent = originalText;
       submitText.textContent = 'Error de red. Intenta de nuevo.';
       submitBtn.disabled = false;
     }
