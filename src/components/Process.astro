@@ -31,7 +31,7 @@ const steps = [
 
   <!-- ── Section header (scrolls normally) ── -->
   <div class="process-header border-b border-default fade-up">
-    <div class="mx-auto max-w-6xl px-8 py-14 flex flex-col items-center gap-4 text-center">
+    <div class="mx-auto max-w-6xl px-8 py-10 flex flex-col items-center gap-4 text-center">
       <span class="eyebrow tracking-[0.22em]">Método</span>
       <h2 id="process-heading" class="tracking-tight" style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(3rem,7vw,5.5rem); font-weight: 400; color: #f5f0e8;">
         <em class="accent-italic">El Proceso</em>
@@ -56,7 +56,7 @@ const steps = [
     <!-- Steps track -->
     <div id="process-track">
       {steps.map(({ num, title, desc, icon }, i) => (
-        <div class="process-step" data-step={num}>
+        <div class={`process-step fade-up delay-${i + 1}`} data-step={num}>
 
           <!-- Decorative big number behind content -->
           <span class="step-bg-num" aria-hidden="true">{num}</span>
@@ -115,46 +115,38 @@ const steps = [
   }
 
   /* ── Pin zone ── */
-  /* Mobile: flujo vertical normal, sin overflow horizontal */
   #process-pin-zone {
     position: relative;
     overflow: visible;
   }
 
-  /* Desktop: GSAP pin + horizontal (gestionado por scrollytelling.ts) */
+  /* ── Track ── */
+  #process-track {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  /* Tablet: 2-column grid */
   @media (min-width: 768px) {
-    #process-pin-zone {
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      align-items: center;
+    #process-track {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 
-  /* ── Track ── */
-  /* Mobile: columna vertical */
-  #process-track {
-    display: flex;
-    flex-direction: column;
-    will-change: transform;
-  }
-
-  @media (min-width: 768px) {
+  /* Large desktop: 4-column row */
+  @media (min-width: 1280px) {
     #process-track {
-      flex-direction: row;
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
   /* ── Individual step ── */
-  /* Mobile: ancho completo, altura auto, apilado verticalmente */
   .process-step {
-    width: 100%;
-    min-height: auto;
     position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3.5rem 1.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 3rem 1.5rem;
     border-bottom: 1px solid var(--color-border);
     border-right: none;
   }
@@ -163,25 +155,59 @@ const steps = [
     border-bottom: none;
   }
 
+  /* Tablet 2-col grid borders */
   @media (min-width: 768px) {
     .process-step {
-      flex-shrink: 0;
-      width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
-      padding: 4rem 8vw;
-      border-bottom: none;
+      min-height: 360px;
+      padding: 2.5rem 2rem;
       border-right: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    /* Right column: no right border */
+    .process-step:nth-child(2n) {
+      border-right: none;
+    }
+
+    /* Bottom row: no bottom border */
+    .process-step:nth-child(3),
+    .process-step:nth-child(4) {
+      border-bottom: none;
+    }
+
+    .process-step:last-child {
+      border-bottom: none;
+    }
+  }
+
+  /* Large desktop 4-col row borders */
+  @media (min-width: 1280px) {
+    .process-step {
+      min-height: 440px;
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--color-border);
+      border-bottom: none;
+    }
+
+    /* Reset 2-col nth-child rule */
+    .process-step:nth-child(2n) {
+      border-right: 1px solid var(--color-border);
+    }
+
+    /* Last step: no right border */
+    .process-step:nth-child(4),
+    .process-step:last-child {
+      border-right: none;
     }
   }
 
   /* ── Decorative big number ── */
   .step-bg-num {
     position: absolute;
-    right: -2vw;
-    bottom: -2rem;
+    right: -0.5rem;
+    bottom: -1rem;
     font-family: "DM Serif Display", Georgia, serif;
-    font-size: clamp(7rem, 18vw, 18rem);
+    font-size: clamp(6rem, 10vw, 10rem);
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.06em;
@@ -220,8 +246,8 @@ const steps = [
 
   @media (min-width: 768px) {
     .step-icon {
-      width: 4.5rem;
-      height: 4.5rem;
+      width: 4rem;
+      height: 4rem;
     }
   }
 
@@ -257,54 +283,14 @@ const steps = [
     max-width: 38rem;
   }
 
-  /* ── Next hint (desktop) ── */
+  /* ── Next hint — hidden (grid layout doesn't need it) ── */
   .step-next-hint {
     display: none;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.25);
-    margin-top: 0.5rem;
   }
 
-  @media (min-width: 768px) {
-    .step-next-hint {
-      display: flex;
-    }
-  }
-
-  /* ── Step counter (desktop only) ── */
+  /* ── Step counter — hidden (grid layout doesn't need it) ── */
   .process-counter {
     display: none;
-    position: absolute;
-    top: 2rem;
-    right: 2.5rem;
-    z-index: 2;
-    font-family: "DM Serif Display", Georgia, serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: rgba(255, 255, 255, 0.3);
-    gap: 0.4rem;
-    align-items: center;
-  }
-
-  #process-step-num {
-    font-size: 1.2rem;
-    color: var(--color-primary, #10b981);
-  }
-
-  .counter-sep {
-    opacity: 0.4;
-  }
-
-  @media (min-width: 768px) {
-    .process-counter {
-      display: flex;
-    }
   }
 
   /* ── Left accent bar on step hover ── */
