@@ -140,27 +140,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const service = (body.service as string).trim();
   const message = (body.message as string).trim();
 
-  // ── Critical path: save to Supabase ───────────────────────
+  // ── Save to Supabase (non-blocking — never fails the request) ─
   if (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
     try {
       const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
       const { error: dbError } = await supabase
         .from("contact_submissions")
         .insert({ name, email, phone, service, message, ip });
-
-      if (dbError) {
-        console.error("Supabase error:", dbError);
-        return new Response(JSON.stringify({ error: "Error al guardar. Intenta de nuevo." }), {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
+      if (dbError) console.error("Supabase error:", dbError);
     } catch (err) {
       console.error("Supabase exception:", err);
-      return new Response(JSON.stringify({ error: "Error al guardar. Intenta de nuevo." }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
     }
   }
 
