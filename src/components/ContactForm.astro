@@ -281,14 +281,17 @@ const contactInfo = [
     el.addEventListener('input', () => clearError(el));
   });
 
-  // TODO: Replace YOUR_FORM_ID with your actual Formspree form ID
-  // Get it at https://formspree.io → create free account → create form → copy the ID
-  const FORMSPREE_URL = 'https://formspree.io/f/xeeddqap';
-
   form?.addEventListener('submit', async e => {
     e.preventDefault();
     const inputs = [...form.querySelectorAll<HTMLInputElement>('.cf-input')];
     if (!inputs.map(validate).every(Boolean)) return;
+
+    const [nameEl, emailEl, phoneEl, serviceEl, messageEl] = inputs;
+    const name    = nameEl.value.trim();
+    const email   = emailEl.value.trim();
+    const phone   = phoneEl.value.trim();
+    const service = serviceEl.value;
+    const message = messageEl.value.trim();
 
     const originalText = submitText.textContent;
     submitBtn.disabled = true;
@@ -298,13 +301,20 @@ const contactInfo = [
     const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, service, message }),
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
+
+      if (res.status === 429) {
+        submitText.textContent = 'Demasiados intentos. Espera unos minutos.';
+        submitBtn.disabled = false;
+        setTimeout(() => { submitText.textContent = originalText; }, 3000);
+        return;
+      }
 
       if (!res.ok) {
         submitText.textContent = 'Error al enviar. Intenta de nuevo.';
