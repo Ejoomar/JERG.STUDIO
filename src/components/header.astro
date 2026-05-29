@@ -105,12 +105,11 @@ const navItems: Array<NavItem> = [
   const menuModalId = "menu-modal";
   const header = document.querySelector("#page-header") as HTMLElement;
   const page = document.documentElement;
-  const menu = document.querySelector(`#${menuModalId} ul`);
+  const menu = document.querySelector(`#${menuModalId} .mobile-nav-links`);
   const openNavButton = document.querySelector("#open-nav-button");
   const closeNavButton = document.querySelector("#close-nav-button");
 
   invariant(header, "header should not be null");
-  invariant(menu, "menu should not be null");
   invariant(openNavButton, "openNavButton should not be null");
   invariant(closeNavButton, "closeNavButton should not be null");
 
@@ -125,7 +124,7 @@ const navItems: Array<NavItem> = [
     header.classList.toggle("fixed-header", d < 0);
   });
 
-  menu.addEventListener("click", (event) => {
+  menu?.addEventListener("click", (event) => {
     if ((event.target as HTMLElement).tagName === "A") closeMenu();
   });
 </script>
