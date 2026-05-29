@@ -309,16 +309,16 @@ const contactInfo = [
       clearTimeout(timeoutId);
 
       if (res.status === 429) {
-        submitText.textContent = originalText;
         submitText.textContent = 'Demasiados intentos. Espera unos minutos.';
         submitBtn.disabled = false;
+        setTimeout(() => { submitText.textContent = originalText; }, 3000);
         return;
       }
 
       if (!res.ok) {
-        submitText.textContent = originalText;
         submitText.textContent = 'Error al enviar. Intenta de nuevo.';
         submitBtn.disabled = false;
+        setTimeout(() => { submitText.textContent = originalText; }, 3000);
         return;
       }
 
@@ -330,9 +330,9 @@ const contactInfo = [
 
     } catch {
       clearTimeout(timeoutId);
-      submitText.textContent = originalText;
       submitText.textContent = 'Error de red. Intenta de nuevo.';
       submitBtn.disabled = false;
+      setTimeout(() => { submitText.textContent = originalText; }, 3000);
     }
   });
 </script>
