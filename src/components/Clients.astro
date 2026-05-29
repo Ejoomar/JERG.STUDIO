@@ -1,132 +1,226 @@
 ---
 import ContentSection from "~/components/content-section.astro";
 
-const clients = [
-  { name: "Startups",       abbr: "🚀", color: "#10b981" },
-  { name: "E-commerce",     abbr: "🛒", color: "#6366f1" },
-  { name: "Restaurantes",   abbr: "🍽️", color: "#f59e0b" },
-  { name: "Clínicas",       abbr: "🏥", color: "#22d3ee" },
-  { name: "Fintech",        abbr: "💳", color: "#8b5cf6" },
-  { name: "Educación",      abbr: "📚", color: "#10b981" },
-  { name: "Constructoras",  abbr: "🏗️", color: "#ef4444" },
-  { name: "SaaS",           abbr: "⚡", color: "#34d399" },
+interface Tech {
+  name: string;
+  brand: string;
+  svg: string;
+}
+
+const stack: Tech[] = [
+  // ── Fila 1 (→ izquierda, 35 s) ──────────────────────────────────────
+  {
+    name: "Next.js",
+    brand: "#ffffff",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M11.214.006c-.052.005-.216.022-.364.033C7.442.346 4.25 2.185 2.225 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.748 0 .896.012 1.09.108 1.748.652 4.507 3.859 8.293 8.208 9.696.779.251 1.6.422 2.534.526.364.04 1.936.04 2.3 0 1.611-.179 2.976-.578 4.322-1.264.207-.105.247-.134.219-.157-.02-.014-.899-1.196-1.955-2.626l-1.919-2.602-2.404-3.558a342.738 342.738 0 0 0-2.422-3.556c-.009-.003-.018 1.578-.023 3.51-.007 3.384-.01 3.522-.052 3.6a.426.426 0 0 1-.206.214c-.075.038-.14.045-.495.045H7.81l-.108-.068a.44.44 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361 1.557 2.362 3.687 5.587 4.734 7.171l1.9 2.879.097-.063a12.318 12.318 0 0 0 2.465-2.163 11.96 11.96 0 0 0 2.831-6.134c.096-.66.108-.854.108-1.748 0-.896-.012-1.09-.108-1.748C23.234 4.961 20.027 1.175 15.678-.228 14.911-.477 14.094-.65 13.181-.752c-.225-.024-1.776-.05-1.967-.034zm4.913 7.26c.112.056.203.165.236.281.018.063.023 1.367.018 4.304l-.006 4.215-.744-1.14-.746-1.14v-3.066c0-1.983.009-3.097.023-3.151a.473.473 0 0 1 .232-.292c.097-.05.132-.055.5-.055.347 0 .408.005.487.044z"/></svg>`,
+  },
+  {
+    name: "Astro",
+    brand: "#ff5d01",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8.358 20.162c-1.186-1.07-1.532-3.316-1.038-4.944.856 1.026 2.043 1.352 3.272 1.535 1.897.283 3.76.177 5.522-.678.202-.098.388-.229.608-.36.166.473.209.95.151 1.437-.14 1.185-.738 2.1-1.688 2.794-.38.277-.782.525-1.175.787-1.205.804-1.531 1.747-1.078 3.119l.044.148a3.158 3.158 0 0 1-1.407-1.188 3.31 3.31 0 0 1-.544-1.815c-.004-.32-.004-.642-.048-.958-.106-.769-.472-1.113-1.161-1.133-.707-.02-1.266.41-1.415 1.087-.011.052-.027.103-.043.16zM2.04 13.738s3.466-1.69 6.942-1.69l2.62-8.108c.098-.39.385-.659.708-.659.323 0 .61.27.708.66l2.62 8.107c4.115 0 6.942 1.69 6.942 1.69L17.137.95C16.968.482 16.683.2 16.298.2H7.7c-.385 0-.659.282-.829.75z"/></svg>`,
+  },
+  {
+    name: "Supabase",
+    brand: "#3ecf8e",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.976 0a1.42 1.42 0 0 0-1.13.564L1.293 15.16c-.736.936-.07 2.31 1.122 2.31h9.276v6.07a1.42 1.42 0 0 0 2.55.856l11.553-14.596c.737-.936.07-2.31-1.122-2.31h-9.276V1.42A1.42 1.42 0 0 0 13.976 0z"/></svg>`,
+  },
+  {
+    name: "Stripe",
+    brand: "#635bff",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13.479 9.883c-1.626-.604-2.512-.931-2.512-1.618 0-.541.479-.866 1.339-.866 1.575 0 3.187.604 4.301 1.146l.625-3.844c-.881-.418-2.696-1.146-5.171-1.146-1.756 0-3.213.456-4.255 1.301-1.092.886-1.662 2.169-1.662 3.719 0 2.831 1.738 4.033 4.555 5.052 1.812.645 2.418 1.106 2.418 1.808 0 .677-.583 1.073-1.621 1.073-1.281 0-3.404-.625-4.808-1.426l-.625 3.885c1.198.677 3.412 1.366 5.713 1.366 1.857 0 3.404-.438 4.453-1.27 1.169-.916 1.766-2.262 1.766-4.012 0-2.893-1.766-4.106-4.625-5.146z"/></svg>`,
+  },
+  {
+    name: "TypeScript",
+    brand: "#3178c6",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a.999.999 0 0 0 .125-.49 1.05 1.05 0 0 0-.196-.62 2.066 2.066 0 0 0-.539-.512 5.41 5.41 0 0 0-.814-.448 16.71 16.71 0 0 0-1.038-.448 5.74 5.74 0 0 1-2.18-1.453c-.474-.566-.711-1.288-.711-2.166 0-.614.124-1.142.373-1.585.249-.443.587-.808 1.016-1.094a4.624 4.624 0 0 1 1.491-.629 7.872 7.872 0 0 1 1.793-.201zm-8.391.391v2.016H7.18V21h-2.45v-8.842H1.768v-2.016z"/></svg>`,
+  },
+  {
+    name: "Tailwind CSS",
+    brand: "#38bdf8",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/></svg>`,
+  },
+
+  // ── Fila 2 (← derecha, 28 s) ──────────────────────────────────────
+  {
+    name: "n8n",
+    brand: "#ea4b71",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.4 5.2a2.6 2.6 0 0 0-2.524 1.971h-2.51c-1.087 0-2.017.778-2.218 1.846l-.184.974a.867.867 0 0 1-.851.71h-.566a2.601 2.601 0 0 0-2.524-1.972 2.6 2.6 0 0 0-2.524 1.972h-.778A2.601 2.601 0 0 0 1.6 8.7a2.6 2.6 0 0 0 0 5.2 2.6 2.6 0 0 0 2.524-1.972h.778a2.601 2.601 0 0 0 2.524 1.972 2.6 2.6 0 0 0 2.524-1.972h.566c.418 0 .777.297.851.71l.184.973c.2 1.069 1.131 1.847 2.218 1.847h.51A2.601 2.601 0 0 0 18.8 17.43a2.6 2.6 0 0 0 0-5.2 2.6 2.6 0 0 0-2.521 1.97h-.51a.867.867 0 0 1-.852-.71l-.184-.973a2.247 2.247 0 0 0-.808-1.349 2.247 2.247 0 0 0 .808-1.348l.184-.974a.867.867 0 0 1 .851-.71h2.512A2.601 2.601 0 0 0 21.4 10.4a2.6 2.6 0 0 0 0-5.2z"/></svg>`,
+  },
+  {
+    name: "React Native",
+    brand: "#61dafb",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38a2.167 2.167 0 0 0-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44a23.476 23.476 0 0 0-3.107-.534A23.892 23.892 0 0 0 12.769 4.7c1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442a22.73 22.73 0 0 0-3.113.538 15.02 15.02 0 0 1-.254-1.42c-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.094.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87a25.64 25.64 0 0 1-4.412.005 26.64 26.64 0 0 1-1.183-1.86c-.372-.64-.71-1.29-1.018-1.946a25.17 25.17 0 0 1 1.013-1.954c.38-.66.773-1.286 1.18-1.868A25.245 25.245 0 0 1 12 8.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933a25.952 25.952 0 0 0-1.345-2.32zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493a23.966 23.966 0 0 0-1.1-2.98c.45-1.017.81-2.01 1.085-2.962zm-13.395.004c.278.948.638 1.942 1.085 2.957-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.37-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39a25.819 25.819 0 0 0 1.341-2.338zm-9.945.02c.2.392.41.783.635 1.175.23.39.465.772.705 1.143a22.005 22.005 0 0 1-2.006-.386c.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295a1.185 1.185 0 0 1-.553-.132c-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>`,
+  },
+  {
+    name: "Vercel",
+    brand: "#ffffff",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 1.608l12 20.784H0z"/></svg>`,
+  },
+  {
+    name: "PostgreSQL",
+    brand: "#4169e1",
+    // SimpleIcons PostgreSQL — official monochrome path
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M17.128 0a10.134 10.134 0 0 0-2.755.403l-.063.02A10.922 10.922 0 0 0 12.6.258C11.422.238 10.41.524 9.594 1.1a.8.8 0 0 0-.05.036C7.95.72 6.17.693 4.585.79a.752.752 0 0 0-.256.064C2.553 1.588 1.5 2.805 1.15 4.453c-.414 1.944.164 4.218 1.57 6.098.352.472.736.935 1.11 1.365.21.241.295.343.356.432.195.283.228.553.228.553s-.022.267.073.424c.022.034.041.064.06.093.129.197.26.388.395.571.087.12.177.24.268.357.09.118.184.234.276.347.058.072.117.14.175.205C6.2 15.81 7.2 16.626 8.33 17.232a2.98 2.98 0 0 0-.04.316c.004.169.044.33.117.474.073.143.178.268.304.367.225.173.498.281.788.319.056.006.112.01.168.01.342 0 .68-.105.963-.299a1.68 1.68 0 0 0 .34-.297c.1.014.2.022.3.022.1 0 .2-.008.3-.022.07.079.148.155.237.22.283.194.62.3.963.3.056 0 .112-.004.168-.01.29-.038.563-.146.788-.319a1.11 1.11 0 0 0 .314-.376c.073-.142.113-.301.113-.47 0-.11-.014-.217-.044-.318a6.9 6.9 0 0 0 1.285-.742l.028-.02c.143-.098.282-.198.418-.302.136.036.276.056.42.056.202 0 .399-.038.58-.107.276-.104.511-.281.682-.505.114-.15.2-.319.252-.5.105-.366.079-.756-.077-1.104a4.62 4.62 0 0 0-.424-.74 5.9 5.9 0 0 0 .038-.112c.31.044.634.064.967.057.62-.013 1.27-.111 1.913-.297C21.04 14.1 22.5 12.698 22.5 11.2c0-.765-.343-1.494-.96-2.05-.518-.47-1.226-.802-2.03-.949a3.87 3.87 0 0 0-.455-.049C20.3 6.88 20.405 5.38 19.7 4.2c-.5-.835-1.294-1.491-2.35-1.95a6.576 6.576 0 0 0-.22-2.25z"/></svg>`,
+  },
+  {
+    name: "React",
+    brand: "#61dafb",
+    svg: `<svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38a2.167 2.167 0 0 0-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44a23.476 23.476 0 0 0-3.107-.534A23.892 23.892 0 0 0 12.769 4.7c1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442a22.73 22.73 0 0 0-3.113.538 15.02 15.02 0 0 1-.254-1.42c-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.094.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87a25.64 25.64 0 0 1-4.412.005 26.64 26.64 0 0 1-1.183-1.86c-.372-.64-.71-1.29-1.018-1.946a25.17 25.17 0 0 1 1.013-1.954c.38-.66.773-1.286 1.18-1.868A25.245 25.245 0 0 1 12 8.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933a25.952 25.952 0 0 0-1.345-2.32zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493a23.966 23.966 0 0 0-1.1-2.98c.45-1.017.81-2.01 1.085-2.962zm-13.395.004c.278.948.638 1.942 1.085 2.957-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.37-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39a25.819 25.819 0 0 0 1.341-2.338zm-9.945.02c.2.392.41.783.635 1.175.23.39.465.772.705 1.143a22.005 22.005 0 0 1-2.006-.386c.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295a1.185 1.185 0 0 1-.553-.132c-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>`,
+  },
 ];
+
+const row1 = stack.slice(0, 6);   // Next.js · Astro · Supabase · Stripe · TypeScript · Tailwind CSS
+const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL · React
 ---
 
-<ContentSection title="Para cualquier industria" id="clients">
+<ContentSection title="Las herramientas que construyen lo que diseñamos" id="clients">
   <Fragment slot="eyebrow">
-    <span class="eyebrow">Sectores</span>
+    <span class="eyebrow">Stack</span>
   </Fragment>
   <Fragment slot="lead">
-    Hemos trabajado con negocios de distintos rubros.
-    Si tienes una idea,
-    <span class="text-primary">nosotros la construimos</span>.
+    El mismo stack que usan Airbnb, Vercel y los mejores productos del mundo.
   </Fragment>
 
-  <div class="w-full overflow-hidden fade-up" aria-label="Listado de clientes">
-    <!-- Fila 1 — izquierda -->
+  <div class="w-full overflow-hidden fade-up" aria-label="Stack tecnológico del estudio">
+
+    <!-- Fila 1 → izquierda, 35 s -->
     <div class="marquee-outer mb-3">
-      <div class="marquee-track">
-        {[...clients, ...clients].map((c, i) => (
-          <div class="marquee-card" style={`--c: ${c.color};`} aria-hidden={i >= clients.length ? "true" : undefined}>
-            <span class="marquee-abbr">{c.abbr}</span>
-            <span class="marquee-name">{c.name}</span>
+      <div class="marquee-track" style="animation-duration: 35s;">
+        {[...row1, ...row1].map((t, i) => (
+          <div
+            class="tech-card"
+            style={`--brand: ${t.brand};`}
+            aria-hidden={i >= row1.length ? "true" : undefined}
+          >
+            <span class="tech-logo" set:html={t.svg} />
+            <span class="tech-name">{t.name}</span>
           </div>
         ))}
       </div>
     </div>
 
-    <!-- Fila 2 — derecha (sentido inverso) -->
+    <!-- Fila 2 ← derecha, 28 s -->
     <div class="marquee-outer">
-      <div class="marquee-track marquee-reverse">
-        {[...clients.slice().reverse(), ...clients.slice().reverse()].map((c, i) => (
-          <div class="marquee-card" style={`--c: ${c.color};`} aria-hidden="true">
-            <span class="marquee-abbr">{c.abbr}</span>
-            <span class="marquee-name">{c.name}</span>
+      <div class="marquee-track marquee-reverse" style="animation-duration: 28s;">
+        {[...row2, ...row2].map((t, i) => (
+          <div
+            class="tech-card"
+            style={`--brand: ${t.brand};`}
+            aria-hidden={i >= row2.length ? "true" : undefined}
+          >
+            <span class="tech-logo" set:html={t.svg} />
+            <span class="tech-name">{t.name}</span>
           </div>
         ))}
       </div>
     </div>
-  </div>
 
-  <!-- Stats row -->
-  <div class="mt-12 flex w-full max-w-3xl flex-wrap justify-center gap-px border border-default fade-up delay-2">
-    {[
-      { value: "50+",  label: "Proyectos entregados" },
-      { value: "98%",  label: "Satisfacción del cliente" },
-      { value: "4.9★", label: "Valoración promedio" },
-      { value: "3 sem", label: "Tiempo promedio entrega" },
-    ].map(({ value, label }) => (
-      <div class="flex flex-1 flex-col items-center gap-1 bg-offset px-6 py-5 min-w-[140px]">
-        <span class="gradient-text font-display font-extrabold text-3xl">{value}</span>
-        <span class="text-center text-xs text-offset">{label}</span>
-      </div>
-    ))}
   </div>
 </ContentSection>
 
 <style>
+  /* ── Marquee outer: fade edges ── */
   .marquee-outer {
     position: relative;
     width: 100%;
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
   }
 
+  /* ── Track ── */
   .marquee-track {
     display: flex;
     gap: 0.75rem;
     width: max-content;
-    animation: marquee-left 30s linear infinite;
+    animation: marquee-left 35s linear infinite;
   }
 
   .marquee-reverse {
     animation-name: marquee-right;
-    animation-duration: 36s;
   }
 
-  .marquee-track:hover { animation-play-state: paused; }
+  /* Pause on hover over the row */
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
 
-  .marquee-card {
+  /* ── Tech card ── */
+  .tech-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    min-width: 148px;
-    padding: 1rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    background: #111827;
-    border-radius: 0.75rem;
-    transition: border-color 0.25s, background 0.25s;
+    gap: 0.6rem;
+    min-width: 150px;
+    height: 130px;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-background-offset);
+    border-radius: 0.875rem;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease,
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.3s ease;
     cursor: default;
   }
 
-  .marquee-card:hover {
-    border-color: color-mix(in srgb, var(--c) 50%, transparent);
-    background: color-mix(in srgb, var(--c) 8%, #111827);
+  .tech-card:hover {
+    border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+    background: color-mix(in srgb, var(--brand) 7%, var(--color-background-offset));
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--brand) 18%, transparent);
   }
 
-  .marquee-abbr {
-    font-family: "DM Serif Display", Georgia, serif;
-    font-weight: 400;
-    font-size: 1.35rem;
-    background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 60%, #34d399));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
+  /* ── Logo icon: muted white at rest → brand color on hover ── */
+  .tech-logo {
+    display: inline-flex;
+    color: rgba(245, 240, 232, 0.5);
+    transition:
+      color 0.3s ease,
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .marquee-name {
-    font-size: 0.7rem;
+  .tech-card:hover .tech-logo {
+    color: var(--brand);
+    transform: scale(1.1);
+  }
+
+  /* Make sure the injected SVG inherits color via currentColor */
+  .tech-logo :global(svg) {
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+
+  /* ── Tech name ── */
+  .tech-name {
+    font-size: 0.72rem;
     font-weight: 600;
     color: var(--color-text-offset);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     white-space: nowrap;
+    transition: color 0.3s ease;
   }
 
+  .tech-card:hover .tech-name {
+    color: var(--color-text);
+  }
+
+  /* ── Keyframes ── */
   @keyframes marquee-left {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -137,7 +231,10 @@ const clients = [
     to   { transform: translateX(0); }
   }
 
+  /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
+    .marquee-track {
+      animation: none;
+    }
   }
 </style>
