@@ -1,75 +1,78 @@
 ---
 import ContentSection from "~/components/content-section.astro";
-
-const testimonials = [
-  {
-    name: "Andrés Vargas",
-    role: "Co-founder & CEO",
-    company: "FounderOS",
-    text: "Habíamos intentado con dos agencias antes. Nadie entendía el timing de una startup. JERG.STUDIO lanzó nuestra MVP en 3 semanas y el diseño superó lo que teníamos en Figma. Nuestro pitch deck ahora incluye capturas del producto.",
-    initials: "AV",
-    color: "#10b981",
-  },
-  {
-    name: "Sofía Herrera",
-    role: "Fundadora",
-    company: "PelicanDTC",
-    text: "Tenía mi tienda en Etsy y quería algo propio. Me entregaron un e-commerce con Stripe, gestión de inventario y blog. El primer mes: 250% más ventas que en Etsy. Lo que más valoro: precio fijo, cero sorpresas.",
-    initials: "SH",
-    color: "#34d399",
-  },
-  {
-    name: "Mateo Rojas",
-    role: "Founder",
-    company: "TallerFlow",
-    text: "Tenía la idea, ellos la volvieron realidad. En 4 semanas tenía una app web funcional para mis clientes. Los talleres que la usan redujeron 70% las ausencias a citas. Simple, útil y bien construida desde el día uno.",
-    initials: "MR",
-    color: "#8b5cf6",
-  },
-];
 ---
 
-<ContentSection title="Testimonios" id="testimonials">
+<ContentSection title="Primeros Clientes" id="testimonials">
   <Fragment slot="eyebrow">
-    <span class="eyebrow">Lo que dicen</span>
+    <span class="eyebrow">Etapa de lanzamiento</span>
   </Fragment>
   <Fragment slot="lead">
-    Founders reales, resultados
-    <span class="text-primary">que se miden</span>.
+    Sé parte de los primeros
+    <span class="text-primary">casos de éxito</span>.
   </Fragment>
 
-  <div class="grid w-full max-w-6xl grid-cols-1 gap-px md:grid-cols-3">
-    {testimonials.map(({ name, role, company, text, initials, color }) => (
-      <blockquote class="group flex flex-col gap-6 border border-default bg-offset p-8 transition-colors duration-300 hover:border-primary/30 cursor-default js-testi-card">
-        <!-- Stars -->
-        <div class="flex gap-0.5" aria-label="5 de 5 estrellas" role="img">
-          {Array.from({ length: 5 }).map(() => (
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" aria-hidden="true">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-          ))}
-        </div>
-
-        <!-- Quote mark -->
-        <p class="relative text-sm text-offset leading-relaxed flex-1 italic before:content-['"'] before:text-4xl before:text-primary/20 before:leading-none before:float-left before:mr-1 before:-mt-1" style="font-family: 'DM Serif Display', Georgia, serif;">
-          {text}
-        </p>
-
-        <!-- Author -->
-        <footer class="flex items-center gap-3 border-t border-default pt-5">
-          <div
-            class="flex size-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
-            style={`background: ${color}20; color: ${color}; border: 1px solid ${color}35;`}
-            aria-hidden="true"
-          >
-            {initials}
-          </div>
-          <div>
-            <cite class="not-italic font-extrabold text-sm">{name}</cite>
-            <p class="text-xs text-offset">{role}, {company}</p>
-          </div>
-        </footer>
-      </blockquote>
-    ))}
+  <div class="first-client-card">
+    <div class="first-client-icon" aria-hidden="true">🚀</div>
+    <h3 class="text-xl font-extrabold mb-3">Sé parte de los primeros proyectos</h3>
+    <p class="text-sm text-offset leading-relaxed max-w-md mx-auto">
+      Estamos en etapa de lanzamiento y trabajamos con un número
+      limitado de clientes para entregar resultados excepcionales.
+      Primera consulta 100% gratis, sin compromiso.
+    </p>
+    <div class="first-client-badges">
+      <span>✓ Precio especial de lanzamiento</span>
+      <span>✓ Atención personalizada directa</span>
+      <span>✓ Sin lista de espera por ahora</span>
+    </div>
+    <a
+      href="https://wa.me/56967657198?text=Hola%2C%20me%20interesa%20ser%20uno%20de%20los%20primeros%20clientes"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-primary inline-flex"
+    >
+      Hablar con el equipo →
+    </a>
   </div>
 </ContentSection>
+
+<style>
+  .first-client-card {
+    background: #0d0d0d;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .first-client-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .first-client-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 1.5rem 0 2rem;
+    font-size: 0.82rem;
+    color: #10b981;
+    font-weight: 600;
+  }
+
+  .first-client-badges span {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.18);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  @media (max-width: 480px) {
+    .first-client-card {
+      padding: 2rem 1.25rem;
+    }
+  }
+</style>

@@ -2,25 +2,25 @@
 import ContentSection from "~/components/content-section.astro";
 
 const clients = [
-  { name: "TechVentures",  abbr: "TV", color: "#6366f1" },
-  { name: "InnovateLabs",  abbr: "IL", color: "#22d3ee" },
-  { name: "GrowthCo",      abbr: "GC", color: "#8b5cf6" },
-  { name: "NextWave",      abbr: "NW", color: "#10b981" },
-  { name: "DataStream",    abbr: "DS", color: "#f59e0b" },
-  { name: "ConstructMax",  abbr: "CM", color: "#ef4444" },
-  { name: "MediaPro",      abbr: "MP", color: "#6366f1" },
-  { name: "StartupHub",    abbr: "SH", color: "#22d3ee" },
+  { name: "Startups",       abbr: "🚀", color: "#10b981" },
+  { name: "E-commerce",     abbr: "🛒", color: "#6366f1" },
+  { name: "Restaurantes",   abbr: "🍽️", color: "#f59e0b" },
+  { name: "Clínicas",       abbr: "🏥", color: "#22d3ee" },
+  { name: "Fintech",        abbr: "💳", color: "#8b5cf6" },
+  { name: "Educación",      abbr: "📚", color: "#10b981" },
+  { name: "Constructoras",  abbr: "🏗️", color: "#ef4444" },
+  { name: "SaaS",           abbr: "⚡", color: "#34d399" },
 ];
 ---
 
-<ContentSection title="Confían en nosotros" id="clients">
+<ContentSection title="Para cualquier industria" id="clients">
   <Fragment slot="eyebrow">
-    <span class="eyebrow">Clientes</span>
+    <span class="eyebrow">Sectores</span>
   </Fragment>
   <Fragment slot="lead">
-    Empresas de distintas industrias que
-    <span class="text-primary">eligieron trabajar</span>
-    con nosotros y volvieron.
+    Hemos trabajado con negocios de distintos rubros.
+    Si tienes una idea,
+    <span class="text-primary">nosotros la construimos</span>.
   </Fragment>
 
   <div class="w-full overflow-hidden fade-up" aria-label="Listado de clientes">

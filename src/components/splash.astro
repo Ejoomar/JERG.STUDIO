@@ -9,7 +9,7 @@ const stats = [
 ];
 ---
 
-<section class="relative h-full bg-black overflow-hidden">
+<section id="splash" class="relative h-full bg-black overflow-hidden">
   <Starfield />
 
   <!-- Grid muy sutil -->
@@ -160,6 +160,12 @@ const stats = [
     .stats-row > div {
       border-left: none !important;
       padding-left: 0 !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      letter-spacing: -0.01em !important;
     }
   }
 

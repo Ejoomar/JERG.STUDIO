@@ -46,65 +46,88 @@ function initCurtain(): Promise<void> {
 }
 
 // ═══════════════════════════════════════════════
-// 2. CUSTOM CURSOR (desktop / pointer: fine only)
-//    Magnetic buttons get opacity dim, NOT scale
-//    to avoid visual conflict when the button moves
+// 2. CUSTOM CURSOR — Opción A: código flotante
+//    Dot marfil sutil como puntero guía +
+//    caracteres de código que flotan y se desvanecen
 // ═══════════════════════════════════════════════
 function initCursor() {
-  const dot  = document.getElementById("cursor-dot");
-  const ring = document.getElementById("cursor-ring");
-  if (!dot || !ring) return;
+  const dot = document.getElementById("cursor-dot");
+  if (!dot) return;
   if (!window.matchMedia("(pointer: fine)").matches) return;
 
   document.documentElement.classList.add("custom-cursor");
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let ringX  = mouseX;
-  let ringY  = mouseY;
-  const LERP = 0.1;
+  const CHARS = ["{}", "</>", "( )", "[]", "=>", "//", "_;", "/*", "fn", "&&", "==", "++"];
+  const codeEls = Array.from(document.querySelectorAll<HTMLElement>(".c-code"));
+  const active  = new Array(codeEls.length).fill(false);
 
+  let mouseX   = window.innerWidth  / 2;
+  let mouseY   = window.innerHeight / 2;
+  let lastSpawn = 0;
+
+  // Track mouse — dot follows instantly
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     gsap.set(dot, { x: mouseX, y: mouseY });
   });
 
-  function lerpRing() {
-    ringX += (mouseX - ringX) * LERP;
-    ringY += (mouseY - ringY) * LERP;
-    gsap.set(ring, { x: ringX, y: ringY });
-    requestAnimationFrame(lerpRing);
-  }
-  lerpRing();
+  // Spawn a floating code character near the cursor
+  function spawnChar(now: number) {
+    if (now - lastSpawn < 90) return;
+    const slot = active.findIndex((a) => !a);
+    if (slot < 0) return;
 
-  // Regular interactors — expand ring
+    active[slot] = true;
+    lastSpawn    = now;
+
+    const el    = codeEls[slot];
+    const char  = CHARS[Math.floor(Math.random() * CHARS.length)];
+    const ox    = (Math.random() - 0.5) * 22;  // horizontal scatter
+    const drift = (Math.random() - 0.5) * 14;  // horizontal drift while rising
+    const rise  = 20 + Math.random() * 22;      // how far up it floats
+
+    el.textContent = char;
+    gsap.set(el, { x: mouseX + ox, y: mouseY, opacity: 0.75, scale: 0.85 });
+    gsap.to(el, {
+      x:        mouseX + ox + drift,
+      y:        mouseY - rise,
+      opacity:  0,
+      scale:    0.6,
+      duration: 0.8 + Math.random() * 0.3,
+      ease:     "power2.out",
+      onComplete: () => { active[slot] = false; },
+    });
+  }
+
+  // Drive spawning via rAF so we always have current mouse pos
+  function spawnLoop(now: number) {
+    spawnChar(now);
+    requestAnimationFrame(spawnLoop);
+  }
+  requestAnimationFrame(spawnLoop);
+
+  // Interactors — dot expands subtly to signal clickable
   const interactors = document.querySelectorAll(
     "a:not(.btn-magnetic), button:not(.btn-magnetic), [role=button]:not(.btn-magnetic), .bento-card, .faq-btn",
   );
   interactors.forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      gsap.to(ring, { scale: 2.5, opacity: 0.45, duration: 0.3 });
-      gsap.to(dot,  { scale: 0, duration: 0.2 });
-    });
-    el.addEventListener("mouseleave", () => {
-      gsap.to(ring, { scale: 1, opacity: 1, duration: 0.3 });
-      gsap.to(dot,  { scale: 1, duration: 0.2 });
-    });
+    el.addEventListener("mouseenter", () =>
+      gsap.to(dot, { scale: 3, opacity: 0.55, duration: 0.22, ease: "power2.out" }),
+    );
+    el.addEventListener("mouseleave", () =>
+      gsap.to(dot, { scale: 1, opacity: 1, duration: 0.22 }),
+    );
   });
 
-  // Magnetic buttons — just dim the ring (button moves, ring doesn't follow perfectly)
+  // Magnetic buttons — dim dot while button animates
   document.querySelectorAll(".btn-magnetic").forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      gsap.to(ring, { opacity: 0.3, duration: 0.25 });
-    });
-    el.addEventListener("mouseleave", () => {
-      gsap.to(ring, { opacity: 1, duration: 0.25 });
-    });
+    el.addEventListener("mouseenter", () => gsap.to(dot, { opacity: 0.3, duration: 0.2 }));
+    el.addEventListener("mouseleave", () => gsap.to(dot, { opacity: 1,   duration: 0.2 }));
   });
 
-  document.addEventListener("mouseleave",  () => gsap.to([dot, ring], { opacity: 0, duration: 0.25 }));
-  document.addEventListener("mouseenter", () => gsap.to([dot, ring], { opacity: 1, duration: 0.25 }));
+  document.addEventListener("mouseleave", () => gsap.to(dot, { opacity: 0, duration: 0.25 }));
+  document.addEventListener("mouseenter", () => gsap.to(dot, { opacity: 1, duration: 0.25 }));
 }
 
 // ═══════════════════════════════════════════════
@@ -280,50 +303,7 @@ function initMagnetic() {
 }
 
 // ═══════════════════════════════════════════════
-// 8. FEATURES SPOTLIGHT CURSOR
-// ═══════════════════════════════════════════════
-function initSpotlight() {
-  const grid    = document.getElementById("features-grid");
-  const overlay = document.getElementById("features-spotlight");
-  if (!grid || !overlay) return;
-
-  const safeOverlay = overlay;
-
-  function updateSpot(x: number, y: number) {
-    safeOverlay.style.setProperty("--spot-x", x + "px");
-    safeOverlay.style.setProperty("--spot-y", y + "px");
-  }
-
-  mm.add("(pointer: fine)", () => {
-    grid.addEventListener("mousemove", (e: MouseEvent) => {
-      const rect = (grid.parentElement ?? grid).getBoundingClientRect();
-      updateSpot(e.clientX - rect.left, e.clientY - rect.top);
-      gsap.to(safeOverlay, { opacity: 1, duration: 0.3 });
-    });
-    grid.addEventListener("mouseleave", () => {
-      gsap.to(safeOverlay, { opacity: 0, duration: 0.5 });
-    });
-  });
-
-  mm.add("(pointer: coarse)", () => {
-    grid.addEventListener(
-      "touchmove",
-      (e: TouchEvent) => {
-        const t = e.touches[0];
-        const rect = (grid.parentElement ?? grid).getBoundingClientRect();
-        updateSpot(t.clientX - rect.left, t.clientY - rect.top);
-        gsap.set(safeOverlay, { opacity: 0.8 });
-      },
-      { passive: true },
-    );
-    grid.addEventListener("touchend", () => {
-      gsap.to(safeOverlay, { opacity: 0, duration: 0.5 });
-    });
-  });
-}
-
-// ═══════════════════════════════════════════════
-// 9. CENTRALIZED SECTION WATCHER
+// 8. CENTRALIZED SECTION WATCHER
 //    Single ScrollTrigger per section.
 //    Consumers subscribe via window "section:active" event.
 // ═══════════════════════════════════════════════
@@ -355,7 +335,7 @@ function initDotsNav() {
     { id: "intro",    label: "Intro" },
     { id: "features", label: "Servicios" },
     { id: "process",  label: "Proceso" },
-    { id: "showcase", label: "Portfolio" },
+    { id: "showcase", label: "Portafolio" },
     { id: "faq",      label: "FAQ" },
     { id: "contact",  label: "Contacto" },
   ];
@@ -615,7 +595,6 @@ function init() {
   initCounters();
   initCardTilt();
   initMagnetic();
-  initSpotlight();
   initSectionWatcher();
   initDotsNav();
   initNavIndicator();

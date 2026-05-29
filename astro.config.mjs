@@ -1,11 +1,9 @@
-import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
-import icon from "astro-icon";
-import netlify from "@astrojs/netlify";
+import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
+import icon from 'astro-icon';
 
 export default defineConfig({
-  site: "https://astro-moon-landing.netlify.app/",
-  output: "hybrid",
-  adapter: netlify(),
+  site: 'https://jerg.studio',
+  output: 'static',
   integrations: [tailwind(), icon()],
 });

@@ -37,11 +37,16 @@ const siteUrl     = "https://jerg.studio";
     <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale"      content="es_ES" />
+    <meta property="og:image"        content="https://jerg.studio/social.jpg" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt"    content="JERG.STUDIO — Diseño Web y Apps para Startups" />
 
     <!-- Twitter -->
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content="https://jerg.studio/social.jpg" />
 
     <!-- DM Serif Display (display font) from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -83,6 +88,15 @@ const siteUrl     = "https://jerg.studio";
     <!-- ── Custom cursor (hidden on mobile via CSS) ── -->
     <div id="cursor-dot" aria-hidden="true"></div>
     <div id="cursor-ring" aria-hidden="true"></div>
+    <!-- Code char pool for cursor option A -->
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
+    <div class="c-code" aria-hidden="true"></div>
 
     <!-- ── Section dots navigation ── -->
     <nav id="dots-nav" aria-label="Navegación por secciones"></nav>
@@ -202,35 +216,37 @@ const siteUrl     = "https://jerg.studio";
     position: fixed;
     top: 0;
     left: 0;
-    width: 7px;
-    height: 7px;
-    background: #10b981;
+    width: 4px;
+    height: 4px;
+    background: rgba(245, 240, 232, 0.85);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    /* GSAP uses x/y transform, so no transform here */
-    margin-top: -3.5px;
-    margin-left: -3.5px;
-    mix-blend-mode: difference;
+    margin-top: -2px;
+    margin-left: -2px;
     will-change: transform;
   }
   #cursor-ring {
+    display: none;
+  }
+  .c-code {
     position: fixed;
     top: 0;
     left: 0;
-    width: 30px;
-    height: 30px;
-    border: 1.5px solid rgba(16, 185, 129, 0.75);
-    border-radius: 50%;
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: #10b981;
     pointer-events: none;
     z-index: 9998;
-    margin-top: -15px;
-    margin-left: -15px;
-    will-change: transform;
+    opacity: 0;
+    user-select: none;
+    will-change: transform, opacity;
+    line-height: 1;
   }
   /* Hide cursor on touch/mobile */
   @media (pointer: coarse) {
-    #cursor-dot, #cursor-ring { display: none; }
+    #cursor-dot, #cursor-ring, .c-code { display: none; }
   }
   /* Remove system cursor when custom one is active */
   :global(html.custom-cursor),
@@ -366,7 +382,8 @@ const siteUrl     = "https://jerg.studio";
   ══════════════════════════════════ */
   @media (hover: none) {
     :global(#cursor-dot),
-    :global(#cursor-ring) {
+    :global(#cursor-ring),
+    :global(.c-code) {
       display: none !important;
     }
   }
