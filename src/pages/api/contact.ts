@@ -19,6 +19,16 @@ const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_MAX = 3;
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
+// Fix 3: prune stale entries to prevent memory leak
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, timestamps] of rateLimitMap) {
+    if (timestamps.every(t => now - t >= RATE_LIMIT_WINDOW_MS)) {
+      rateLimitMap.delete(key);
+    }
+  }
+}, RATE_LIMIT_WINDOW_MS);
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const recent = (rateLimitMap.get(ip) ?? []).filter(t => now - t < RATE_LIMIT_WINDOW_MS);
@@ -47,14 +57,31 @@ function validateBody(body: unknown): { ok: true; data: ContactData } | { ok: fa
 
   if (name.length < 2)
     return { ok: false, error: 'Nombre requerido (mín. 2 caracteres).' };
+  if (name.length > 100)
+    return { ok: false, error: 'Nombre demasiado largo (máx. 100 caracteres).' };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    return { ok: false, error: 'Email inválido.' };
+  if (email.length > 254)
     return { ok: false, error: 'Email inválido.' };
   if (!(SERVICE_OPTIONS as readonly string[]).includes(service))
     return { ok: false, error: 'Servicio inválido.' };
+  if (phone.length > 30)
+    return { ok: false, error: 'Teléfono inválido.' };
   if (message.length < 20)
     return { ok: false, error: 'Mensaje requerido (mín. 20 caracteres).' };
+  if (message.length > 2000)
+    return { ok: false, error: 'Mensaje demasiado largo (máx. 2000 caracteres).' };
 
   return { ok: true, data: { name, email, phone: phone || null, service, message } };
+}
+
+function escHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 async function notifyEmail(data: ContactData & { created_at: string }) {
@@ -72,25 +99,25 @@ async function notifyEmail(data: ContactData & { created_at: string }) {
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold;width:120px">Nombre</td>
-          <td style="padding:8px;border:1px solid #eee">${data.name}</td>
+          <td style="padding:8px;border:1px solid #eee">${escHtml(data.name)}</td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold">Email</td>
           <td style="padding:8px;border:1px solid #eee">
-            <a href="mailto:${data.email}">${data.email}</a>
+            <a href="mailto:${escHtml(data.email)}">${escHtml(data.email)}</a>
           </td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold">Teléfono</td>
-          <td style="padding:8px;border:1px solid #eee">${data.phone ?? '—'}</td>
+          <td style="padding:8px;border:1px solid #eee">${data.phone ? escHtml(data.phone) : '—'}</td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold">Servicio</td>
-          <td style="padding:8px;border:1px solid #eee">${data.service}</td>
+          <td style="padding:8px;border:1px solid #eee">${escHtml(data.service)}</td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold">Mensaje</td>
-          <td style="padding:8px;border:1px solid #eee;white-space:pre-wrap">${data.message}</td>
+          <td style="padding:8px;border:1px solid #eee;white-space:pre-wrap">${escHtml(data.message)}</td>
         </tr>
         <tr>
           <td style="padding:8px;border:1px solid #eee;font-weight:bold">Fecha</td>
@@ -116,9 +143,12 @@ async function notifyWhatsApp(data: ContactData) {
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const ip = clientAddress ?? 'unknown';
+  const ip = clientAddress;
+  if (!ip) {
+    console.warn('[contact] clientAddress unavailable — rate limiting skipped');
+  }
 
-  if (isRateLimited(ip)) {
+  if (ip && isRateLimited(ip)) {
     return new Response(JSON.stringify({ error: 'Too many requests' }), {
       status: 429,
       headers: { 'Content-Type': 'application/json' },
