@@ -112,18 +112,20 @@ const stats = [
   /* Letras decorativas de fondo — dan profundidad/textura */
   .hero-bg-mark {
     position: absolute;
-    bottom: -4vw;
-    right: -2vw;
+    bottom: -6vw;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: "DM Serif Display", Georgia, serif;
-    font-size: clamp(10rem, 28vw, 28rem);
+    font-size: clamp(12rem, 38vw, 38rem);
     font-weight: 400;
     font-style: italic;
     line-height: 1;
     letter-spacing: -0.07em;
-    color: rgba(16, 185, 129, 0.04);
+    color: rgba(16, 185, 129, 0.10);
     pointer-events: none;
     user-select: none;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   /* Divisor de stats */
