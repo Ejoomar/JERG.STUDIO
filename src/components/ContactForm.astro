@@ -129,11 +129,14 @@ const contactInfo = [
             <label for="cf-phone" class="cf-label">
               Teléfono <span class="font-normal normal-case tracking-normal opacity-60">(opcional)</span>
             </label>
-            <input
-              type="tel" id="cf-phone" name="phone"
-              class="cf-input" placeholder="+56 9 XXXX XXXX"
-              autocomplete="tel"
-            />
+            <div class="iti-wrapper">
+              <input
+                type="tel" id="cf-phone" name="phone"
+                class="cf-input cf-phone-input" placeholder=""
+                autocomplete="tel"
+              />
+            </div>
+            <input type="hidden" id="cf-phone-full" name="phone_full" />
           </div>
 
           <div class="flex flex-col gap-1.5 js-cf-field">
@@ -179,7 +182,43 @@ const contactInfo = [
   </div>
 </ContentSection>
 
+<!-- intl-tel-input CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/css/intlTelInput.css" />
+
 <style>
+  /* ── intl-tel-input overrides ── */
+  .iti-wrapper { width: 100%; }
+  .iti { width: 100%; }
+  .cf-phone-input { padding-left: 3.5rem !important; }
+  .iti__flag-container { height: 100%; }
+  .iti__selected-flag {
+    background: transparent !important;
+    border-right: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 0 0.5rem 0 0.75rem !important;
+  }
+  .iti__selected-flag:hover,
+  .iti__selected-flag:focus {
+    background: rgba(255,255,255,0.05) !important;
+  }
+  .iti__country-list {
+    background: #111 !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    color: #f5f0e8 !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+    border-radius: 0.5rem !important;
+  }
+  .iti__country:hover,
+  .iti__country--highlight {
+    background: rgba(16,185,129,0.12) !important;
+  }
+  .iti__dial-code { color: rgba(255,255,255,0.45) !important; }
+  .iti__search-input {
+    background: #0a0a0a !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    color: #f5f0e8 !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
   /* ── Grid layout ── */
   .contact-grid {
     display: grid;
@@ -295,7 +334,8 @@ const contactInfo = [
     const [nameEl, emailEl, phoneEl, serviceEl, messageEl] = inputs;
     const name    = nameEl.value.trim();
     const email   = emailEl.value.trim();
-    const phone   = phoneEl.value.trim();
+    const phoneFullEl = document.getElementById('cf-phone-full') as HTMLInputElement;
+    const phone   = phoneFullEl?.value || phoneEl.value.trim();
     const service = serviceEl.value;
     const message = messageEl.value.trim();
 
@@ -342,4 +382,37 @@ const contactInfo = [
       setTimeout(() => { submitText.textContent = originalText; }, 3000);
     }
   });
+</script>
+
+<!-- intl-tel-input init -->
+<script type="module">
+  import intlTelInput from 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.js';
+
+  const phoneInput = document.getElementById('cf-phone');
+  const phoneFullInput = document.getElementById('cf-phone-full');
+  if (phoneInput) {
+    const iti = intlTelInput(phoneInput, {
+      initialCountry: 'auto',
+      geoIpLookup: (callback) => {
+        fetch('https://ipapi.co/json')
+          .then(r => r.json())
+          .then(data => callback(data.country_code))
+          .catch(() => callback('cl'));
+      },
+      preferredCountries: ['cl', 've', 'co', 'mx', 'ar', 'pe'],
+      separateDialCode: true,
+    });
+
+    // Sync número completo con código de país al campo oculto
+    phoneInput.addEventListener('input', () => {
+      if (phoneFullInput) {
+        phoneFullInput.value = iti.getNumber();
+      }
+    });
+    phoneInput.addEventListener('countrychange', () => {
+      if (phoneFullInput) {
+        phoneFullInput.value = iti.getNumber();
+      }
+    });
+  }
 </script>
