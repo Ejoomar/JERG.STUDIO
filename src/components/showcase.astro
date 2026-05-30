@@ -1,57 +1,49 @@
 ---
 import ContentSection from "~/components/content-section.astro";
 
-/**
- * Open-source reference projects. Each one is a real, verifiable project on
- * GitHub that the studio builds, adapts, and deploys for its clients.
- */
 const projects = [
   {
     title: "Cal.com",
-    category: "App de Reservas SaaS",
-    result: "★ 41k en GitHub",
+    category: "Agenda de citas online",
     stars: "41k",
-    desc: "Infraestructura de reservas open source para absolutamente todos. Multi-calendario, pagos integrados, video llamadas y API pública. Lo mismo que Calendly — pero en tu servidor, con tu marca y sin comisiones.",
+    desc: "Tu propio sistema de reservas, con tu marca y sin pagar comisiones. Tus clientes eligen el día y la hora directamente desde tu web — igual que Calendly, pero tú eres el dueño.",
     tech: ["Next.js", "TypeScript", "tRPC", "PostgreSQL"],
     color: "#6366f1",
+    image: "/projects/calcom.png",
     github: "https://github.com/calcom/cal.com",
-    live: "https://cal.com",
     span: "big",
   },
   {
     title: "Medusa Commerce",
-    category: "E-commerce Headless",
-    result: "★ 22k en GitHub",
-    stars: "22k",
-    desc: "Plataforma headless para tiendas D2C, B2B y marketplaces. Multi-región, multi-moneda y pagos con Stripe listos desde el día uno.",
+    category: "Tienda online avanzada",
+    stars: "34k",
+    desc: "La base perfecta para una tienda seria. Vende en varios países, cobra en distintas monedas y conecta cualquier pasarela de pago — sin depender de Shopify ni pagar sus comisiones.",
     tech: ["TypeScript", "Node.js", "Stripe", "React"],
     color: "#7c3aed",
+    image: "/projects/medusa.png",
     github: "https://github.com/medusajs/medusa",
-    live: "https://medusajs.com",
     span: "sm",
   },
   {
     title: "Typebot.io",
-    category: "Chatbot + Automatización",
-    result: "★ 9.7k en GitHub",
+    category: "Asistente virtual 24/7",
     stars: "9.7k",
-    desc: "Constructor visual de chatbots conversacionales. Captura leads, califica prospectos y automatiza onboarding sin tocar código.",
+    desc: "Un asistente que atiende a tus clientes cuando tú no puedes. Responde preguntas, recoge datos de contacto y agenda reuniones — todo automático, sin código.",
     tech: ["Next.js", "TypeScript", "Prisma", "n8n"],
     color: "#f97316",
+    image: "/projects/typebot.png",
     github: "https://github.com/baptisteArno/typebot.io",
-    live: "https://typebot.io",
     span: "sm",
   },
   {
     title: "Dub.co",
-    category: "SaaS de Marketing Digital",
-    result: "100M+ clicks · ★ 20k+ GitHub",
+    category: "Links inteligentes con métricas",
     stars: "20k+",
-    desc: "Links inteligentes con analytics avanzados: geotargeting, device targeting, UTMs automáticos y retargeting. Usado por Vercel, Raycast y Perplexity para sus campañas de marketing.",
+    desc: "Acorta tus links y descubre exactamente quién los abre, desde qué país y con qué dispositivo. Ideal para medir campañas y saber qué publicidad realmente funciona.",
     tech: ["Next.js", "TypeScript", "MySQL", "Redis"],
     color: "#0ea5e9",
+    image: "/projects/dub.jpg",
     github: "https://github.com/dubinc/dub",
-    live: "https://dub.co",
     span: "wide",
   },
 ];
@@ -62,53 +54,30 @@ const projects = [
     <span class="eyebrow tracking-[0.22em]">Casos</span>
   </Fragment>
   <Fragment slot="lead">
-    Tecnología open source verificable.<br/>
-    <span class="text-primary">Adaptada</span> para el negocio de cada cliente.
+    Tecnología open source de primer nivel.<br/>
+    <span class="text-primary">Adaptada</span> al negocio de cada cliente.
   </Fragment>
 
-  <!-- Bento grid -->
-  <div class="bento-grid w-full max-w-6xl">
+  <div class="bento-grid w-full max-w-6xl fade-up">
 
     <!-- Cal.com — big (2 cols × 2 rows) -->
-    <div class="bento-card bento-big group js-bento-card" style="--accent: #6366f1;">
+    <a
+      href={projects[0].github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bento-card bento-big group js-bento-card"
+      style={`--accent: ${projects[0].color};`}
+      aria-label={`Ver ${projects[0].title} en GitHub`}
+    >
       <div class="card-shine" aria-hidden="true"></div>
-
-      <!-- CSS device mockup: scheduling dashboard -->
-      <div class="device-scene" aria-hidden="true">
-        <div class="dev-laptop">
-          <div class="dev-cam"></div>
-          <div class="dev-screen">
-            <div class="ui-cal">
-              <div class="ui-cal-hdr"></div>
-              <div class="ui-cal-body">
-                <div class="ui-cal-side"></div>
-                <div class="ui-cal-main">
-                  <div class="ui-cal-grid">
-                    {Array.from({length:15}).map((_,i) => (
-                      <div class={`ui-cal-slot ${[2,5,8,11].includes(i) ? "booked" : ""}`}></div>
-                    ))}
-                  </div>
-                  <div class="ui-cal-stat" style="background:#6366f1;width:72%"></div>
-                  <div class="ui-line" style="width:55%"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dev-phone">
-          <div class="dev-notch"></div>
-          <div class="dev-screen">
-            <div class="ui-phone" style="background:#0f0e2a">
-              <div class="ui-ph-bar" style="background:#6366f1"></div>
-              <div class="ui-ph-slot" style="border-left-color:#6366f1"></div>
-              <div class="ui-ph-slot" style="border-left-color:#4f46e5;opacity:.5"></div>
-              <div class="ui-ph-btn" style="background:#6366f1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Content -->
+      <img
+        src={projects[0].image}
+        alt={`${projects[0].title} — interfaz del producto`}
+        class="bento-img"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="bento-overlay" aria-hidden="true"></div>
       <div class="bento-content">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[0].category}</span>
@@ -123,53 +92,27 @@ const projects = [
           <div class="flex flex-wrap gap-1.5">
             {projects[0].tech.map(t => <span class="bento-tech">{t}</span>)}
           </div>
-          <a
-            href={projects[0].github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="github-link"
-            aria-label={`Ver ${projects[0].title} en GitHub`}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span class="github-link" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             GitHub
-          </a>
+          </span>
         </div>
       </div>
       <span class="card-accent-line" aria-hidden="true"></span>
-    </div>
+    </a>
 
-    <!-- Medusa Commerce — top-right small -->
-    <div class="bento-card bento-sm group js-bento-card" style="--accent: #7c3aed;">
+    <!-- Medusa — top-right small -->
+    <a
+      href={projects[1].github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bento-card bento-sm group js-bento-card"
+      style={`--accent: ${projects[1].color};`}
+      aria-label={`Ver ${projects[1].title} en GitHub`}
+    >
       <div class="card-shine" aria-hidden="true"></div>
-
-      <!-- CSS device mockup: headless store -->
-      <div class="device-scene" aria-hidden="true">
-        <div class="dev-laptop">
-          <div class="dev-cam"></div>
-          <div class="dev-screen">
-            <div class="ui-store">
-              <div class="ui-store-nav"></div>
-              <div class="ui-store-hero" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)"></div>
-              <div class="ui-store-grid">
-                <div class="ui-store-item"></div>
-                <div class="ui-store-item"></div>
-                <div class="ui-store-item"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dev-phone">
-          <div class="dev-notch"></div>
-          <div class="dev-screen">
-            <div class="ui-phone" style="background:#faf7ff">
-              <div class="ui-ph-bar" style="background:#7c3aed"></div>
-              <div class="ui-ph-card" style="background:#ede9fe;border:none"></div>
-              <div class="ui-ph-btn" style="background:#7c3aed"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <img src={projects[1].image} alt={`${projects[1].title}`} class="bento-img" loading="lazy" decoding="async" />
+      <div class="bento-overlay" aria-hidden="true"></div>
       <div class="bento-content">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[1].category}</span>
@@ -178,48 +121,28 @@ const projects = [
             {projects[1].stars}
           </span>
         </div>
-        <h3 class="bento-title text-lg">{projects[1].title}</h3>
-        <a href={projects[1].github} target="_blank" rel="noopener noreferrer" class="github-link mt-auto">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        <h3 class="bento-title">{projects[1].title}</h3>
+        <p class="bento-desc bento-desc--sm">{projects[1].desc}</p>
+        <span class="github-link mt-auto" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
           GitHub
-        </a>
+        </span>
       </div>
       <span class="card-accent-line" aria-hidden="true"></span>
-    </div>
+    </a>
 
-    <!-- Typebot.io — mid-right small -->
-    <div class="bento-card bento-sm group js-bento-card" style="--accent: #f97316;">
+    <!-- Typebot — mid-right small -->
+    <a
+      href={projects[2].github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bento-card bento-sm group js-bento-card"
+      style={`--accent: ${projects[2].color};`}
+      aria-label={`Ver ${projects[2].title} en GitHub`}
+    >
       <div class="card-shine" aria-hidden="true"></div>
-
-      <!-- CSS device mockup: chatbot builder -->
-      <div class="device-scene" aria-hidden="true">
-        <div class="dev-laptop">
-          <div class="dev-cam"></div>
-          <div class="dev-screen">
-            <div class="ui-chat">
-              <div class="ui-chat-hdr"></div>
-              <div class="ui-chat-body">
-                <div class="ui-bubble-bot"></div>
-                <div class="ui-bubble-user"></div>
-                <div class="ui-bubble-bot ui-bubble-bot--sm"></div>
-                <div class="ui-bubble-user ui-bubble-user--sm"></div>
-                <div class="ui-bubble-cta"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dev-phone">
-          <div class="dev-notch"></div>
-          <div class="dev-screen">
-            <div class="ui-phone" style="background:#0c0a08">
-              <div class="ui-ph-bar" style="background:#f97316"></div>
-              <div class="ui-ph-card" style="border-left-color:#f97316;background:#1c1410"></div>
-              <div class="ui-ph-btn" style="background:#f97316"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <img src={projects[2].image} alt={`${projects[2].title}`} class="bento-img" loading="lazy" decoding="async" />
+      <div class="bento-overlay" aria-hidden="true"></div>
       <div class="bento-content">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[2].category}</span>
@@ -228,51 +151,28 @@ const projects = [
             {projects[2].stars}
           </span>
         </div>
-        <h3 class="bento-title text-lg">{projects[2].title}</h3>
-        <a href={projects[2].github} target="_blank" rel="noopener noreferrer" class="github-link mt-auto">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        <h3 class="bento-title">{projects[2].title}</h3>
+        <p class="bento-desc bento-desc--sm">{projects[2].desc}</p>
+        <span class="github-link mt-auto" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
           GitHub
-        </a>
+        </span>
       </div>
       <span class="card-accent-line" aria-hidden="true"></span>
-    </div>
+    </a>
 
     <!-- Dub.co — full-width bottom -->
-    <div class="bento-card bento-wide group js-bento-card" style="--accent: #0ea5e9;">
+    <a
+      href={projects[3].github}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bento-card bento-wide group js-bento-card"
+      style={`--accent: ${projects[3].color};`}
+      aria-label={`Ver ${projects[3].title} en GitHub`}
+    >
       <div class="card-shine" aria-hidden="true"></div>
-
-      <!-- CSS device mockup: analytics dashboard -->
-      <div class="device-scene" aria-hidden="true">
-        <div class="dev-laptop" style="flex:1">
-          <div class="dev-cam"></div>
-          <div class="dev-screen">
-            <div class="ui-analytics">
-              <div class="ui-analytics-hdr"></div>
-              <div class="ui-analytics-stats">
-                <div class="ui-stat-box"></div>
-                <div class="ui-stat-box"></div>
-                <div class="ui-stat-box"></div>
-              </div>
-              <div class="ui-chart">
-                {[40,65,45,80,55,90,70,85,60,95,75,88].map((h) => (
-                  <div class="ui-bar" style={`height:${h}%;background:#0ea5e9;opacity:${0.4 + h/200}`}></div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="dev-phone">
-          <div class="dev-notch"></div>
-          <div class="dev-screen">
-            <div class="ui-phone" style="background:#040d14">
-              <div class="ui-ph-bar" style="background:#0ea5e9"></div>
-              <div class="ui-ph-card" style="border-top:2px solid #0ea5e9;border-left:none;background:#071523"></div>
-              <div class="ui-ph-btn" style="background:#0ea5e9"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <img src={projects[3].image} alt={`${projects[3].title}`} class="bento-img" loading="lazy" decoding="async" />
+      <div class="bento-overlay bento-overlay--wide" aria-hidden="true"></div>
       <div class="bento-content bento-content-horizontal">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="bento-badge">{projects[3].category}</span>
@@ -282,33 +182,27 @@ const projects = [
           </span>
         </div>
         <h3 class="bento-title">{projects[3].title}</h3>
-        <p class="bento-desc hidden sm:block">{projects[3].desc}</p>
+        <p class="bento-desc">{projects[3].desc}</p>
         <div class="bento-footer">
           <div class="flex flex-wrap gap-1.5">
             {projects[3].tech.map(t => <span class="bento-tech">{t}</span>)}
           </div>
-          <a
-            href={projects[3].github}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="github-link"
-            aria-label={`Ver ${projects[3].title} en GitHub`}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span class="github-link" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             Ver en GitHub
-          </a>
+          </span>
         </div>
       </div>
       <span class="card-accent-line" aria-hidden="true"></span>
-    </div>
+    </a>
 
   </div>
 
-  <!-- Open source note + CTA -->
-  <div class="mt-8 flex flex-col items-center gap-5 fade-up delay-3">
+  <!-- Nota open source + CTA -->
+  <div class="mt-10 flex flex-col items-center gap-5 fade-up delay-2">
     <p class="open-source-note">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4l3 3"/></svg>
-      Cada proyecto es open source y verificable en GitHub. Tomamos estas bases probadas y las adaptamos al negocio de cada cliente.
+      Cada proyecto es open source — puedes ver el código completo en GitHub. Tomamos estas bases y las adaptamos al negocio de cada cliente.
     </p>
     <a
       href="https://wa.me/56967657198?text=Hola%2C%20vi%20su%20portafolio%20y%20quiero%20hablar%20sobre%20mi%20proyecto"
@@ -325,18 +219,18 @@ const projects = [
 
 <style>
   /* ══════════════════════════════════
-     BENTO GRID LAYOUT
+     BENTO GRID
   ══════════════════════════════════ */
   .bento-grid {
     display: grid;
-    gap: 0.625rem;
+    gap: 0.75rem;
     grid-template-columns: 1fr;
   }
 
   @media (min-width: 768px) {
     .bento-grid {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 240px 240px auto;
+      grid-template-rows: 300px 300px auto;
     }
     .bento-big  { grid-column: span 2; grid-row: span 2; }
     .bento-sm   { grid-column: span 1; grid-row: span 1; }
@@ -350,31 +244,80 @@ const projects = [
     position: relative;
     overflow: hidden;
     display: block;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    transition: border-color 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
     cursor: pointer;
-    min-height: 220px;
-    transform-style: preserve-3d;
+    min-height: 240px;
+    text-decoration: none;
+    border-radius: 0.75rem;
   }
 
   .bento-card:hover {
-    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
-    box-shadow: 0 0 40px color-mix(in srgb, var(--accent) 15%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    box-shadow: 0 0 50px color-mix(in srgb, var(--accent) 18%, transparent),
+                inset 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+    transform: translateY(-2px);
   }
 
   /* ══════════════════════════════════
-     CARD SHINE (3D tilt reflection)
+     SCREENSHOT IMAGE
+  ══════════════════════════════════ */
+  .bento-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    opacity: 0.55;
+  }
+
+  .bento-card:hover .bento-img {
+    transform: scale(1.04);
+    opacity: 0.7;
+  }
+
+  /* ══════════════════════════════════
+     GRADIENT OVERLAY — más oscuro para mejor legibilidad
+  ══════════════════════════════════ */
+  .bento-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(4, 4, 4, 1)    0%,
+      rgba(4, 4, 4, 0.88) 40%,
+      rgba(4, 4, 4, 0.5)  65%,
+      rgba(4, 4, 4, 0.15) 100%
+    );
+    z-index: 1;
+  }
+
+  .bento-overlay--wide {
+    background: linear-gradient(
+      to right,
+      rgba(4, 4, 4, 1)    0%,
+      rgba(4, 4, 4, 0.92) 45%,
+      rgba(4, 4, 4, 0.5)  70%,
+      rgba(4, 4, 4, 0.1)  100%
+    );
+  }
+
+  /* ══════════════════════════════════
+     CARD SHINE
   ══════════════════════════════════ */
   .card-shine {
     --shine-x: 50%;
     --shine-y: 50%;
     position: absolute;
     inset: 0;
-    background: radial-gradient(350px circle at var(--shine-x) var(--shine-y), rgba(255,255,255,0.07), transparent 65%);
+    background: radial-gradient(320px circle at var(--shine-x) var(--shine-y), rgba(255,255,255,0.06), transparent 65%);
     opacity: 0;
     pointer-events: none;
-    z-index: 3;
+    z-index: 4;
     transition: opacity 0.3s;
+    border-radius: inherit;
   }
 
   /* ══════════════════════════════════
@@ -386,8 +329,8 @@ const projects = [
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    gap: 0.5rem;
-    padding: 1.25rem;
+    gap: 0.6rem;
+    padding: 1.5rem;
     color: white;
     z-index: 2;
   }
@@ -395,7 +338,8 @@ const projects = [
   @media (min-width: 768px) {
     .bento-content-horizontal {
       justify-content: center;
-      padding: 2rem;
+      padding: 2rem 2.5rem;
+      max-width: 55%;
     }
   }
 
@@ -405,7 +349,7 @@ const projects = [
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: auto;
+    margin-top: 0.25rem;
   }
 
   /* ══════════════════════════════════
@@ -415,10 +359,10 @@ const projects = [
     display: inline-flex;
     align-items: center;
     border-radius: 9999px;
-    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
-    padding: 0.2rem 0.75rem;
-    font-size: 0.68rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 28%, transparent);
+    padding: 0.22rem 0.75rem;
+    font-size: 0.67rem;
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -431,40 +375,53 @@ const projects = [
     align-items: center;
     gap: 0.3rem;
     border-radius: 9999px;
-    border: 1px solid rgba(251, 191, 36, 0.35);
-    background: rgba(251, 191, 36, 0.12);
-    padding: 0.2rem 0.6rem;
-    font-size: 0.68rem;
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    background: rgba(251, 191, 36, 0.18);
+    padding: 0.22rem 0.6rem;
+    font-size: 0.67rem;
     font-weight: 700;
     color: #fbbf24;
     backdrop-filter: blur(8px);
   }
 
   /* ══════════════════════════════════
-     TYPOGRAPHY
+     TIPOGRAFÍA — más legible
   ══════════════════════════════════ */
   .bento-title {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 800;
     line-height: 1.2;
-    color: white;
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.8);
   }
 
   .bento-desc {
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.65;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+    max-width: 38rem;
+  }
+
+  /* Descripción en cards pequeñas: tamaño reducido pero visible */
+  .bento-desc--sm {
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.7);
-    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .bento-tech {
     display: inline-flex;
     border-radius: 9999px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.08);
-    padding: 0.1rem 0.6rem;
-    font-size: 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 0.12rem 0.65rem;
+    font-size: 0.64rem;
     font-weight: 600;
-    color: rgba(255,255,255,0.75);
+    color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(8px);
   }
 
@@ -475,22 +432,22 @@ const projects = [
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.72rem;
+    font-size: 0.71rem;
     font-weight: 700;
-    color: rgba(255,255,255,0.55);
-    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 9999px;
-    padding: 0.25rem 0.75rem;
+    padding: 0.28rem 0.75rem;
     backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.45);
     transition: color 0.2s, border-color 0.2s, background 0.2s;
-    text-decoration: none;
-    z-index: 10;
+    flex-shrink: 0;
   }
 
-  .github-link:hover {
-    color: white !important;
-    border-color: rgba(255,255,255,0.45);
-    background: rgba(255,255,255,0.1);
+  .bento-card:hover .github-link {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(0, 0, 0, 0.65);
   }
 
   /* ══════════════════════════════════
@@ -498,12 +455,21 @@ const projects = [
   ══════════════════════════════════ */
   .card-accent-line {
     position: absolute;
-    bottom: 0; left: 0; width: 100%; height: 2px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
     background: var(--accent);
     transform: scaleX(0);
     transform-origin: left center;
-    z-index: 4;
+    z-index: 5;
     pointer-events: none;
+    border-radius: 0 0 0.75rem 0.75rem;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-card:hover .card-accent-line {
+    transform: scaleX(1);
   }
 
   /* ══════════════════════════════════
@@ -511,125 +477,29 @@ const projects = [
   ══════════════════════════════════ */
   .open-source-note {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
-    font-size: 0.78rem;
-    color: rgba(245, 240, 232, 0.35);
+    font-size: 0.8rem;
+    color: rgba(245, 240, 232, 0.38);
     text-align: center;
-    max-width: 36rem;
-    line-height: 1.6;
+    max-width: 38rem;
+    line-height: 1.65;
+    justify-content: center;
   }
 
   .open-source-note svg {
     flex-shrink: 0;
     color: #10b981;
+    margin-top: 2px;
   }
 
   /* ══════════════════════════════════
-     DEVICE MOCKUPS
-  ══════════════════════════════════ */
-  .device-scene {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 10px;
-    padding: 16px 12px 0;
-    pointer-events: none;
-  }
-
-  .dev-laptop {
-    background: #1a1a1a;
-    border-radius: 6px 6px 0 0;
-    padding: 6px;
-    border: 1.5px solid #2a2a2a;
-    flex: 1;
-    max-width: 320px;
-    position: relative;
-  }
-  .dev-laptop::after {
-    content: '';
-    display: block;
-    height: 5px;
-    background: #1a1a1a;
-    border-radius: 0 0 3px 3px;
-    border: 1.5px solid #2a2a2a;
-    border-top: none;
-    margin: 0 -8px -6px;
-  }
-  .dev-cam { width: 4px; height: 4px; border-radius: 50%; background: #2a2a2a; margin: 0 auto 4px; }
-  .dev-screen { border-radius: 3px; overflow: hidden; aspect-ratio: 16/9; }
-
-  .dev-phone {
-    background: #1a1a1a;
-    border-radius: 12px;
-    padding: 5px 3px;
-    border: 1.5px solid #2a2a2a;
-    width: 52px;
-    flex-shrink: 0;
-  }
-  .dev-notch { width: 16px; height: 3px; border-radius: 2px; background: #2a2a2a; margin: 0 auto 3px; }
-  .dev-phone .dev-screen { aspect-ratio: 9/16; border-radius: 8px; }
-
-  /* Phone shared UI */
-  .ui-phone    { height: 100%; padding: 3px; display: flex; flex-direction: column; gap: 2px; }
-  .ui-ph-bar   { height: 4px; border-radius: 2px; flex-shrink: 0; }
-  .ui-ph-card  { flex: 1; border-radius: 3px; border-left: 2px solid; }
-  .ui-ph-slot  { height: 8px; border-radius: 2px; border-left: 2px solid; background: rgba(255,255,255,0.05); flex-shrink: 0; }
-  .ui-ph-btn   { height: 6px; border-radius: 3px; margin: 0 2px; flex-shrink: 0; }
-
-  /* ── Cal.com: Scheduling dashboard ── */
-  .ui-cal { background: #0f0e2a; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 3px; }
-  .ui-cal-hdr { height: 7px; background: #1e1b4b; border-radius: 2px; }
-  .ui-cal-body { display: flex; gap: 3px; flex: 1; }
-  .ui-cal-side { width: 18px; background: #1e1b4b; border-radius: 2px; flex-shrink: 0; }
-  .ui-cal-main { flex: 1; display: flex; flex-direction: column; gap: 3px; }
-  .ui-cal-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5px; flex: 1; }
-  .ui-cal-slot { background: #1e1b4b; border-radius: 1px; }
-  .ui-cal-slot.booked { background: #6366f1; opacity: 0.8; }
-  .ui-cal-stat { height: 4px; border-radius: 2px; opacity: 0.7; }
-  .ui-line { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; }
-
-  /* ── Medusa: Headless store ── */
-  .ui-store { background: #fafaf9; height: 100%; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
-  .ui-store-nav { height: 6px; background: #0a0a0a; border-radius: 1px; }
-  .ui-store-hero { height: 18px; border-radius: 2px; }
-  .ui-store-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; flex: 1; }
-  .ui-store-item { background: #ede9fe; border-radius: 1px; }
-
-  /* ── Typebot: Chatbot builder ── */
-  .ui-chat { background: #0f0a05; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 2px; }
-  .ui-chat-hdr { height: 6px; background: #1c1410; border-radius: 2px; border-bottom: 1px solid rgba(249,115,22,0.3); flex-shrink: 0; }
-  .ui-chat-body { flex: 1; display: flex; flex-direction: column; gap: 2.5px; justify-content: flex-end; }
-  .ui-bubble-bot { height: 7px; background: #f97316; border-radius: 3px 3px 3px 1px; width: 75%; align-self: flex-start; }
-  .ui-bubble-bot--sm { width: 55%; height: 5px; }
-  .ui-bubble-user { height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px 3px 1px 3px; width: 50%; align-self: flex-end; }
-  .ui-bubble-user--sm { width: 38%; height: 5px; }
-  .ui-bubble-cta { height: 8px; background: #f97316; border-radius: 3px; width: 60%; align-self: center; opacity: 0.85; margin-top: 1px; }
-
-  /* ── Dub.co: Analytics dashboard ── */
-  .ui-analytics { background: #040d14; height: 100%; padding: 5px; display: flex; flex-direction: column; gap: 3px; }
-  .ui-analytics-hdr { height: 6px; background: #071523; border-radius: 2px; flex-shrink: 0; }
-  .ui-analytics-stats { display: flex; gap: 2px; }
-  .ui-stat-box { flex: 1; height: 8px; background: #0c2340; border-radius: 2px; border-top: 1px solid rgba(14,165,233,0.3); }
-  .ui-chart { flex: 1; display: flex; align-items: flex-end; gap: 1.5px; padding-top: 3px; }
-  .ui-bar { flex: 1; border-radius: 1px 1px 0 0; min-height: 15%; }
-
-  /* ══════════════════════════════════
-     MOBILE SIZING
+     MOBILE
   ══════════════════════════════════ */
   @media (max-width: 767px) {
-    .bento-big  { min-height: 340px; }
-    .bento-sm   { min-height: 200px; }
-    .bento-wide { min-height: 220px; }
-  }
-
-  @media (max-width: 640px) {
-    .device-scene { transform: scale(0.65); transform-origin: center center; }
-  }
-
-  @media (max-width: 480px) {
-    .device-scene { transform: scale(0.52); transform-origin: center center; }
+    .bento-big  { min-height: 380px; }
+    .bento-sm   { min-height: 260px; }
+    .bento-wide { min-height: 280px; }
+    .bento-desc--sm { -webkit-line-clamp: 4; }
   }
 </style>
