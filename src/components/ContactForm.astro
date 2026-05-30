@@ -384,35 +384,30 @@ const contactInfo = [
   });
 </script>
 
-<!-- intl-tel-input init -->
-<script type="module">
-  import intlTelInput from 'https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.js';
+<!-- intl-tel-input JS -->
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23/build/js/intlTelInputWithUtils.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const phoneInput = document.getElementById('cf-phone');
+    const phoneFullInput = document.getElementById('cf-phone-full');
+    if (!phoneInput || !window.intlTelInput) return;
 
-  const phoneInput = document.getElementById('cf-phone');
-  const phoneFullInput = document.getElementById('cf-phone-full');
-  if (phoneInput) {
-    const iti = intlTelInput(phoneInput, {
+    const iti = window.intlTelInput(phoneInput, {
       initialCountry: 'auto',
-      geoIpLookup: (callback) => {
+      geoIpLookup: function(callback) {
         fetch('https://ipapi.co/json')
-          .then(r => r.json())
-          .then(data => callback(data.country_code))
-          .catch(() => callback('cl'));
+          .then(function(r) { return r.json(); })
+          .then(function(data) { callback(data.country_code); })
+          .catch(function() { callback('cl'); });
       },
       preferredCountries: ['cl', 've', 'co', 'mx', 'ar', 'pe'],
       separateDialCode: true,
     });
 
-    // Sync número completo con código de país al campo oculto
-    phoneInput.addEventListener('input', () => {
-      if (phoneFullInput) {
-        phoneFullInput.value = iti.getNumber();
-      }
-    });
-    phoneInput.addEventListener('countrychange', () => {
-      if (phoneFullInput) {
-        phoneFullInput.value = iti.getNumber();
-      }
-    });
-  }
+    function syncNumber() {
+      if (phoneFullInput) phoneFullInput.value = iti.getNumber();
+    }
+    phoneInput.addEventListener('input', syncNumber);
+    phoneInput.addEventListener('countrychange', syncNumber);
+  });
 </script>
