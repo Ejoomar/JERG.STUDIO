@@ -408,7 +408,17 @@ const contactInfo = [
     function syncNumber() {
       if (phoneFullInput) phoneFullInput.value = iti.getNumber();
     }
-    phoneInput.addEventListener('input', syncNumber);
+
+    // Auto-agrega + si el usuario escribe dígitos sin él
+    // Ej: "569..." → "+569..." → intl-tel-input detecta Chile
+    phoneInput.addEventListener('input', function() {
+      var val = phoneInput.value.trim();
+      if (val && !val.startsWith('+') && /^\d/.test(val)) {
+        phoneInput.value = '+' + val;
+        iti.setNumber(phoneInput.value);
+      }
+      syncNumber();
+    });
     phoneInput.addEventListener('countrychange', syncNumber);
   });
 </script>
