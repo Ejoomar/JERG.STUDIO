@@ -55,7 +55,7 @@ const contactInfo = [
     <div class="contact-info border border-default bg-offset p-8 flex flex-col gap-8">
       <!-- Intro -->
       <div>
-        <h3 class="font-extrabold text-xl mb-2">Escríbenos directamente</h3>
+        <h3 class="font-extrabold text-xl mb-2">Contanos qué tenés en mente</h3>
         <p class="text-sm text-offset leading-relaxed">
           Describinos tu proyecto: qué necesitás, para qué fecha y qué presupuesto tenés en mente. Con eso armamos una propuesta concreta.
         </p>
@@ -131,7 +131,7 @@ const contactInfo = [
             </label>
             <input
               type="tel" id="cf-phone" name="phone"
-              class="cf-input" placeholder="+1 555 000 0000"
+              class="cf-input" placeholder="+56 9 XXXX XXXX"
               autocomplete="tel"
             />
           </div>
@@ -224,6 +224,7 @@ const contactInfo = [
   /* ── Input ── */
   .cf-input {
     @apply w-full border border-default bg-default px-4 py-3 text-sm text-default outline-none transition-colors duration-200;
+    font-size: 16px; /* Prevents iOS auto-zoom on focus */
   }
   .cf-input::placeholder { color: var(--color-text-offset); opacity: 0.45; }
   .cf-input:focus {
