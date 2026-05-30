@@ -3,9 +3,9 @@ import HeroImage from "~/components/hero-image.astro";
 import Starfield from "~/components/starfield.astro";
 
 const stats = [
-  { num: "40+",  label: "Proyectos",   count: 40, suffix: "+"   },
-  { num: "3sem", label: "Tiempo promedio", count: 3,  suffix: "sem" },
-  { num: "98%",  label: "Recomiendan", count: 98, suffix: "%"   },
+  { num: "1 Mes",      label: "Soporte gratis",    count: 1,  suffix: " Mes"      },
+  { num: "3 Semanas",  label: "Tiempo de entrega", count: 3,  suffix: " Semanas"  },
+  { num: "98%",        label: "Recomiendan",        count: 98, suffix: "%"         },
 ];
 ---
 
@@ -23,10 +23,8 @@ const stats = [
     aria-hidden="true"
   ></div>
 
-  <!-- Noscript fallback -->
-  <div id="splash-bg-fallback" class="absolute inset-0 hidden opacity-40">
-    <HeroImage />
-  </div>
+  <!-- Noscript fallback — fondo sólido si canvas falla, sin imagen de luna -->
+  <div id="splash-bg-fallback" class="absolute inset-0 hidden" style="background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(16,185,129,0.08) 0%, #050505 70%);"></div>
 
   <!-- Marca decorativa de fondo — da profundidad -->
   <div class="hero-bg-mark" aria-hidden="true">JERG</div>

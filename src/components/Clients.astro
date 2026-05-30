@@ -84,7 +84,7 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
 
     <!-- Fila 1 → izquierda, 35 s -->
     <div class="marquee-outer mb-3">
-      <div class="marquee-track" style="animation-duration: 35s;">
+      <div class="marquee-track row-1">
         {[...row1, ...row1].map((t, i) => (
           <div
             class="tech-card"
@@ -100,7 +100,7 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
 
     <!-- Fila 2 ← derecha, 28 s -->
     <div class="marquee-outer">
-      <div class="marquee-track marquee-reverse" style="animation-duration: 28s;">
+      <div class="marquee-track marquee-reverse row-2">
         {[...row2, ...row2].map((t, i) => (
           <div
             class="tech-card"
@@ -126,15 +126,15 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     mask-image: linear-gradient(
       to right,
       transparent 0%,
-      black 12%,
-      black 88%,
+      black 8%,
+      black 92%,
       transparent 100%
     );
     -webkit-mask-image: linear-gradient(
       to right,
       transparent 0%,
-      black 12%,
-      black 88%,
+      black 8%,
+      black 92%,
       transparent 100%
     );
   }
@@ -147,6 +147,10 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     animation: marquee-left 35s linear infinite;
   }
 
+  /* Per-row durations (avoids inline style being overridden by global !important) */
+  .row-1 { animation-duration: 35s; }
+  .row-2 { animation-duration: 28s; }
+
   .marquee-reverse {
     animation-name: marquee-right;
   }
@@ -156,6 +160,21 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     animation-play-state: paused;
   }
 
+  /*
+   * Override the aggressive global `* { animation-duration: 0.01ms !important }`
+   * that fires when the OS has "Reduce animations" ON.
+   * The marquee is a slow, continuous loop — safe for vestibular purposes.
+   * A scoped class selector beats the universal `*` in specificity, so
+   * these !important declarations win the cascade.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation-play-state: running !important;
+    }
+    .row-1 { animation-duration: 35s !important; }
+    .row-2 { animation-duration: 28s !important; }
+  }
+
   /* ── Tech card ── */
   .tech-card {
     display: flex;
@@ -163,7 +182,7 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    min-width: 150px;
+    min-width: clamp(120px, 35vw, 150px);
     height: 130px;
     padding: 1.25rem 1.5rem;
     border: 1px solid var(--color-border);
@@ -230,10 +249,5 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     to   { transform: translateX(0); }
   }
 
-  /* ── Reduced motion ── */
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
-      animation: none;
-    }
-  }
+  /* ── Reduced motion: handled above with per-row overrides ── */
 </style>

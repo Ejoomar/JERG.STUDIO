@@ -43,7 +43,7 @@ const services = [
   {
     num: "06",
     title: "Soporte Continuo",
-    description: "El primer mes de soporte es completamente gratis — sin letra pequeña. Después, si quieres que sigamos encargándonos de todo, tienes la opción de un plan mensual por $40 USD: actualizaciones, mejoras, backups y cualquier ajuste que necesites. Sin contrato, sin presión. Tú decides.",
+    description: "El primer mes de soporte es completamente gratis — sin letra pequeña. Después, si quieres que sigamos encargándonos de todo, tienes la opción de un plan mensual por $40 USD: actualizaciones, mejoras, backups y cualquier ajuste que necesites. Sin contrato, sin presión.",
     meta: ["1 mes gratis", "Desde $40 / mes", "Sin permanencia"],
     tag: "Soporte",
     accent: "#ef4444",
@@ -51,17 +51,15 @@ const services = [
 ];
 ---
 
-<section
-  id="features"
-  class="scroll-mt-24 px-6 py-16 md:py-20 flex flex-col items-center"
->
-  <!-- Header editorial — sin ContentSection -->
+<section id="features" class="scroll-mt-24 px-6 py-16 md:py-20 flex flex-col items-center">
+
+  <!-- Cabecera editorial -->
   <div class="w-full max-w-6xl mb-16 md:mb-20">
     <div class="flex flex-col gap-6">
       <span class="eyebrow tracking-[0.22em]">Capacidades</span>
       <h2
         class="uppercase text-white"
-        style="font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.025em; font-weight: 400;"
+        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(2.8rem,7vw,6rem);line-height:0.95;letter-spacing:-0.025em;font-weight:400;"
         data-split
       >
         Seis disciplinas.<br/>
@@ -69,65 +67,54 @@ const services = [
       </h2>
       <p
         class="text-white/40 max-w-lg"
-        style="font-size: clamp(0.9rem, 1.2vw + 0.3rem, 1.1rem); line-height: 1.7; letter-spacing: 0.02em;"
+        style="font-size:clamp(0.9rem,1.2vw + 0.3rem,1.1rem);line-height:1.7;letter-spacing:0.02em;"
       >
         Convertir tu visión en resultados medibles. Sin rodeos, sin relleno.<br/>Solo trabajo que se puede medir.
       </p>
     </div>
   </div>
 
-  <!-- Lista editorial numerada -->
+  <!-- Lista -->
   <div class="feat-list w-full max-w-6xl" id="features-list">
     {services.map(({ num, title, description, meta, tag, accent }) => (
-      <div
-        class="feat-item js-feat-item"
-        style={`--accent: ${accent};`}
-      >
-        <!-- Row clickable -->
-        <button
-          class="feat-row"
-          aria-expanded="false"
-          type="button"
-        >
-          <!-- Número -->
-          <span class="feat-num" aria-hidden="true">{num}</span>
+      <div class="feat-item js-feat-item" style={`--accent:${accent};`}>
+
+        <!-- Glow de fondo — patrón hero-glow del proyecto -->
+        <div class="feat-glow" aria-hidden="true"></div>
+
+        <!-- Fila clickeable -->
+        <button class="feat-row" aria-expanded="false" type="button">
+
+          <!-- Número en DM Serif italic grande — F2 sin label -->
+          <div class="feat-num-col" aria-hidden="true">
+            <span class="feat-num">{num}</span>
+          </div>
 
           <!-- Título -->
           <span class="feat-title">{title}</span>
 
-          <!-- Tag (oculto en mobile muy pequeño) -->
-          <span
-            class="feat-tag"
-            style={`color: ${accent}; border-color: ${accent}40; background: ${accent}12;`}
-          >
-            {tag}
-          </span>
+          <!-- Tag — patrón eyebrow con líneas flanqueantes -->
+          <span class="feat-tag" style={`color:${accent};`}>{tag}</span>
 
-          <!-- Ícono toggle -->
+          <!-- Toggle -->
           <span class="feat-icon" aria-hidden="true">
-            <svg class="feat-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-            <svg class="feat-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M5 12h14"/>
-            </svg>
+            <svg class="feat-plus" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            <svg class="feat-minus" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
           </span>
         </button>
 
         <!-- Panel expandible -->
         <div class="feat-panel" role="region">
           <div class="feat-panel-inner">
-            <!-- Descripción -->
             <p class="feat-desc">{description}</p>
-
-            <!-- Meta chips -->
             <div class="feat-meta">
               {meta.map(m => (
-                <span class="feat-chip" style={`color: ${accent}; border-color: ${accent}35; background: ${accent}0d;`}>{m}</span>
+                <span class="feat-chip" style={`color:${accent};border-color:${accent}38;background:${accent}0d;`}>{m}</span>
               ))}
             </div>
           </div>
         </div>
+
       </div>
     ))}
   </div>
@@ -136,121 +123,113 @@ const services = [
 <style>
   /* ── Lista ── */
   .feat-list {
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-top: 1px solid rgba(255,255,255,0.07);
   }
 
   /* ── Ítem ── */
   .feat-item {
     position: relative;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    transition: background 0.25s;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    overflow: hidden;
   }
 
-  /* Barra de acento izquierda */
-  .feat-item::before {
-    content: '';
+  /* Glow — hero-glow del proyecto */
+  .feat-glow {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--accent);
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 65% 130% at 20% 50%,
+      rgba(16,185,129,0.09) 0%,
+      transparent 68%
+    );
     opacity: 0;
-    transition: opacity 0.25s;
-    z-index: 1;
+    transition: opacity 0.42s cubic-bezier(0.16,1,0.3,1);
   }
+  .feat-item.is-open .feat-glow { opacity: 1; }
 
-  .feat-item.is-open::before {
-    opacity: 1;
-  }
-
-  .feat-item.is-open {
-    background: rgba(255, 255, 255, 0.015);
-  }
-
-  /* ── Row (botón) ── */
+  /* ── Fila ── */
   .feat-row {
-    display: grid;
-    grid-template-columns: 3rem 1fr auto auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     width: 100%;
-    padding: 1.5rem 1.25rem 1.5rem 1.5rem;
-    text-align: left;
+    padding: 1.1rem 0;
     background: none;
     border: none;
     cursor: pointer;
     color: inherit;
-    transition: color 0.2s;
-  }
-
-  .feat-row:hover .feat-title {
-    color: var(--accent);
-  }
-
-  @media (min-width: 640px) {
-    .feat-row {
-      grid-template-columns: 4rem 1fr auto auto;
-      padding: 1.75rem 1.5rem 1.75rem 1.75rem;
-      gap: 2rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .feat-row {
-      grid-template-columns: 5rem 1fr auto auto;
-      padding: 2rem 2rem 2rem 2rem;
-      gap: 2.5rem;
-    }
-  }
-
-  /* ── Número decorativo ── */
-  .feat-num {
-    font-family: "DM Serif Display", Georgia, serif;
-    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.2);
-    transition: color 0.25s;
-    flex-shrink: 0;
-  }
-
-  .feat-item.is-open .feat-num {
-    color: var(--accent);
-  }
-
-  /* ── Título del servicio ── */
-  .feat-title {
-    font-family: "DM Serif Display", Georgia, serif;
-    font-size: clamp(1.15rem, 2.2vw, 1.75rem);
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: rgba(245, 240, 232, 0.88);
-    transition: color 0.2s;
     text-align: left;
   }
 
-  /* ── Tag badge ── */
-  .feat-tag {
-    display: none;
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.7rem;
-    border-radius: 9999px;
-    border-width: 1px;
-    border-style: solid;
-    white-space: nowrap;
+  /* ── Columna de número — F2 sin label ── */
+  .feat-num-col {
     flex-shrink: 0;
+    width: 5.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.35rem;
   }
 
+  .feat-num {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: rgba(245,240,232,0.15);
+    transition: color 0.42s cubic-bezier(0.16,1,0.3,1);
+    user-select: none;
+  }
+  .feat-item.is-open .feat-num {
+    color: rgba(16,185,129,0.7);
+  }
+
+  /* ── Título ── */
+  .feat-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.2rem, 2.8vw, 2rem);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+    color: rgba(245,240,232,0.82);
+    flex: 1;
+    text-align: left;
+    transition: color 0.2s;
+  }
+  .feat-item.is-open .feat-title { color: #f5f0e8; }
+  .feat-row:hover .feat-title    { color: rgba(245,240,232,0.95); }
+
+  /* ── Tag — eyebrow con líneas flanqueantes ── */
+  .feat-tag {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    transition: opacity 0.3s;
+  }
+  .feat-tag::before,
+  .feat-tag::after {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .feat-item.is-open .feat-tag { opacity: 0.7; }
+
   @media (min-width: 480px) {
-    .feat-tag {
-      display: inline-flex;
-      align-items: center;
-    }
+    .feat-tag { display: inline-flex; }
   }
 
   /* ── Ícono toggle ── */
@@ -258,137 +237,116 @@ const services = [
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    color: rgba(255, 255, 255, 0.3);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.22);
     flex-shrink: 0;
-    transition: color 0.2s, transform 0.3s;
+    transition: border-color 0.2s, color 0.2s,
+                transform 0.42s cubic-bezier(0.16,1,0.3,1);
   }
-
   .feat-item.is-open .feat-icon {
+    border-color: var(--accent);
     color: var(--accent);
+    transform: rotate(45deg);
   }
 
-  .feat-plus { display: block; }
+  .feat-plus  { display: block; }
   .feat-minus { display: none; }
-  .feat-item.is-open .feat-plus { display: none; }
+  .feat-item.is-open .feat-plus  { display: none; }
   .feat-item.is-open .feat-minus { display: block; }
 
-  /* ── Panel expandible ── */
+  /* ── Panel expandible — grid-template-rows ── */
   .feat-panel {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.42s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 1;
+  }
+  .feat-item.is-open .feat-panel {
+    grid-template-rows: 1fr;
   }
 
   .feat-panel-inner {
-    padding: 0 1.5rem 1.75rem 1.5rem;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
+    padding: 0 0 0 0;
   }
 
-  @media (min-width: 640px) {
-    .feat-panel-inner {
-      padding: 0 1.75rem 2rem calc(4rem + 2rem);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .feat-panel-inner {
-      padding: 0 2rem 2rem calc(5rem + 2.5rem);
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 3rem;
-    }
-  }
-
-  /* ── Descripción ── */
+  /* Contenido del panel — alineado con el título */
   .feat-desc {
-    font-size: clamp(0.85rem, 1.1vw + 0.2rem, 1rem);
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.45);
-    max-width: 36rem;
-    flex: 1;
+    padding: 0.1rem 0 0 calc(5.5rem + 1.5rem);
+    font-size: clamp(0.82rem, 1.1vw + 0.2rem, 0.95rem);
+    line-height: 1.78;
+    color: rgba(245,240,232,0.4);
+    max-width: 38rem;
   }
 
-  /* ── Meta chips + cta ── */
   .feat-meta {
+    padding: 0 0 1.5rem calc(5.5rem + 1.5rem);
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
-
-  @media (min-width: 1024px) {
-    .feat-meta {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    gap: 0.4rem;
   }
 
   .feat-chip {
     display: inline-flex;
     align-items: center;
-    font-size: 0.65rem;
+    font-size: 0.54rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.2rem 0.65rem;
-    border-radius: 9999px;
+    padding: 0.17rem 0.6rem;
+    border-radius: 999px;
     border-width: 1px;
     border-style: solid;
   }
 
-  .feat-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    margin-top: 0.25rem;
-    text-decoration: none;
-    opacity: 0.8;
-    transition: opacity 0.2s, gap 0.2s;
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .feat-num-col { width: 4rem; }
+    .feat-num { font-size: clamp(1.5rem, 6vw, 2.2rem); }
+    .feat-desc,
+    .feat-meta { padding-left: calc(4rem + 1.5rem); }
   }
 
-  .feat-cta:hover {
-    opacity: 1;
-    gap: 0.65rem;
-    color: inherit;
+  @media (max-width: 400px) {
+    .feat-row { gap: 1rem; }
+    .feat-num-col { width: 3rem; padding-right: 0.2rem; }
+    .feat-num { font-size: 1.5rem; }
+    .feat-desc,
+    .feat-meta { padding-left: calc(3rem + 1rem); }
   }
 
-  /* ── Reduced motion ── */
   @media (prefers-reduced-motion: reduce) {
-    .feat-panel { transition: none; }
-    .feat-item::before { transition: none; }
-    .feat-row { transition: none; }
+    .feat-panel,
+    .feat-glow,
+    .feat-num,
+    .feat-icon { transition: none; }
   }
 </style>
 
 <script>
   document.querySelectorAll('.feat-item').forEach(item => {
-    const btn   = item.querySelector('.feat-row') as HTMLButtonElement;
-    const panel = item.querySelector('.feat-panel') as HTMLElement;
+    const btn = item.querySelector('.feat-row') as HTMLButtonElement;
 
     btn.addEventListener('click', () => {
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
 
       // Cerrar todos
       document.querySelectorAll('.feat-item').forEach(other => {
-        const ob = other.querySelector('.feat-row') as HTMLButtonElement;
-        const op = other.querySelector('.feat-panel') as HTMLElement;
-        ob.setAttribute('aria-expanded', 'false');
-        op.style.maxHeight = '0';
+        (other.querySelector('.feat-row') as HTMLButtonElement)
+          .setAttribute('aria-expanded', 'false');
         other.classList.remove('is-open');
       });
 
       // Abrir el clickeado si estaba cerrado
       if (!isOpen) {
         btn.setAttribute('aria-expanded', 'true');
-        panel.style.maxHeight = panel.scrollHeight + 'px';
         item.classList.add('is-open');
       }
     });

@@ -1,18 +1,14 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
 
 export const prerender = false;
 
 // ── Env vars ──────────────────────────────────────────────
 const SUPABASE_URL              = import.meta.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
-const RESEND_API_KEY            = import.meta.env.RESEND_API_KEY;
+const WEB3FORMS_KEY             = import.meta.env.WEB3FORMS_KEY;
 const CALLMEBOT_PHONE           = import.meta.env.CALLMEBOT_PHONE;
 const CALLMEBOT_API_KEY         = import.meta.env.CALLMEBOT_API_KEY;
-
-// Resend free tier: onboarding@resend.dev can only send to the account owner email
-const TO_EMAIL = "elflaco0800@gmail.com";
 
 // ── In-memory rate limiter ─────────────────────────────────
 const rateLimitMap = new Map<string, number[]>();
@@ -38,16 +34,6 @@ function isRateLimited(ip: string): boolean {
   return false;
 }
 
-// ── XSS helper ────────────────────────────────────────────
-function esc(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
 // ── Validation ────────────────────────────────────────────
 function validate(body: Record<string, unknown>): string | null {
   const { name, email, service, message } = body;
@@ -61,30 +47,25 @@ function validate(body: Record<string, unknown>): string | null {
   return null;
 }
 
-// ── Fire-and-forget: Email ─────────────────────────────────
+// ── Fire-and-forget: Email via Web3Forms ──────────────────
 async function notifyEmail(
   name: string, email: string, phone: string, service: string, message: string
 ): Promise<void> {
-  if (!RESEND_API_KEY) return;
-  const resend = new Resend(RESEND_API_KEY);
-  await resend.emails.send({
-    from:     "JERG.STUDIO Contacto <onboarding@resend.dev>",
-    to:       TO_EMAIL,
-    reply_to: email,
-    subject:  `Nuevo contacto: ${esc(service)} — ${esc(name)}`,
-    html: `
-      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
-        <h2 style="color:#10b981;margin-bottom:24px">Nuevo mensaje de contacto</h2>
-        <table style="width:100%;border-collapse:collapse">
-          <tr><td style="padding:8px 0;color:#666;width:120px"><strong>Nombre</strong></td><td>${esc(name)}</td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Email</strong></td><td><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Teléfono</strong></td><td>${esc(phone || "—")}</td></tr>
-          <tr><td style="padding:8px 0;color:#666"><strong>Servicio</strong></td><td>${esc(service)}</td></tr>
-        </table>
-        <hr style="margin:24px 0;border:none;border-top:1px solid #eee"/>
-        <p style="color:#666;margin-bottom:8px"><strong>Mensaje:</strong></p>
-        <p style="background:#f9f9f9;padding:16px;border-radius:8px;white-space:pre-wrap">${esc(message)}</p>
-      </div>`,
+  if (!WEB3FORMS_KEY) return;
+  await fetch("https://api.web3forms.com/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      access_key: WEB3FORMS_KEY,
+      subject:    `Nuevo contacto: ${service} — ${name}`,
+      from_name:  "JERG.STUDIO Contacto",
+      replyto:    email,
+      name,
+      email,
+      phone:      phone || "—",
+      service,
+      message,
+    }),
   });
 }
 
@@ -97,7 +78,7 @@ async function notifyWhatsApp(
   const text = encodeURIComponent(
     `🚀 Nuevo lead JERG.STUDIO\nNombre: ${name}\nEmail: ${email}\nServicio: ${service}`
   );
-  const url = `https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${text}&apikey=${CALLMEBOT_API_KEY}`;
+  const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(CALLMEBOT_PHONE)}&text=${text}&apikey=${encodeURIComponent(CALLMEBOT_API_KEY)}`;
   await fetch(url);
 }
 

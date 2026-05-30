@@ -1,3 +1,9 @@
+/* ── Samsung Internet / iOS: prevent aggressive font-size adjustment in landscape ── */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* ── Base links / buttons (keep repo pattern with @apply) ── */
 a,
 .btn {
@@ -91,6 +97,11 @@ a:focus-visible,
   font-style: italic;
 }
 
+/* ── Prevent horizontal bounce/overscroll on iOS ── */
+html, body {
+  overscroll-behavior-x: none;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .fade-up {
@@ -135,10 +146,17 @@ a:focus-visible,
   opacity: 0.5;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--color-background); }
-::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
+/* ── Scrollbar — track transparente, thumb sutil solo al hacer scroll ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.35);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.65); }
+
+/* Firefox */
+html { scrollbar-width: thin; scrollbar-color: rgba(16, 185, 129, 0.35) transparent; }
 
 /* ── Selection ── */
 ::selection { background: #10b981; color: #050505; }

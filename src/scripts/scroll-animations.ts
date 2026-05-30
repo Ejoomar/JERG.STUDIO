@@ -1,7 +1,13 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+let gsapReady = false;
+try {
+  gsap.registerPlugin(ScrollTrigger);
+  gsapReady = true;
+} catch (e) {
+  console.warn("[scroll-animations] GSAP failed to initialize:", e);
+}
 
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const mm = gsap.matchMedia();
@@ -301,6 +307,7 @@ function initContactStagger() {
 // INIT
 // ─────────────────────────────────────
 export function initScrollAnimations() {
+  if (!gsapReady) return;
   initHeroScrollParallax();
   initIntroStagger();
   initFeaturesStagger();
@@ -308,5 +315,7 @@ export function initScrollAnimations() {
   initTestimonialsStagger();
   initFaqStagger();
   initContactStagger();
-  window.addEventListener("load", () => ScrollTrigger.refresh());
+  window.addEventListener("load", () => {
+    try { ScrollTrigger.refresh(); } catch (_) {}
+  });
 }
