@@ -25,21 +25,32 @@ function initCurtain(): Promise<void> {
       return;
     }
 
+    // Forzar visibilidad del telón antes de animar
+    curtain.style.display = "flex";
+    curtain.style.opacity = "1";
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     const left  = curtain.querySelector<HTMLElement>(".curtain-left");
     const right = curtain.querySelector<HTMLElement>(".curtain-right");
 
-    // Hold 1.6s so logo is clearly visible, then open
-    gsap.to(left, { x: "-100%", duration: 1.3, ease: "expo.inOut", delay: 1.6 });
+    if (!left || !right) { resolve(); return; }
+
+    // Asegurar posición inicial
+    gsap.set(left,  { x: 0 });
+    gsap.set(right, { x: 0 });
+
+    // Hold 1.8s para que el logo sea visible, luego abrir
+    gsap.to(left, { x: "-100%", duration: 1.3, ease: "expo.inOut", delay: 1.8 });
     gsap.to(right, {
       x: "100%",
       duration: 1.3,
       ease: "expo.inOut",
-      delay: 1.6,
+      delay: 1.8,
       onComplete: () => {
         curtain.style.display = "none";
         document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
         resolve();
       },
     });

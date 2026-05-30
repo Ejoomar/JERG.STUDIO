@@ -201,9 +201,16 @@ const siteUrl     = "https://jerg.studio";
   .curtain-panel {
     height: 100%;
     width: 50%;
-    background: #050505;
+    background: #000000;
+    box-shadow: inset 0 0 120px rgba(16, 185, 129, 0.06);
   }
-  .curtain-left  { border-right: 1px solid rgba(16, 185, 129, 0.5); }
+  .curtain-left {
+    border-right: 2px solid rgba(16, 185, 129, 0.6);
+    background: linear-gradient(to right, #000000, #020f08);
+  }
+  .curtain-right {
+    background: linear-gradient(to left, #000000, #020f08);
+  }
 
   /* Logo central durante el telón */
   #curtain-logo {
