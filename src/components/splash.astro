@@ -4,7 +4,7 @@ import Starfield from "~/components/starfield.astro";
 
 const stats = [
   { num: "40+",  label: "Proyectos",   count: 40, suffix: "+"   },
-  { num: "3sem", label: "Entrega avg", count: 3,  suffix: "sem" },
+  { num: "3sem", label: "Tiempo promedio", count: 3,  suffix: "sem" },
   { num: "98%",  label: "Recomiendan", count: 98, suffix: "%"   },
 ];
 ---
@@ -68,7 +68,7 @@ const stats = [
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         Cuéntanos tu idea
       </a>
-      <a href="#features" class="btn-ghost btn-magnetic">
+      <a href="#process" class="btn-ghost btn-magnetic">
         Ver cómo trabajamos
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -86,7 +86,7 @@ const stats = [
             data-count={s.count}
             data-suffix={s.suffix}
           >{s.num}</span>
-          <span class="text-[9px] font-bold uppercase text-white/25" style="letter-spacing: 0.22em;">{s.label}</span>
+          <span class="text-[11px] font-bold uppercase text-white/25" style="letter-spacing: 0.18em;">{s.label}</span>
         </div>
       ))}
     </div>
