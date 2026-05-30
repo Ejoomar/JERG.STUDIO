@@ -33,12 +33,23 @@ function initCurtain(): Promise<void> {
 
     const left  = curtain.querySelector<HTMLElement>(".curtain-left");
     const right = curtain.querySelector<HTMLElement>(".curtain-right");
+    const logo  = curtain.querySelector<HTMLElement>("#curtain-logo");
 
     if (!left || !right) { resolve(); return; }
 
     // Asegurar posición inicial
     gsap.set(left,  { x: 0 });
     gsap.set(right, { x: 0 });
+
+    // Desvanece el logo justo cuando los paneles empiezan a abrirse
+    if (logo) {
+      gsap.to(logo, {
+        opacity: 0,
+        duration: 0.45,
+        ease: "power2.in",
+        delay: 1.8,
+      });
+    }
 
     // Hold 1.8s para que el logo sea visible, luego abrir
     gsap.to(left, { x: "-100%", duration: 1.3, ease: "expo.inOut", delay: 1.8 });
