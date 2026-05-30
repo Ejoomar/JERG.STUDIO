@@ -6,7 +6,6 @@ import Intro       from "~/components/intro.astro";
 import Features    from "~/components/features.astro";
 import Process     from "~/components/Process.astro";
 import Clients      from "~/components/Clients.astro";
-import Compatibility from "~/components/compatibility.astro";
 import Showcase    from "~/components/showcase.astro";
 import FAQ         from "~/components/FAQ.astro";
 import ContactForm from "~/components/ContactForm.astro";
@@ -97,13 +96,10 @@ const siteUrl     = "https://jerg.studio";
     <div class="c-code" aria-hidden="true"></div>
     <div class="c-code" aria-hidden="true"></div>
 
-    <!-- ── Section dots navigation ── -->
-    <nav id="dots-nav" aria-label="Navegación por secciones"></nav>
-
     <Header />
 
     <!-- Full-height hero with Starfield -->
-    <div class="h-screen">
+    <div style="height:100vh;height:100svh;">
       <Splash />
     </div>
 
@@ -114,7 +110,6 @@ const siteUrl     = "https://jerg.studio";
         <Clients />
         <Features />
         <Process />
-        <Compatibility />
         <Showcase />
 <FAQ />
         <ContactForm />
@@ -338,7 +333,7 @@ const siteUrl     = "https://jerg.studio";
     opacity: 0.032;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
-    animation: grain-shift 0.4s steps(1) infinite;
+    animation: grain-shift 0.8s steps(1) infinite;
   }
   @keyframes grain-shift {
     0%   { background-position:   0%   0%; }
