@@ -189,7 +189,7 @@ const contactInfo = [
   /* ── intl-tel-input overrides ── */
   .iti-wrapper { width: 100%; }
   .iti { width: 100%; }
-  .cf-phone-input { padding-left: 3.5rem !important; }
+  .cf-phone-input { padding-left: 3rem !important; }
   .iti__flag-container { height: 100%; }
   .iti__selected-flag {
     background: transparent !important;
@@ -401,7 +401,8 @@ const contactInfo = [
           .catch(function() { callback('cl'); });
       },
       preferredCountries: ['cl', 've', 'co', 'mx', 'ar', 'pe'],
-      separateDialCode: true,
+      separateDialCode: false,
+      nationalMode: false,
     });
 
     function syncNumber() {
