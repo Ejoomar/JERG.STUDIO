@@ -23,7 +23,12 @@ const stats = [
     aria-hidden="true"
   ></div>
 
-  <!-- Noscript fallback — fondo sólido si canvas falla, sin imagen de luna -->
+  <!-- Luna de fondo — siempre visible como textura, muy sutil -->
+  <div class="absolute inset-0 pointer-events-none" style="opacity:0.18;" aria-hidden="true">
+    <HeroImage />
+  </div>
+
+  <!-- Fallback si el canvas falla -->
   <div id="splash-bg-fallback" class="absolute inset-0 hidden" style="background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(16,185,129,0.08) 0%, #050505 70%);"></div>
 
   <!-- Marca decorativa de fondo — da profundidad -->

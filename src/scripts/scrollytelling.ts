@@ -30,12 +30,13 @@ function initCurtain(): Promise<void> {
     const left  = curtain.querySelector<HTMLElement>(".curtain-left");
     const right = curtain.querySelector<HTMLElement>(".curtain-right");
 
-    gsap.to(left, { x: "-100%", duration: 1.1, ease: "expo.inOut", delay: 0.15 });
+    // Delay más largo para que el logo central sea visible antes de abrir
+    gsap.to(left, { x: "-100%", duration: 1.2, ease: "expo.inOut", delay: 0.85 });
     gsap.to(right, {
       x: "100%",
-      duration: 1.1,
+      duration: 1.2,
       ease: "expo.inOut",
-      delay: 0.15,
+      delay: 0.85,
       onComplete: () => {
         curtain.style.display = "none";
         document.body.style.overflow = "";
