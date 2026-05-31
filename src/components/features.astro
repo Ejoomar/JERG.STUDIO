@@ -58,16 +58,16 @@ const services = [
     <div class="flex flex-col gap-6">
       <span class="eyebrow tracking-[0.22em]">Capacidades</span>
       <h2
-        class="uppercase text-white"
-        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(2.8rem,7vw,6rem);line-height:0.95;letter-spacing:-0.025em;font-weight:400;"
+        class="uppercase"
+        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(2.8rem,7vw,6rem);line-height:0.95;letter-spacing:-0.025em;font-weight:400;color:var(--color-text);"
         data-split
       >
         Seis disciplinas.<br/>
         <em class="accent-italic">Un propósito.</em>
       </h2>
       <p
-        class="text-white/40 max-w-lg"
-        style="font-size:clamp(0.9rem,1.2vw + 0.3rem,1.1rem);line-height:1.7;letter-spacing:0.02em;"
+        class="max-w-lg"
+        style="font-size:clamp(0.9rem,1.2vw + 0.3rem,1.1rem);line-height:1.7;letter-spacing:0.02em;color:var(--color-text-offset);"
       >
         Convertir tu visión en resultados medibles. Sin rodeos, sin relleno.<br/>Solo trabajo que se puede medir.
       </p>
@@ -181,12 +181,14 @@ const services = [
     font-style: italic;
     line-height: 0.9;
     letter-spacing: -0.03em;
-    color: rgba(245,240,232,0.15);
-    transition: color 0.42s cubic-bezier(0.16,1,0.3,1);
+    color: var(--color-text-offset);
+    opacity: 0.35;
+    transition: color 0.42s cubic-bezier(0.16,1,0.3,1), opacity 0.42s;
     user-select: none;
   }
   .feat-item.is-open .feat-num {
     color: rgba(16,185,129,0.7);
+    opacity: 1;
   }
 
   /* ── Título ── */
@@ -197,13 +199,14 @@ const services = [
     font-style: italic;
     letter-spacing: -0.025em;
     line-height: 0.95;
-    color: rgba(245,240,232,0.82);
+    color: var(--color-text);
+    opacity: 0.82;
     flex: 1;
     text-align: left;
-    transition: color 0.2s;
+    transition: opacity 0.2s;
   }
-  .feat-item.is-open .feat-title { color: #f5f0e8; }
-  .feat-row:hover .feat-title    { color: rgba(245,240,232,0.95); }
+  .feat-item.is-open .feat-title { opacity: 1; }
+  .feat-row:hover .feat-title    { opacity: 0.95; }
 
   /* ── Tag — eyebrow con líneas flanqueantes ── */
   .feat-tag {
@@ -240,8 +243,8 @@ const services = [
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.07);
-    color: rgba(255,255,255,0.22);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-offset);
     flex-shrink: 0;
     transition: border-color 0.2s, color 0.2s,
                 transform 0.42s cubic-bezier(0.16,1,0.3,1);
@@ -282,7 +285,7 @@ const services = [
     padding: 0.1rem 0 0 calc(5.5rem + 1.5rem);
     font-size: clamp(0.82rem, 1.1vw + 0.2rem, 0.95rem);
     line-height: 1.78;
-    color: rgba(245,240,232,0.4);
+    color: var(--color-text-offset);
     max-width: 38rem;
   }
 
