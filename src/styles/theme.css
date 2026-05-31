@@ -1,4 +1,4 @@
-/* Dark-only agency theme — no light mode toggle */
+/* ── Dark mode (default) ── */
 [data-theme="dark"],
 :root {
   --color-primary: #10b981;
@@ -8,4 +8,27 @@
   --color-background: #050505;
   --color-background-offset: #0d0d0d;
   --color-border: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Light mode ── */
+[data-theme="light"] {
+  --color-primary: #059669;
+  --color-secondary: #10b981;
+  --color-text: #0d0d0d;
+  --color-text-offset: rgba(13, 13, 13, 0.5);
+  --color-background: #f5f0e8;
+  --color-background-offset: #ede8de;
+  --color-border: rgba(0, 0, 0, 0.09);
+}
+
+/* ── Transición suave al cambiar tema ── */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.2s ease,
+    box-shadow 0.35s ease !important;
 }
