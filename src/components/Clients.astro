@@ -218,6 +218,16 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     transform: scale(1.1);
   }
 
+  /* Next.js y Vercel tienen marca blanca (#fff) — en light mode los ponemos oscuros */
+  :global([data-theme="light"]) .tech-card[style*="ffffff"] .tech-logo {
+    color: #1a1a1a;
+    opacity: 0.75;
+  }
+  :global([data-theme="light"]) .tech-card[style*="ffffff"]:hover .tech-logo {
+    color: #0a0a0a;
+    opacity: 1;
+  }
+
   /* Make sure the injected SVG inherits color via currentColor */
   .tech-logo :global(svg) {
     width: 40px;
