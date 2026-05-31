@@ -203,17 +203,18 @@ const row2 = stack.slice(6);      // n8n · React Native · Vercel · PostgreSQL
     box-shadow: 0 10px 30px color-mix(in srgb, var(--brand) 18%, transparent);
   }
 
-  /* ── Logo icon: muted at rest → brand color on hover ── */
+  /* ── Logo icon: brand color siempre visible ── */
   .tech-logo {
     display: inline-flex;
-    color: var(--color-text-offset);
+    color: var(--brand);
+    opacity: 0.75;
     transition:
-      color 0.3s ease,
+      opacity 0.3s ease,
       transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .tech-card:hover .tech-logo {
-    color: var(--brand);
+    opacity: 1;
     transform: scale(1.1);
   }
 
