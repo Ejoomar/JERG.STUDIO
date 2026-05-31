@@ -66,7 +66,7 @@ const stats = [
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         Cuéntanos tu idea
       </a>
-      <a href="#process" class="btn-ghost btn-magnetic">
+      <a href="#process" id="splash-ghost-btn" class="btn-magnetic">
         Ver cómo trabajamos
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -95,6 +95,36 @@ const stats = [
 <noscript>
   <style>#splash-bg-fallback { display: block; }</style>
 </noscript>
+
+<style is:global>
+  /* Ghost button del splash — siempre sobre fondo negro, texto siempre claro */
+  #splash-ghost-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    min-height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: transparent;
+    color: rgba(245, 240, 232, 0.88);
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+  #splash-ghost-btn:hover {
+    border-color: rgba(16, 185, 129, 0.55);
+    background: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+  }
+  /* Anula cualquier herencia de color del body en modo claro */
+  [data-theme="light"] #splash-ghost-btn {
+    color: rgba(245, 240, 232, 0.88);
+  }
+  [data-theme="light"] #splash-ghost-btn:hover {
+    color: #10b981;
+  }
+</style>
 
 <style>
   /* Grid decorativo muy sutil */

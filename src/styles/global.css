@@ -42,7 +42,8 @@ a:focus-visible,
 
 .btn-ghost {
   @apply inline-flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-all duration-200;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(245, 240, 232, 0.8);
   min-height: 44px;
 }
 .btn-ghost:hover {
