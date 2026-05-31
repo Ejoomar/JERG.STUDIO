@@ -286,6 +286,17 @@ const siteUrl     = "https://jerg.studio";
     margin-top: -2px;
     margin-left: -2px;
     will-change: transform;
+    transition: background 0.3s ease;
+  }
+
+  /* Light mode: cursor oscuro visible sobre fondo claro */
+  :global([data-theme="light"]) #cursor-dot {
+    background: rgba(13, 13, 13, 0.75);
+  }
+
+  /* Light mode: caracteres de código más oscuros */
+  :global([data-theme="light"]) .c-code {
+    color: #059669;
   }
   #cursor-ring {
     display: none;
