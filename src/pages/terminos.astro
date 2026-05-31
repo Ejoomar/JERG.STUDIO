@@ -1,0 +1,298 @@
+---
+import Header from "~/components/header.astro";
+import Footer from "~/components/footer.astro";
+import "~/styles/index.css";
+
+const title       = "Términos y Condiciones — JERG.STUDIO";
+const description = "Lee los términos y condiciones que rigen la contratación de servicios de JERG.STUDIO.";
+const siteUrl     = "https://jerg.studio/terminos";
+const year        = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="es" class="h-full motion-safe:scroll-smooth" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = saved ?? (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={siteUrl} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="h-full overflow-x-hidden bg-default text-default text-base">
+    <Header />
+
+    <main class="legal-page">
+      <div class="legal-inner">
+
+        <!-- Header de la página -->
+        <div class="legal-header">
+          <a href="/" class="legal-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+            Volver al inicio
+          </a>
+          <span class="eyebrow mt-6">Legal</span>
+          <h1 class="legal-title">Términos y Condiciones</h1>
+          <p class="legal-meta">Última actualización: enero {year}</p>
+        </div>
+
+        <!-- Contenido -->
+        <div class="legal-body">
+
+          <section class="legal-section">
+            <h2>1. Aceptación de los términos</h2>
+            <p>
+              Al contratar los servicios de JERG.STUDIO o al utilizar este sitio web, aceptas quedar vinculado por los presentes Términos y Condiciones. Si no estás de acuerdo con alguno de estos términos, te pedimos que no utilices nuestros servicios.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>2. Servicios ofrecidos</h2>
+            <p>JERG.STUDIO ofrece servicios de diseño y desarrollo digital, incluyendo:</p>
+            <ul>
+              <li>Diseño y desarrollo de páginas web y landing pages</li>
+              <li>Desarrollo de aplicaciones web y móviles</li>
+              <li>Sistemas a medida (CRM, inventarios, dashboards)</li>
+              <li>Tiendas online (e-commerce)</li>
+              <li>Automatizaciones e integraciones</li>
+              <li>Soporte técnico y mantenimiento mensual</li>
+            </ul>
+            <p>
+              El alcance exacto de cada proyecto queda definido en la propuesta o cotización acordada individualmente con cada cliente antes del inicio del trabajo.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>3. Proceso de contratación y pagos</h2>
+            <p>
+              Todo proyecto comienza con una propuesta escrita que detalla el alcance, precio fijo y plazos estimados. El proceso de pago es el siguiente:
+            </p>
+            <ul>
+              <li><strong>50% al inicio</strong> del proyecto (pago de anticipo)</li>
+              <li><strong>50% al finalizar</strong>, antes de la entrega del acceso al proyecto</li>
+            </ul>
+            <p>
+              Los precios están expresados en dólares estadounidenses (USD) salvo que se indique lo contrario. Los pagos se realizan mediante las plataformas acordadas (Stripe, PayPal, MercadoPago u otra convenida).
+            </p>
+            <p>
+              Una vez aprobada la propuesta y recibido el pago inicial, comenzamos el desarrollo. No se iniciarán trabajos sin la confirmación y el pago del anticipo.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>4. Plazos de entrega</h2>
+            <p>
+              Los plazos indicados en la propuesta son estimaciones basadas en la información disponible al momento de cotizar. Los tiempos estándar son:
+            </p>
+            <ul>
+              <li>Landing pages: 5 a 10 días hábiles</li>
+              <li>MVPs y aplicaciones web: 3 a 6 semanas</li>
+              <li>Sistemas a medida: según alcance definido</li>
+            </ul>
+            <p>
+              Los plazos pueden extenderse si el cliente no proporciona los materiales necesarios (textos, imágenes, accesos) en tiempo y forma, o si solicita cambios que amplíen el alcance original.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>5. Revisiones y cambios</h2>
+            <p>
+              Cada proyecto incluye <strong>hasta 3 rondas de revisiones</strong> dentro del alcance acordado. Las modificaciones que impliquen cambios significativos en el alcance, funcionalidades o diseño original serán cotizadas por separado.
+            </p>
+            <p>
+              Durante el desarrollo, el cliente tendrá acceso a una URL de previsualización para dar feedback. Se recomienda concentrar las observaciones en cada ronda de revisión para agilizar el proceso.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>6. Propiedad intelectual</h2>
+            <p>
+              Una vez completado el pago total del proyecto, el cliente recibe la propiedad completa del producto entregado: código fuente, diseños y activos digitales creados específicamente para su proyecto.
+            </p>
+            <p>
+              JERG.STUDIO se reserva el derecho de incluir el proyecto en su portafolio y materiales de marketing, salvo que el cliente indique expresamente lo contrario por escrito.
+            </p>
+            <p>
+              Las herramientas, librerías y frameworks de terceros utilizados en el desarrollo están sujetos a sus respectivas licencias de uso.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>7. Soporte post-entrega</h2>
+            <p>
+              Incluimos <strong>30 días de soporte gratuito</strong> tras la entrega final del proyecto, para resolver errores o ajustes menores directamente relacionados con el trabajo entregado.
+            </p>
+            <p>
+              Pasado ese período, el cliente puede contratar un plan de mantenimiento mensual desde <strong>$40 USD/mes</strong>, que incluye hosting gestionado, actualizaciones de seguridad y backups semanales. Este plan no tiene permanencia mínima y puede cancelarse en cualquier momento.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>8. Cancelaciones y reembolsos</h2>
+            <p>
+              Si el cliente decide cancelar el proyecto después de iniciado el desarrollo:
+            </p>
+            <ul>
+              <li>El anticipo (50%) no es reembolsable, ya que cubre el trabajo realizado hasta la fecha de cancelación.</li>
+              <li>Si el proyecto está completo o en etapa final, se cobra el 100% del precio acordado.</li>
+            </ul>
+            <p>
+              JERG.STUDIO se reserva el derecho de cancelar un proyecto por incumplimiento de pago o por solicitudes que violen leyes vigentes, sin obligación de reembolso del anticipo.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>9. Limitación de responsabilidad</h2>
+            <p>
+              JERG.STUDIO no se hace responsable por pérdidas de ingresos, datos o negocios derivadas del uso o imposibilidad de uso de los productos entregados, ni por interrupciones causadas por servicios de terceros (hosting, proveedores de pago, APIs externas).
+            </p>
+            <p>
+              Nuestra responsabilidad máxima en cualquier circunstancia se limita al monto total pagado por el proyecto en cuestión.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>10. Modificaciones</h2>
+            <p>
+              Nos reservamos el derecho de actualizar estos términos en cualquier momento. Los cambios entran en vigencia al publicarse en este sitio. Para proyectos en curso, se aplicarán los términos vigentes al momento de la firma de la propuesta.
+            </p>
+          </section>
+
+          <section class="legal-section">
+            <h2>11. Contacto</h2>
+            <p>Para consultas sobre estos términos:</p>
+            <ul>
+              <li>Email: <a href="mailto:Jerg.studio@gmail.com">Jerg.studio@gmail.com</a></li>
+              <li>WhatsApp: <a href="https://wa.me/56967657198" target="_blank" rel="noopener noreferrer">+56 9 6765 7198</a></li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .legal-page {
+    min-height: 80vh;
+    padding: clamp(6rem, 12vw, 10rem) clamp(1.25rem, 5vw, 3rem) clamp(4rem, 8vw, 6rem);
+  }
+
+  .legal-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .legal-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text-offset);
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-bottom: 0.5rem;
+  }
+  .legal-back:hover { color: var(--color-primary); }
+
+  .legal-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin-top: 0.25rem;
+  }
+
+  .legal-meta {
+    font-size: 0.85rem;
+    color: var(--color-text-offset);
+    margin-top: 0.25rem;
+  }
+
+  .legal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .legal-section h2 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .legal-section p {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--color-text-offset);
+    margin-bottom: 0.75rem;
+  }
+
+  .legal-section p strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .legal-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .legal-section ul li {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-offset);
+    padding-left: 1.25rem;
+    position: relative;
+  }
+
+  .legal-section ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .legal-section a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .legal-section a:hover { opacity: 0.75; }
+</style>
