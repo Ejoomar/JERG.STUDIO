@@ -22,7 +22,7 @@ const tiers = [
     label: "App / Sistema",
     name: "Producto Digital",
     tagline: "Tu app o sistema a medida. Panel de admin, base de datos y API incluidos.",
-    price: "500",
+    price: "250",
     glow: "#10b981",
     popular: true,
     features: [
@@ -39,7 +39,7 @@ const tiers = [
     label: "Automatización",
     name: "Bots e Integración",
     tagline: "Flujos que trabajan por ti las 24 horas, sin intervención manual.",
-    price: "250",
+    price: "80",
     glow: "#f59e0b",
     popular: false,
     features: [
@@ -63,7 +63,7 @@ const tiers = [
       <h2
         id="pricing-heading"
         class="tracking-tight"
-        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;color:#f5f0e8;"
+        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;color:var(--color-text);"
         data-split
       >
         <em class="accent-italic">Precios claros</em>
@@ -358,5 +358,57 @@ const tiers = [
   @media (prefers-reduced-motion: reduce) {
     .pricing-card,
     .pc-cta { transition: none; }
+  }
+
+  /* ── Light mode overrides ── */
+  :global([data-theme="light"]) .pricing-card {
+    background: linear-gradient(145deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.01) 100%);
+    border-color: rgba(0,0,0,0.1);
+  }
+  :global([data-theme="light"]) .pricing-card:hover {
+    border-color: rgba(0,0,0,0.22);
+  }
+  :global([data-theme="light"]) .pricing-card--featured {
+    background: linear-gradient(145deg, rgba(5,150,105,0.07) 0%, rgba(5,150,105,0.02) 100%);
+    border-color: rgba(5,150,105,0.3);
+  }
+  :global([data-theme="light"]) .pricing-card--featured:hover {
+    border-color: rgba(5,150,105,0.5);
+  }
+  :global([data-theme="light"]) .pc-num {
+    color: rgba(0,0,0,0.1);
+  }
+  :global([data-theme="light"]) .pc-name {
+    color: #0d0d0d;
+  }
+  :global([data-theme="light"]) .pc-tagline {
+    color: rgba(13,13,13,0.52);
+  }
+  :global([data-theme="light"]) .pc-div {
+    background: rgba(0,0,0,0.08);
+  }
+  :global([data-theme="light"]) .pricing-card--featured .pc-div {
+    background: rgba(5,150,105,0.15);
+  }
+  :global([data-theme="light"]) .pc-price {
+    color: #0d0d0d;
+  }
+  :global([data-theme="light"]) .pc-sup {
+    color: rgba(13,13,13,0.4);
+  }
+  :global([data-theme="light"]) .pc-usd {
+    color: rgba(13,13,13,0.45);
+  }
+  :global([data-theme="light"]) .pc-features li {
+    color: rgba(13,13,13,0.62);
+    border-bottom-color: rgba(0,0,0,0.06);
+  }
+  :global([data-theme="light"]) .pc-cta--outline {
+    border-color: rgba(0,0,0,0.18);
+    color: rgba(13,13,13,0.72);
+  }
+  :global([data-theme="light"]) .pc-cta--outline:hover {
+    border-color: rgba(0,0,0,0.38);
+    color: #0d0d0d;
   }
 </style>
