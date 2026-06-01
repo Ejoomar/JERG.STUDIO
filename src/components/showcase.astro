@@ -494,12 +494,38 @@ const projects = [
   }
 
   /* ══════════════════════════════════
-     MOBILE
+     MOBILE — carrusel horizontal
   ══════════════════════════════════ */
   @media (max-width: 767px) {
-    .bento-big  { min-height: 380px; }
-    .bento-sm   { min-height: 260px; }
-    .bento-wide { min-height: 280px; }
+    .bento-grid {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0.75rem;
+      padding: 0.25rem 0.25rem 1rem;
+      /* Ocultar scrollbar pero mantener funcionalidad */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .bento-grid::-webkit-scrollbar { display: none; }
+
+    /* Cada card ocupa el 85% del ancho — se ve que hay más */
+    .bento-card {
+      flex: 0 0 85vw;
+      scroll-snap-align: start;
+      min-height: 340px;
+    }
+    .bento-big  { flex: 0 0 85vw; min-height: 380px; }
+    .bento-sm   { flex: 0 0 75vw; min-height: 300px; }
+    .bento-wide { flex: 0 0 90vw; min-height: 280px; }
     .bento-desc--sm { -webkit-line-clamp: 4; }
+
+    /* Indicador de scroll */
+    .bento-grid::after {
+      content: '';
+      flex: 0 0 0.25rem;
+    }
   }
 </style>
