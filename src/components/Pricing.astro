@@ -8,6 +8,7 @@ const tiers = [
     price: "300",
     glow: "#6366f1",
     popular: false,
+    badge: "Más buscado",
     features: [
       "Diseño personalizado",
       "Responsive & SEO técnico",
@@ -24,7 +25,8 @@ const tiers = [
     tagline: "Tu app o sistema a medida. Panel de admin, base de datos y API incluidos.",
     price: "250",
     glow: "#10b981",
-    popular: true,
+    popular: false,
+    badge: "",
     features: [
       "Todo lo de Landing",
       "Panel de administración",
@@ -41,7 +43,8 @@ const tiers = [
     tagline: "Flujos que trabajan por ti las 24 horas, sin intervención manual.",
     price: "80",
     glow: "#f59e0b",
-    popular: false,
+    popular: true,
+    badge: "Popular",
     features: [
       "n8n / Zapier",
       "WhatsApp API",
@@ -51,7 +54,7 @@ const tiers = [
     ],
     cta: "Hablemos",
   },
-] as const;
+];
 ---
 
 <section id="pricing" class="pricing-section" aria-labelledby="pricing-heading">
@@ -85,7 +88,8 @@ const tiers = [
         <!-- Eyebrow -->
         <div class="flex items-start justify-between gap-2 mb-3">
           <span class="pc-num">{tier.num}</span>
-          {tier.popular && <span class="pc-badge">Popular</span>}
+          {tier.badge === "Popular"      && <span class="pc-badge pc-badge--popular">Popular</span>}
+          {tier.badge === "Más buscado"  && <span class="pc-badge pc-badge--searched">Más buscado</span>}
         </div>
 
         <span class="pc-label">{tier.label}</span>
@@ -210,14 +214,21 @@ const tiers = [
     font-size: 0.52rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: #10b981;
-    color: #050505;
     font-weight: 700;
     padding: 0.14rem 0.55rem;
     border-radius: 99px;
     white-space: nowrap;
     flex-shrink: 0;
     align-self: flex-start;
+  }
+  .pc-badge--popular {
+    background: #f59e0b;
+    color: #050505;
+  }
+  .pc-badge--searched {
+    background: transparent;
+    border: 1px solid rgba(99,102,241,0.5);
+    color: #818cf8;
   }
 
   .pc-label {
