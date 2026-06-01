@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@supabase/supabase-js";
+import { isValidEmail } from "~/utils/validation";
 
 export const prerender = false;
 
@@ -38,7 +39,7 @@ function isRateLimited(ip: string): boolean {
 function validate(body: Record<string, unknown>): string | null {
   const { name, email, service, message } = body;
   if (!name    || typeof name    !== "string" || name.trim().length    < 2)   return "Nombre inválido";
-  if (!email   || typeof email   !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Email inválido";
+  if (!email   || typeof email   !== "string" || !isValidEmail(email)) return "Email inválido";
   if (!service || typeof service !== "string" || service.trim().length === 0) return "Servicio requerido";
   if (!message || typeof message !== "string" || message.trim().length < 10)  return "Mensaje muy corto";
   if ((name    as string).length > 100)  return "Nombre demasiado largo";

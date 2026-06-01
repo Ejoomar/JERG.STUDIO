@@ -8,6 +8,7 @@ import Process     from "~/components/Process.astro";
 import Clients      from "~/components/Clients.astro";
 import MLSection   from "~/components/MLSection.astro";
 import Showcase    from "~/components/showcase.astro";
+import Pricing     from "~/components/Pricing.astro";
 import FAQ         from "~/components/FAQ.astro";
 import ContactForm from "~/components/ContactForm.astro";
 import Footer      from "~/components/footer.astro";
@@ -57,14 +58,6 @@ const siteUrl     = "https://jerg.studio";
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image"       content="https://jerg.studio/social.jpg" />
-
-    <!-- DM Serif Display (display font) from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
 
     <!-- JSON-LD -->
     <script type="application/ld+json">
@@ -162,7 +155,8 @@ const siteUrl     = "https://jerg.studio";
         <Process />
         <MLSection />
         <Showcase />
-<FAQ />
+        <Pricing />
+        <FAQ />
         <ContactForm />
       </div>
     </main>

@@ -1,0 +1,362 @@
+---
+const tiers = [
+  {
+    num: "01",
+    label: "Landing",
+    name: "Página Web",
+    tagline: "Tu presencia online profesional, lista para convertir desde el día uno.",
+    price: "300",
+    glow: "#6366f1",
+    popular: false,
+    features: [
+      "Diseño personalizado",
+      "Responsive & SEO técnico",
+      "Formulario de contacto",
+      "Analytics incluido",
+      "30 días de soporte",
+    ],
+    cta: "Consultar",
+  },
+  {
+    num: "02",
+    label: "App / Sistema",
+    name: "Producto Digital",
+    tagline: "Tu app o sistema a medida. Panel de admin, base de datos y API incluidos.",
+    price: "500",
+    glow: "#10b981",
+    popular: true,
+    features: [
+      "Todo lo de Landing",
+      "Panel de administración",
+      "Base de datos + Auth",
+      "API REST",
+      "Iteraciones semanales",
+    ],
+    cta: "Consultar",
+  },
+  {
+    num: "03",
+    label: "Automatización",
+    name: "Bots e Integración",
+    tagline: "Flujos que trabajan por ti las 24 horas, sin intervención manual.",
+    price: "250",
+    glow: "#f59e0b",
+    popular: false,
+    features: [
+      "n8n / Zapier",
+      "WhatsApp API",
+      "CRM integrado",
+      "Bots personalizados",
+      "Monitoreo 24/7",
+    ],
+    cta: "Hablemos",
+  },
+] as const;
+---
+
+<section id="pricing" class="pricing-section" aria-labelledby="pricing-heading">
+
+  <!-- ── Cabecera ── -->
+  <div class="pricing-header border-b border-default">
+    <div class="mx-auto max-w-6xl px-8 py-10 flex flex-col items-center gap-4 text-center">
+      <span class="eyebrow tracking-[0.22em]">Inversión</span>
+      <h2
+        id="pricing-heading"
+        class="tracking-tight"
+        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;color:#f5f0e8;"
+        data-split
+      >
+        <em class="accent-italic">Precios claros</em>
+      </h2>
+      <p class="max-w-lg text-offset" style="font-size:1.05rem;line-height:1.7;">
+        Precio fijo acordado desde el primer día.<br />
+        <span class="text-default font-semibold">Sin cobros por hora, sin sorpresas al final.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Grid de cards ── -->
+  <div class="pricing-grid mx-auto max-w-6xl px-8 py-16">
+    {tiers.map((tier) => (
+      <div
+        class:list={["pricing-card js-pricing-card", { "pricing-card--featured": tier.popular }]}
+        style={`--glow:${tier.glow};`}
+      >
+        <!-- Eyebrow -->
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="pc-num">{tier.num}</span>
+          {tier.popular && <span class="pc-badge">Popular</span>}
+        </div>
+
+        <span class="pc-label">{tier.label}</span>
+
+        <!-- Nombre del tier -->
+        <h3 class="pc-name">{tier.name}</h3>
+
+        <!-- Tagline -->
+        <p class="pc-tagline">{tier.tagline}</p>
+
+        <!-- Divisor -->
+        <div class="pc-div"></div>
+
+        <!-- Precio -->
+        <div class="pc-price-group">
+          <span class="pc-desde">Desde</span>
+          <div class="pc-price">
+            <sup class="pc-sup">$</sup>{tier.price}<span class="pc-usd"> USD</span>
+          </div>
+        </div>
+
+        <!-- Divisor -->
+        <div class="pc-div" style="margin-bottom:1.25rem;"></div>
+
+        <!-- Features -->
+        <ul class="pc-features">
+          {tier.features.map((f) => <li>{f}</li>)}
+        </ul>
+
+        <!-- CTA -->
+        <a
+          href="#contact"
+          class:list={["pc-cta", tier.popular ? "pc-cta--solid" : "pc-cta--outline"]}
+        >
+          {tier.cta} →
+        </a>
+      </div>
+    ))}
+  </div>
+
+</section>
+
+<style>
+  /* ── Layout ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 900px) {
+    .pricing-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+      max-width: 440px;
+    }
+  }
+
+  /* ── Card base ── */
+  .pricing-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    padding: 1.75rem 1.5rem;
+    background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.25s;
+  }
+
+  .pricing-card:hover {
+    border-color: rgba(255,255,255,0.16);
+  }
+
+  /* Glow en la parte superior */
+  .pricing-card::before {
+    content: '';
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 110px;
+    background: var(--glow);
+    border-radius: 50%;
+    filter: blur(38px);
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  /* ── Featured ── */
+  .pricing-card--featured {
+    background: linear-gradient(145deg, rgba(16,185,129,0.09) 0%, rgba(16,185,129,0.025) 100%);
+    border-color: rgba(16,185,129,0.28);
+  }
+
+  .pricing-card--featured:hover {
+    border-color: rgba(16,185,129,0.45);
+  }
+
+  .pricing-card--featured::before {
+    opacity: 0.28;
+  }
+
+  /* ── Tipografía interna ── */
+  .pc-num {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.1);
+    line-height: 1;
+  }
+
+  .pc-badge {
+    font-size: 0.52rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: #10b981;
+    color: #050505;
+    font-weight: 700;
+    padding: 0.14rem 0.55rem;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  .pc-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #6b7280;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  .pc-name {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: #f5f0e8;
+    line-height: 1.2;
+    margin-bottom: 0.45rem;
+  }
+
+  .pc-tagline {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.65;
+  }
+
+  .pc-div {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 1rem 0;
+  }
+
+  .pricing-card--featured .pc-div {
+    background: rgba(16,185,129,0.15);
+  }
+
+  .pc-desde {
+    display: block;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #6b7280;
+    margin-bottom: 0.1rem;
+  }
+
+  .pc-price {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-style: italic;
+    font-size: 3rem;
+    font-weight: 400;
+    color: #f5f0e8;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .pc-sup {
+    font-size: 1.2rem;
+    vertical-align: super;
+    font-style: normal;
+    color: rgba(255,255,255,0.45);
+    margin-right: 0.05em;
+  }
+
+  .pc-usd {
+    font-size: 0.68rem;
+    color: #6b7280;
+    font-style: normal;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0;
+    margin-left: 0.1em;
+  }
+
+  /* ── Features ── */
+  .pc-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.35rem;
+    flex: 1;
+  }
+
+  .pc-features li {
+    font-size: 0.73rem;
+    color: rgba(255,255,255,0.5);
+    padding: 0.25rem 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .pc-features li:last-child {
+    border-bottom: none;
+  }
+
+  .pc-features li::before {
+    content: "✓";
+    color: #10b981;
+    font-weight: 700;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+    margin-top: 0.06rem;
+  }
+
+  /* ── CTAs ── */
+  .pc-cta {
+    display: block;
+    text-align: center;
+    padding: 0.62rem 1rem;
+    border-radius: 6px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+  }
+
+  .pc-cta--solid {
+    background: #10b981;
+    color: #050505;
+  }
+
+  .pc-cta--solid:hover {
+    background: #34d399;
+  }
+
+  .pc-cta--outline {
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.65);
+  }
+
+  .pc-cta--outline:hover {
+    border-color: rgba(255,255,255,0.32);
+    color: #f5f0e8;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pricing-card,
+    .pc-cta { transition: none; }
+  }
+</style>

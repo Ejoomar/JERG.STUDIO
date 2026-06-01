@@ -1,5 +1,6 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { registerScrollStagger } from "~/utils/animations";
 
 let gsapReady = false;
 try {
@@ -43,38 +44,9 @@ function initHeroScrollParallax() {
 // 2. FEATURES — stagger feat-items (desktop) / simple fade (mobile)
 // ─────────────────────────────────────
 function initFeaturesStagger() {
-  if (reduced) return;
-
-  const items = document.querySelectorAll<HTMLElement>(".js-feat-item");
-  if (!items.length) return;
-
-  // Desktop: stagger con y
-  mm.add("(min-width: 769px)", () => {
-    gsap.from(items, {
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: "#features-list",
-        start: "top 82%",
-        once: true,
-      },
-    });
-  });
-
-  // Mobile: solo fade, sin stagger ni y
-  mm.add("(max-width: 768px)", () => {
-    gsap.from(items, {
-      opacity: 0,
-      duration: 0.4,
-      scrollTrigger: {
-        trigger: "#features-list",
-        start: "top 85%",
-        once: true,
-      },
-    });
+  registerScrollStagger(mm, reduced, {
+    selector: ".js-feat-item",
+    desktopTrigger: "#features-list",
   });
 }
 
@@ -136,36 +108,10 @@ function initShowcaseStagger() {
 // 4. TESTIMONIALS — stagger cards (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initTestimonialsStagger() {
-  if (reduced) return;
-
-  const cards = document.querySelectorAll<HTMLElement>(".js-testi-card");
-  if (!cards.length) return;
-
-  mm.add("(min-width: 769px)", () => {
-    gsap.from(cards, {
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: "#testimonials .grid",
-        start: "top 82%",
-        once: true,
-      },
-    });
-  });
-
-  mm.add("(max-width: 768px)", () => {
-    gsap.from(cards, {
-      opacity: 0,
-      duration: 0.4,
-      scrollTrigger: {
-        trigger: "#testimonials",
-        start: "top 85%",
-        once: true,
-      },
-    });
+  registerScrollStagger(mm, reduced, {
+    selector: ".js-testi-card",
+    desktopTrigger: "#testimonials .grid",
+    mobileTrigger: "#testimonials",
   });
 }
 
@@ -173,36 +119,12 @@ function initTestimonialsStagger() {
 // 5. FAQ — stagger items (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initFaqStagger() {
-  if (reduced) return;
-
-  const items = document.querySelectorAll<HTMLElement>(".js-faq-item");
-  if (!items.length) return;
-
-  mm.add("(min-width: 769px)", () => {
-    gsap.from(items, {
-      y: 30,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.09,
-      scrollTrigger: {
-        trigger: ".faq-list",
-        start: "top 82%",
-        once: true,
-      },
-    });
-  });
-
-  mm.add("(max-width: 768px)", () => {
-    gsap.from(items, {
-      opacity: 0,
-      duration: 0.4,
-      scrollTrigger: {
-        trigger: ".faq-list",
-        start: "top 85%",
-        once: true,
-      },
-    });
+  registerScrollStagger(mm, reduced, {
+    selector: ".js-faq-item",
+    desktopTrigger: ".faq-list",
+    y: 30,
+    stagger: 0.09,
+    duration: 0.7,
   });
 }
 
@@ -270,36 +192,26 @@ function initIntroStagger() {
 // 7. CONTACT FORM — stagger fields (desktop) / fade (mobile)
 // ─────────────────────────────────────
 function initContactStagger() {
-  if (reduced) return;
-
-  const fields = document.querySelectorAll<HTMLElement>(".js-cf-field");
-  if (!fields.length) return;
-
-  mm.add("(min-width: 769px)", () => {
-    gsap.from(fields, {
-      y: 25,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: "#contact",
-        start: "top 80%",
-        once: true,
-      },
-    });
+  registerScrollStagger(mm, reduced, {
+    selector: ".js-cf-field",
+    desktopTrigger: "#contact",
+    y: 25,
+    stagger: 0.1,
+    duration: 0.7,
+    desktopStart: "top 80%",
   });
+}
 
-  mm.add("(max-width: 768px)", () => {
-    gsap.from(fields, {
-      opacity: 0,
-      duration: 0.4,
-      scrollTrigger: {
-        trigger: "#contact",
-        start: "top 85%",
-        once: true,
-      },
-    });
+// ─────────────────────────────────────
+// 8. PRICING — stagger cards (desktop) / fade (mobile)
+// ─────────────────────────────────────
+function initPricingStagger() {
+  registerScrollStagger(mm, reduced, {
+    selector: ".js-pricing-card",
+    desktopTrigger: ".pricing-grid",
+    y: 40,
+    stagger: 0.15,
+    duration: 0.85,
   });
 }
 
@@ -313,6 +225,7 @@ export function initScrollAnimations() {
   initFeaturesStagger();
   initShowcaseStagger();
   initTestimonialsStagger();
+  initPricingStagger();
   initFaqStagger();
   initContactStagger();
   window.addEventListener("load", () => {

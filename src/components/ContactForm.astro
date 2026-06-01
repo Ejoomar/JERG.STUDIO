@@ -168,7 +168,7 @@ const contactInfo = [
         </button>
 
         <!-- Success -->
-        <div id="cf-success" class="mt-6 hidden items-center gap-4 border border-secondary/30 bg-secondary/8 p-5" role="status" aria-live="polite">
+        <div id="cf-success" class="mt-6 items-center gap-4 border border-secondary/30 bg-secondary/8 p-5" role="status" aria-live="polite">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="shrink-0 text-secondary" aria-hidden="true">
             <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
@@ -284,9 +284,18 @@ const contactInfo = [
   .cf-select option { background: #111827; }
   .cf-textarea { resize: vertical; min-height: 100px; }
   .bg-secondary\/8 { background: rgba(52,211,153,0.08); }
+
+  /* ── Submitted state ── */
+  #cf-success { display: none; }
+  .is-submitted .grid,
+  .is-submitted .mt-4,
+  .is-submitted button[type="submit"] { display: none; }
+  .is-submitted #cf-success { display: flex; }
 </style>
 
 <script>
+  import { isValidEmail } from '~/utils/validation';
+
   const form = document.getElementById('contactForm') as HTMLFormElement;
   const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement;
   const submitText = document.getElementById('cf-submit-text') as HTMLSpanElement;
@@ -312,7 +321,7 @@ const contactInfo = [
     const v = input.value.trim();
     clearError(input);
     if (input.required && !v) { showError(input, 'Campo requerido.'); return false; }
-    if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+    if (input.type === 'email' && v && !isValidEmail(v)) {
       showError(input, 'Email inválido.'); return false;
     }
     if ((input as HTMLInputElement).minLength > 0 && v.length < (input as HTMLInputElement).minLength) {
@@ -343,6 +352,12 @@ const contactInfo = [
     submitBtn.disabled = true;
     submitText.textContent = 'Enviando…';
 
+    function resetSubmit(msg: string) {
+      submitText.textContent = msg;
+      submitBtn.disabled = false;
+      setTimeout(() => { submitText.textContent = originalText; }, 3000);
+    }
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 15_000);
 
@@ -356,30 +371,20 @@ const contactInfo = [
       clearTimeout(timeoutId);
 
       if (res.status === 429) {
-        submitText.textContent = 'Demasiados intentos. Espera unos minutos.';
-        submitBtn.disabled = false;
-        setTimeout(() => { submitText.textContent = originalText; }, 3000);
+        resetSubmit('Demasiados intentos. Espera unos minutos.');
         return;
       }
 
       if (!res.ok) {
-        submitText.textContent = 'Error al enviar. Intenta de nuevo.';
-        submitBtn.disabled = false;
-        setTimeout(() => { submitText.textContent = originalText; }, 3000);
+        resetSubmit('Error al enviar. Intenta de nuevo.');
         return;
       }
 
-      form.querySelectorAll<HTMLElement>('.grid, .mt-4, button[type="submit"]').forEach(el => {
-        el.style.display = 'none';
-      });
-      successMsg.classList.remove('hidden');
-      successMsg.classList.add('flex');
+      form.classList.add('is-submitted');
 
     } catch {
       clearTimeout(timeoutId);
-      submitText.textContent = 'Error de red. Intenta de nuevo.';
-      submitBtn.disabled = false;
-      setTimeout(() => { submitText.textContent = originalText; }, 3000);
+      resetSubmit('Error de red. Intenta de nuevo.');
     }
   });
 </script>

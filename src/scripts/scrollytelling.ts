@@ -331,7 +331,7 @@ function initMagnetic() {
 //    Consumers subscribe via window "section:active" event.
 // ═══════════════════════════════════════════════
 function initSectionWatcher() {
-  const ids = ["intro", "features", "process", "showcase", "testimonials", "faq", "contact"];
+  const ids = ["intro", "features", "process", "showcase", "testimonials", "pricing", "faq", "contact"];
 
   ids.forEach((id) => {
     const el = document.getElementById(id);
@@ -359,6 +359,7 @@ function initDotsNav() {
     { id: "features", label: "Servicios" },
     { id: "process",  label: "Proceso" },
     { id: "showcase", label: "Portafolio" },
+    { id: "pricing",  label: "Precios" },
     { id: "faq",      label: "FAQ" },
     { id: "contact",  label: "Contacto" },
   ];
