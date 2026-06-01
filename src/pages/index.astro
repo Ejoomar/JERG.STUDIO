@@ -44,7 +44,9 @@ const siteUrl     = "https://jerg.studio";
     <meta property="og:url"         content={siteUrl} />
     <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:locale"      content="es_ES" />
+    <meta property="og:locale"      content="es_419" />
+    <meta property="og:locale:alternate" content="es_CL" />
+    <meta property="og:locale:alternate" content="es_VE" />
     <meta property="og:image"        content="https://jerg.studio/social.jpg" />
     <meta property="og:image:width"  content="1200" />
     <meta property="og:image:height" content="630" />
@@ -68,13 +70,45 @@ const siteUrl     = "https://jerg.studio";
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        "@type": "ProfessionalService",
         "name": "JERG.STUDIO",
         "description": "Estudio de diseño web y desarrollo para startups y emprendedores: landing pages, apps a medida y automatizaciones.",
         "url": "https://jerg.studio",
         "email": "Jerg.studio@gmail.com",
         "telephone": ["+56967657198", "+584126522045"],
-        "priceRange": "$$"
+        "priceRange": "$$",
+        "currenciesAccepted": "USD, CLP, VES",
+        "paymentAccepted": "Transferencia bancaria, PayPal, Stripe",
+        "areaServed": [
+          {
+            "@type": "Country",
+            "name": "Chile"
+          },
+          {
+            "@type": "Country",
+            "name": "Venezuela"
+          },
+          {
+            "@type": "Place",
+            "name": "Latinoamérica"
+          }
+        ],
+        "serviceType": [
+          "Diseño Web",
+          "Desarrollo de Aplicaciones",
+          "E-commerce",
+          "Automatizaciones",
+          "Landing Pages"
+        ],
+        "sameAs": [
+          "https://wa.me/56967657198",
+          "https://wa.me/584126522045"
+        ],
+        "knowsLanguage": ["es", "es-CL", "es-VE"],
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Latinoamérica"
+        }
       }
     </script>
   </head>
