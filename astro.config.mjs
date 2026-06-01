@@ -21,7 +21,6 @@ export default defineConfig({
         `${SITE}/privacidad/`,
         `${SITE}/terminos/`,
       ],
-      filter: (page) => page.startsWith(SITE),
     }),
   ],
 });
