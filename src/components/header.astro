@@ -364,17 +364,7 @@ const linksBot = navItems.slice(2);
     font-style: normal;
     border-radius: 10px;
     text-decoration: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition:
-      opacity   0.38s cubic-bezier(0.16,1,0.3,1),
-      transform 0.42s cubic-bezier(0.16,1,0.3,1),
-      box-shadow 0.2s;
-  }
-  #split-menu.open .split-cta-ml {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.08s;
+    transition: box-shadow 0.2s;
   }
   .split-cta-ml:hover {
     box-shadow: 0 6px 22px rgba(255, 230, 0, 0.35);
