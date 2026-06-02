@@ -61,16 +61,33 @@ const stats = [
     </p>
 
     <!-- CTAs -->
-    <div class="fade-up delay-3 mt-10 flex flex-wrap items-center justify-center gap-4">
-      <a href="#contact" class="btn-primary btn-magnetic">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        Cuéntanos tu idea
-      </a>
-      <a href="#process" id="splash-ghost-btn" class="btn-magnetic">
-        Ver cómo trabajamos
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
+    <div class="fade-up delay-3 mt-10 flex flex-col items-center gap-3">
+      <!-- Fila principal -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="#contact" class="btn-primary btn-magnetic">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Cuéntanos tu idea
+        </a>
+        <a href="#process" id="splash-ghost-btn" class="btn-magnetic">
+          Ver cómo trabajamos
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Divisor ML -->
+      <div class="hero-ml-sep" aria-hidden="true">
+        <span></span><span class="hero-ml-sep-label">también</span><span></span>
+      </div>
+
+      <!-- Botón MercadoLibre -->
+      <a href="/mercadolibre" class="btn-ml btn-magnetic">
+        <svg width="15" height="15" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <ellipse cx="24" cy="24" rx="22" ry="22" fill="#111"/>
+          <path d="M12 30V20l6 7 6-7v10M30 30V20l4 5 4-5v10" stroke="#FFE600" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+        Servicios de MercadoLibre
       </a>
     </div>
 
@@ -189,11 +206,57 @@ const stats = [
     }
   }
 
+  /* ── Separador + botón ML ── */
+  .hero-ml-sep {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 22rem;
+    margin: 0.1rem 0;
+  }
+  .hero-ml-sep span:not(.hero-ml-sep-label) {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,230,0,0.18);
+  }
+  .hero-ml-sep-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,230,0,0.35);
+    white-space: nowrap;
+  }
+
+  .btn-ml {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #FFE600;
+    color: #111;
+    font-size: 0.85rem;
+    font-weight: 800;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(255,230,0,0.35);
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn-ml:hover {
+    background: #fff176;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 36px rgba(255,230,0,0.5);
+    color: #111;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     :global(#starfield) { display: none; }
     #splash-bg-fallback  { display: block; }
     .animate-pulse-slow  { animation: none; }
     .hero-grid           { display: none; }
     .hero-bg-mark        { display: none; }
+    .btn-ml              { transition: none; }
   }
 </style>

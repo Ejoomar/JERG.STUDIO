@@ -447,8 +447,8 @@ const quotes = [
   }
   .hero-glow {
     position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
-    width: 900px; height: 550px;
-    background: radial-gradient(ellipse, rgba(255,230,0,0.11) 0%, transparent 65%);
+    width: 1000px; height: 600px;
+    background: radial-gradient(ellipse, rgba(255,230,0,0.18) 0%, transparent 62%);
     pointer-events: none;
   }
   .hero-bg-text {
@@ -507,12 +507,13 @@ const quotes = [
   .hero-ctas { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
   .cta-primary {
     display: inline-flex; align-items: center; gap: 0.65rem;
-    background: #FFE600; color: #111; font-size: 1rem; font-weight: 800;
-    padding: 1rem 2.5rem; border-radius: 999px; text-decoration: none;
+    background: #FFE600; color: #111; font-size: 1.05rem; font-weight: 800;
+    padding: 1.05rem 2.8rem; border-radius: 999px; text-decoration: none;
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 30px rgba(255,230,0,0.35);
+    box-shadow: 0 6px 40px rgba(255,230,0,0.55);
+    letter-spacing: 0.01em;
   }
-  .cta-primary:hover { background: #fff176; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(255,230,0,0.45); color: #111; }
+  .cta-primary:hover { background: #fff176; transform: translateY(-3px); box-shadow: 0 12px 52px rgba(255,230,0,0.7); color: #111; }
   .hero-hint { font-size: 0.72rem; color: rgba(245,240,232,0.25); letter-spacing: 0.03em; }
 
   .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
@@ -598,7 +599,7 @@ const quotes = [
   .feat-item:hover .feat-num { color: #FFE600; }
   .feat-num {
     font-family: 'DM Serif Display', Georgia, serif; font-style: italic;
-    font-size: 3.5rem; font-weight: 400; color: rgba(255,255,255,0.07);
+    font-size: 3.5rem; font-weight: 400; color: rgba(255,230,0,0.28);
     line-height: 1; transition: color 0.3s; align-self: start; padding-top: 0.2rem;
   }
   .feat-body { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 0.5rem; }
@@ -632,12 +633,15 @@ const quotes = [
   .marquee-track--reverse { animation-direction: reverse; animation-duration: 40s; }
   @keyframes marquee-left { from{transform:translateX(0)} to{transform:translateX(-50%)} }
   .marquee-item {
-    flex-shrink: 0; background: #0d0d0d; border: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0; background: #0d0d0d;
+    border: 1px solid rgba(255,230,0,0.14);
+    border-left: 3px solid rgba(255,230,0,0.5);
     border-radius: 10px; padding: 1.25rem 1.5rem; width: 320px; display: flex; flex-direction: column; gap: 0.75rem;
+    transition: border-color 0.2s;
   }
-  .marquee-text { font-size: 0.82rem; color: rgba(245,240,232,0.65); line-height: 1.65; font-style: italic; margin: 0; }
-  .marquee-author { font-size: 0.68rem; color: rgba(245,240,232,0.3); }
-  .marquee-author em { font-style: normal; color: rgba(255,230,0,0.45); }
+  .marquee-text { font-size: 0.82rem; color: rgba(245,240,232,0.78); line-height: 1.65; font-style: italic; margin: 0; }
+  .marquee-author { font-size: 0.68rem; color: rgba(245,240,232,0.38); }
+  .marquee-author em { font-style: normal; color: rgba(255,230,0,0.65); }
   .marquee-section:hover .marquee-track { animation-play-state: paused; }
 
   /* ═══════ YELLOW FINALE ═══════ */
