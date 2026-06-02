@@ -32,12 +32,12 @@ const features = [
 ];
 
 const quotes = [
-  { text: "El 40% de mis ventas llega directo por WhatsApp, sin pagar comisión.", name: "Rodrigo M.", role: "Vendedor Platinum · Electrónica" },
-  { text: "En dos semanas tenía el catálogo. Mis clientes me escriben directo.", name: "Valentina C.", role: "Vendedora · Ropa y accesorios" },
-  { text: "El stock sincronizado me salvó de vender lo mismo dos veces.", name: "Felipe A.", role: "Vendedor · Herramientas" },
-  { text: "Ahora tengo mi tienda y mis clientes me buscan a mí, no a ML.", name: "Carla R.", role: "Vendedora · Cosméticos" },
-  { text: "Precio fijo, sin sorpresas. En 12 días estaba todo funcionando.", name: "Marcos D.", role: "Vendedor Gold · Electrónica" },
-  { text: "Las respuestas automáticas me liberaron 3 horas por día.", name: "Sandra P.", role: "Vendedora · Ropa deportiva" },
+  { text: "Honestamente no creía que iba a funcionar. El primer mensaje que me llegó por WhatsApp de un cliente nuevo me acuerdo perfectamente.", name: "Rodrigo M.", role: "Herramientas · Santiago" },
+  { text: "Lo más raro fue que clientes que me habían comprado hace dos años me empezaron a escribir. No sabía que los tenía.", name: "Valentina C.", role: "Ropa · Buenos Aires" },
+  { text: "En diciembre ML me suspendió la cuenta 3 días. Con mi tienda esos 3 días vendí igual.", name: "Felipe A.", role: "Electrónica · Caracas" },
+  { text: "Mandé el catálogo a un grupo de WhatsApp con clientes viejos. Me respondieron ese mismo día.", name: "Carla R.", role: "Cosméticos · Bogotá" },
+  { text: "Los primeros 15 días pensé que no valía la pena. Al mes siguiente ya no me imaginaba sin la tienda.", name: "Marcos D.", role: "Ferretería · Córdoba" },
+  { text: "Ahora cuando alguien pregunta por algo que no tengo, le mando el catálogo completo. Antes no podía hacer eso.", name: "Sandra P.", role: "Ropa deportiva · Lima" },
 ];
 ---
 
@@ -130,13 +130,28 @@ const quotes = [
             no a ti. Eso tiene solución.
           </p>
 
-          <!-- Counter -->
-          <div class="hero-counter fade-in" aria-live="polite">
-            <span class="hero-counter-label">Lo que ML facturó sobre el trabajo de un vendedor como tú — este año</span>
-            <div class="hero-counter-num-wrap">
-              <span class="hero-counter-currency">$</span>
-              <span class="hero-counter-num" id="commission-counter">0</span>
-              <span class="hero-counter-suffix">en comisiones</span>
+          <!-- Estado de cuenta -->
+          <div class="statement fade-in" role="img" aria-label="Estado de cuenta mostrando comisiones de MercadoLibre">
+            <div class="stmt-header">
+              <span class="stmt-entity">Estado de cuenta · Vendedor ML</span>
+              <span class="stmt-period">Ene – Dic 2024</span>
+            </div>
+            <div class="stmt-row">
+              <span>Ventas brutas del año</span>
+              <span>$800.000</span>
+            </div>
+            <div class="stmt-row stmt-row--debit">
+              <span>Comisiones cobradas por ML</span>
+              <span class="stmt-debit">− $176.000</span>
+            </div>
+            <div class="stmt-divider"></div>
+            <div class="stmt-row stmt-row--net">
+              <span>Lo que recibiste</span>
+              <span>$624.000</span>
+            </div>
+            <div class="stmt-row stmt-row--potential">
+              <span>Con tu tienda propia</span>
+              <span class="stmt-credit">$800.000</span>
             </div>
           </div>
 
@@ -165,54 +180,75 @@ const quotes = [
           </h2>
 
           <div class="screens fade-up">
-            <!-- ML view -->
+            <!-- Lado ML: perdido entre cientos -->
             <div class="screen screen--ml">
               <div class="screen-bar">
                 <div class="screen-dots"><span></span><span></span><span></span></div>
-                <div class="screen-url">mercadolibre.com/tienda/vendedor-123</div>
+                <div class="screen-url">mercadolibre.com · resultados de búsqueda</div>
               </div>
-              <div class="screen-body">
-                <div class="screen-topbar screen-topbar--ml">
-                  <span class="ml-logo-fake">mercadolibre</span>
+              <div class="screen-body screen-body--search">
+                <div class="srp-header">
+                  <span class="srp-count">1.847 resultados</span>
+                  <span class="srp-sort">Más relevantes ↓</span>
                 </div>
-                <div class="screen-product">
-                  <div class="screen-img screen-img--ml"></div>
-                  <div class="screen-info">
-                    <div class="screen-prod-name">Taladro percutor 18V</div>
-                    <div class="screen-price">$89.900</div>
-                    <div class="screen-commission">− $17.800 comisión ML (20%)</div>
-                    <div class="screen-net screen-net--bad">Te quedan: $72.100</div>
-                    <div class="screen-seller">Vendido por: vendedor-123</div>
+                <div class="srp-list">
+                  <div class="srp-item srp-item--hl">
+                    <div class="srp-thumb srp-thumb--blue"></div>
+                    <div class="srp-info">
+                      <span class="srp-name">Tu producto · $89.900</span>
+                      <span class="srp-seller">vendedor_23847 · 234 ventas</span>
+                      <span class="srp-tag">Envío estándar</span>
+                    </div>
+                  </div>
+                  <div class="srp-item srp-item--dim">
+                    <div class="srp-thumb srp-thumb--gray"></div>
+                    <div class="srp-info">
+                      <span class="srp-name">Producto similar · $88.200</span>
+                      <span class="srp-seller">tienda_herramientas · 1.203 ventas</span>
+                    </div>
+                  </div>
+                  <div class="srp-item srp-item--dim">
+                    <div class="srp-thumb srp-thumb--gray"></div>
+                    <div class="srp-info">
+                      <span class="srp-name">Producto similar · $91.000</span>
+                      <span class="srp-seller">ferreteria_online22 · 87 ventas</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="screen-label screen-label--bad">Hoy · Anónimo dentro de ML</div>
+              <div class="screen-label screen-label--bad">Hoy · Eres uno de 1.847</div>
             </div>
 
             <div class="screens-vs" aria-hidden="true">→</div>
 
-            <!-- Tu tienda -->
+            <!-- Lado propio: marca reconocible -->
             <div class="screen screen--yours">
               <div class="screen-bar">
                 <div class="screen-dots screen-dots--yellow"><span></span><span></span><span></span></div>
-                <div class="screen-url screen-url--yours">tutienda.cl</div>
+                <div class="screen-url screen-url--yours">ferreteria-martinez.cl</div>
               </div>
-              <div class="screen-body">
-                <div class="screen-topbar screen-topbar--yours">
-                  <span class="your-logo-fake">TU MARCA</span>
-                </div>
-                <div class="screen-product">
-                  <div class="screen-img screen-img--yours"></div>
-                  <div class="screen-info">
-                    <div class="screen-prod-name">Taladro percutor 18V</div>
-                    <div class="screen-price">$89.900</div>
-                    <div class="screen-commission screen-commission--none">✓ Venta directa — sin comisión</div>
-                    <div class="screen-net screen-net--good">Te quedan: $89.900</div>
-                    <div class="screen-seller screen-seller--yours">@TuMarca · WhatsApp directo</div>
+              <div class="screen-body screen-body--brand">
+                <!-- Google result card -->
+                <div class="gcard">
+                  <div class="gcard-source">
+                    <div class="gcard-favicon"></div>
+                    <div>
+                      <div class="gcard-domain">ferreteria-martinez.cl</div>
+                      <div class="gcard-crumb">Inicio</div>
+                    </div>
                   </div>
+                  <div class="gcard-title">Ferretería Martínez | Herramientas y equipos</div>
+                  <div class="gcard-desc">Más de 300 productos. Envíos a todo el país. Escríbenos directo por WhatsApp — respondemos el mismo día.</div>
+                  <div class="gcard-stars">⭐ 4.9 · 47 reseñas</div>
+                </div>
+                <!-- WhatsApp button -->
+                <div class="brand-wa">
+                  <div class="brand-wa-dot"></div>
+                  <span>Martínez en línea · WhatsApp</span>
+                  <span class="brand-wa-arrow">→</span>
                 </div>
               </div>
-              <div class="screen-label screen-label--good">En 11 días · Es completamente tuyo</div>
+              <div class="screen-label screen-label--good">Con tu tienda · Te buscan a ti</div>
             </div>
           </div>
         </div>
@@ -329,32 +365,6 @@ const quotes = [
       }
     </script>
 
-    <!-- Counter animation -->
-    <script>
-      const counterEl = document.getElementById('commission-counter');
-      if (counterEl) {
-        let started = false;
-        const io = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting && !started) {
-            started = true;
-            io.disconnect();
-            const target = 176000;
-            const duration = 2200;
-            const start = performance.now();
-            const tick = (now: number) => {
-              const p = Math.min((now - start) / duration, 1);
-              const eased = 1 - Math.pow(1 - p, 3);
-              const val = Math.round(eased * target);
-              counterEl.textContent = val.toLocaleString('es-CL');
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }
-        }, { threshold: 0.5 });
-        io.observe(counterEl);
-      }
-    </script>
-
     <!-- Pixel: Lead en CTAs -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', function() {
@@ -466,17 +476,33 @@ const quotes = [
     line-height: 1.7; max-width: 36rem; margin: 0;
   }
 
-  /* Counter */
-  .hero-counter {
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    background: rgba(255,230,0,0.05); border: 1px solid rgba(255,230,0,0.15);
-    border-radius: 1rem; padding: 1.25rem 2rem;
+  /* Estado de cuenta */
+  .statement {
+    width: 100%; max-width: 380px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'SF Mono', 'Fira Mono', 'Courier New', monospace;
   }
-  .hero-counter-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(245,240,232,0.35); }
-  .hero-counter-num-wrap { display: flex; align-items: baseline; gap: 0.25rem; }
-  .hero-counter-currency { font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; color: rgba(255,230,0,0.6); font-style: italic; }
-  .hero-counter-num { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 400; color: #FFE600; line-height: 1; letter-spacing: -0.03em; }
-  .hero-counter-suffix { font-size: 0.75rem; color: rgba(245,240,232,0.3); align-self: center; }
+  .stmt-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.65rem 1rem; background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .stmt-entity { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,240,232,0.35); font-family: inherit; }
+  .stmt-period { font-size: 0.58rem; color: rgba(245,240,232,0.25); font-family: inherit; }
+  .stmt-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 1rem; font-size: 0.72rem; color: rgba(245,240,232,0.55);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .stmt-row--debit { color: rgba(245,240,232,0.7); background: rgba(255,80,80,0.04); }
+  .stmt-debit { color: #f87171; font-weight: 700; }
+  .stmt-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 0; }
+  .stmt-row--net { color: rgba(245,240,232,0.4); padding: 0.65rem 1rem; }
+  .stmt-row--potential { background: rgba(255,230,0,0.04); border-top: 1px solid rgba(255,230,0,0.1); border-bottom: none; padding: 0.65rem 1rem; }
+  .stmt-credit { color: #FFE600; font-weight: 700; }
 
   .hero-ctas { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
   .cta-primary {
@@ -519,20 +545,42 @@ const quotes = [
   .ml-logo-fake { font-size: 0.7rem; font-weight: 900; color: white; letter-spacing: 0.04em; }
   .your-logo-fake { font-size: 0.7rem; font-weight: 800; color: #FFE600; letter-spacing: 0.1em; }
 
-  .screen-product { display: flex; gap: 0.75rem; padding: 0.9rem; }
-  .screen-img { width: 60px; height: 60px; border-radius: 6px; flex-shrink: 0; }
-  .screen-img--ml { background: rgba(52,131,250,0.15); border: 1px solid rgba(52,131,250,0.2); }
-  .screen-img--yours { background: rgba(255,230,0,0.1); border: 1px solid rgba(255,230,0,0.2); }
-  .screen-info { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
-  .screen-prod-name { font-size: 0.7rem; font-weight: 600; color: #f5f0e8; }
-  .screen-price { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.1rem; color: #f5f0e8; }
-  .screen-commission { font-size: 0.6rem; color: rgba(255,100,100,0.8); }
-  .screen-commission--none { color: rgba(52,211,153,0.8); }
-  .screen-net { font-size: 0.65rem; font-weight: 700; }
-  .screen-net--bad { color: rgba(255,100,100,0.7); }
-  .screen-net--good { color: #34d399; }
-  .screen-seller { font-size: 0.58rem; color: rgba(245,240,232,0.3); margin-top: 0.15rem; }
-  .screen-seller--yours { color: rgba(255,230,0,0.5); }
+  /* Search results panel */
+  .screen-body--search { padding: 0.75rem; }
+  .srp-header { display: flex; justify-content: space-between; margin-bottom: 0.6rem; }
+  .srp-count { font-size: 0.58rem; color: rgba(245,240,232,0.3); }
+  .srp-sort { font-size: 0.58rem; color: rgba(52,131,250,0.7); }
+  .srp-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .srp-item { display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem; border-radius: 5px; }
+  .srp-item--hl { background: rgba(52,131,250,0.06); border: 1px solid rgba(52,131,250,0.12); }
+  .srp-item--dim { opacity: 0.45; }
+  .srp-thumb { width: 34px; height: 34px; border-radius: 4px; flex-shrink: 0; }
+  .srp-thumb--blue { background: rgba(52,131,250,0.2); }
+  .srp-thumb--gray { background: rgba(255,255,255,0.07); }
+  .srp-info { display: flex; flex-direction: column; gap: 0.15rem; }
+  .srp-name { font-size: 0.65rem; color: rgba(245,240,232,0.8); font-weight: 500; }
+  .srp-seller { font-size: 0.55rem; color: rgba(245,240,232,0.3); }
+  .srp-tag { font-size: 0.52rem; color: rgba(52,131,250,0.7); }
+
+  /* Brand panel */
+  .screen-body--brand { padding: 0.75rem; display: flex; flex-direction: column; gap: 0.65rem; }
+  .gcard { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 6px; padding: 0.7rem; display: flex; flex-direction: column; gap: 0.3rem; }
+  .gcard-source { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.1rem; }
+  .gcard-favicon { width: 14px; height: 14px; border-radius: 3px; background: rgba(255,230,0,0.3); flex-shrink: 0; }
+  .gcard-domain { font-size: 0.58rem; color: rgba(52,211,153,0.7); }
+  .gcard-crumb { font-size: 0.52rem; color: rgba(245,240,232,0.25); }
+  .gcard-title { font-size: 0.7rem; color: #7baff5; font-weight: 500; }
+  .gcard-desc { font-size: 0.6rem; color: rgba(245,240,232,0.4); line-height: 1.5; }
+  .gcard-stars { font-size: 0.58rem; color: rgba(245,240,232,0.3); }
+  .brand-wa {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: rgba(37,211,102,0.08); border: 1px solid rgba(37,211,102,0.2);
+    border-radius: 6px; padding: 0.6rem 0.75rem;
+    font-size: 0.65rem; color: rgba(37,211,102,0.85);
+  }
+  .brand-wa-dot { width: 7px; height: 7px; border-radius: 50%; background: #25d366; flex-shrink: 0; animation: wa-pulse 2s ease-in-out infinite; }
+  @keyframes wa-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .brand-wa-arrow { margin-left: auto; opacity: 0.5; }
 
   .screen-label {
     padding: 0.55rem 0.75rem; font-size: 0.6rem; font-weight: 700;
