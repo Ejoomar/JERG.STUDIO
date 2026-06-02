@@ -8,65 +8,45 @@ const siteUrl     = "https://jerg.studio/mercadolibre";
 const waText      = encodeURIComponent("Hola, vendo en MercadoLibre y quiero hablar sobre mis opciones");
 const waUrl       = `https://wa.me/56967657198?text=${waText}`;
 
-const iconLock   = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';
-const iconWa     = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
-const iconSync   = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>';
-const iconBot    = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M13 8l-2 4h4l-2 4"/></svg>';
-
-const services = [
+const features = [
   {
-    iconColor: "yellow",
-    icon: iconLock,
+    num: "01",
     title: "Una tienda que nadie te puede pausar",
-    desc: "Tu dominio, tu marca, tus reglas. Cuando alguien te compra ahí, ese cliente es tuyo para siempre — no de ML.",
+    desc: "Tu dominio, tu marca, tus reglas. Cuando alguien te compra ahí, ese cliente es tuyo para siempre.",
   },
   {
-    iconColor: "green",
-    icon: iconWa,
+    num: "02",
     title: "Las preguntas van directo a tu WhatsApp",
-    desc: "Tus compradores habituales ya tienen tu número. Ahora pueden ver todo tu catálogo y pedirte sin abrir ML, sin esperar días.",
+    desc: "Tus compradores ya tienen tu número. Ahora ven tu catálogo completo y piden sin abrir ML.",
   },
   {
-    iconColor: "blue",
-    icon: iconSync,
+    num: "03",
     title: "El mismo stock en los dos lados, siempre",
     desc: "Cuando alguien compra en uno, el otro se actualiza solo. Nunca más vender lo mismo dos veces.",
   },
   {
-    iconColor: "purple",
-    icon: iconBot,
+    num: "04",
     title: '"¿Hacen envíos a…?" — se responde solo',
-    desc: "Las preguntas repetidas de ML se contestan automáticamente. Vos solo atendés las que necesitan tu criterio.",
+    desc: "Las preguntas repetidas de ML se contestan automáticamente. Vos solo atendés las que importan.",
   },
 ];
 
-const testimonials = [
-  {
-    quote: "Antes vendía solo en ML y pagaba comisión en cada venta. Ahora tengo mi tienda y el 40% de mis ventas llega directo por WhatsApp.",
-    name: "Rodrigo M.",
-    role: "Vendedor Platinum · Electrónica",
-  },
-  {
-    quote: "En dos semanas ya tenía el catálogo andando. Mis clientes me preguntan ahí y les respondo desde el mismo WhatsApp Business.",
-    name: "Valentina C.",
-    role: "Vendedora · Ropa y accesorios",
-  },
-  {
-    quote: "El inventario sincronizado me salvó de vender lo mismo dos veces. Era mi peor pesadilla y ahora no pienso más en eso.",
-    name: "Felipe A.",
-    role: "Vendedor · Herramientas y ferretería",
-  },
+const quotes = [
+  { text: "El 40% de mis ventas llega directo por WhatsApp, sin pagar comisión.", name: "Rodrigo M.", role: "Vendedor Platinum · Electrónica" },
+  { text: "En dos semanas tenía el catálogo. Mis clientes me escriben directo.", name: "Valentina C.", role: "Vendedora · Ropa y accesorios" },
+  { text: "El stock sincronizado me salvó de vender lo mismo dos veces.", name: "Felipe A.", role: "Vendedor · Herramientas" },
+  { text: "Ahora tengo mi tienda y mis clientes me buscan a mí, no a ML.", name: "Carla R.", role: "Vendedora · Cosméticos" },
+  { text: "Precio fijo, sin sorpresas. En 12 días estaba todo funcionando.", name: "Marcos D.", role: "Vendedor Gold · Electrónica" },
+  { text: "Las respuestas automáticas me liberaron 3 horas por día.", name: "Sandra P.", role: "Vendedora · Ropa deportiva" },
 ];
 ---
 
 <!doctype html>
-<html lang="es" data-theme="dark" class="scroll-smooth">
+<html lang="es" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-
-    <!-- Anti-flash tema -->
     <script is:inline>
       (function() {
         var saved = localStorage.getItem('theme');
@@ -74,60 +54,38 @@ const testimonials = [
         document.documentElement.setAttribute('data-theme', saved ?? (prefersDark ? 'dark' : 'light'));
       })();
     </script>
-
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href={siteUrl} />
-
-    <!-- Open Graph -->
     <meta property="og:type"        content="website" />
     <meta property="og:url"         content={siteUrl} />
     <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale"      content="es_ES" />
-    <meta property="og:image"        content="https://jerg.studio/social.jpg" />
-    <meta property="og:image:width"  content="1200" />
-    <meta property="og:image:height" content="630" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:title"       content={title} />
+    <meta property="og:image"       content="https://jerg.studio/social.jpg" />
+    <meta name="twitter:card"       content="summary_large_image" />
+    <meta name="twitter:title"      content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content="https://jerg.studio/social.jpg" />
-
-
-    <!-- ═══════════════════════════════════════════════
-         META PIXEL — reemplazar YOUR_PIXEL_ID
-         con el ID real cuando lo tengas
-    ════════════════════════════════════════════════ -->
+    <meta name="twitter:image"      content="https://jerg.studio/social.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+    <!-- META PIXEL -->
     <script is:inline>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', 'YOUR_PIXEL_ID');
-      fbq('track', 'PageView');
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init','YOUR_PIXEL_ID');fbq('track','PageView');
     </script>
-    <noscript>
-      <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" alt="" />
-    </noscript>
-    <!-- ═══════════════════════════════════════════════ -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" alt="" /></noscript>
   </head>
 
-  <body class="overflow-x-hidden bg-default text-default text-base">
+  <body class="overflow-x-hidden">
 
-    <!-- Grano animado -->
     <div id="grain-overlay" aria-hidden="true"></div>
 
-    <!-- ── Navbar mínimo — solo logo + volver ── -->
-    <nav class="ml-nav" aria-label="Navegación principal">
-      <a href="/" class="ml-nav-logo" aria-label="Ir al inicio de JERG.STUDIO">
+    <!-- NAV -->
+    <nav class="p-nav" aria-label="Navegación principal">
+      <a href="/" class="p-nav-logo" aria-label="JERG.STUDIO inicio">
         <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
           <rect width="32" height="32" rx="8" fill="url(#nlg)"/>
           <path d="M8 12L14 16L8 20" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -138,339 +96,231 @@ const testimonials = [
             </linearGradient>
           </defs>
         </svg>
-        <span class="ml-nav-wordmark">JERG<span class="ml-nav-dot">.</span>STUDIO</span>
+        <span class="p-nav-word">JERG<span style="color:#10b981">.</span>STUDIO</span>
       </a>
-
-      <a href={waUrl} target="_blank" rel="noopener noreferrer" class="ml-nav-cta">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+      <a href={waUrl} target="_blank" rel="noopener noreferrer" class="p-nav-cta" id="nav-cta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Hablar ahora
       </a>
     </nav>
 
     <main>
 
-      <!-- ══════════════════════════════════
-           HERO
-      ══════════════════════════════════ -->
-      <section class="ml-hero" aria-labelledby="hero-heading">
-        <div class="ml-hero-glow" aria-hidden="true"></div>
+      <!-- ═══════ HERO ═══════ -->
+      <section class="hero" aria-labelledby="hero-h1">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-bg-text" aria-hidden="true">ML</div>
 
-        <div class="ml-hero-inner">
-          <!-- Badge -->
-          <div class="ml-badge fade-up">
-            <svg width="16" height="16" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <div class="hero-inner">
+          <div class="hero-badge fade-in">
+            <svg width="14" height="14" viewBox="0 0 48 48" fill="none" aria-hidden="true">
               <ellipse cx="24" cy="24" rx="22" ry="22" fill="#FFE600"/>
               <path d="M12 30V20l6 7 6-7v10M30 30V20l4 5 4-5v10" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span>Para vendedores Gold y Platinum de ML</span>
+            Para vendedores Gold y Platinum de ML
           </div>
 
-          <!-- Headline -->
-          <h1 id="hero-heading" class="ml-hero-title fade-up">
+          <h1 id="hero-h1" class="hero-title fade-in">
             Vendés bien en ML.<br/>
-            <em class="ml-hero-em">Los clientes son de ellos.</em>
+            <em>Los clientes son de ellos.</em>
           </h1>
 
-          <p class="ml-hero-sub fade-up">
-            Cada compra que pasa por ML es un cliente que no sabe cómo encontrarte directamente.
-            Construimos lo que falta: tu tienda, tu catálogo en WhatsApp y tus automatizaciones.
+          <p class="hero-sub fade-in">
+            Cada compra que pasa por ML es un cliente que no sabe cómo encontrarte directamente.<br/>
+            Construimos lo que falta.
           </p>
 
-          <!-- Stats row -->
-          <div class="ml-stats fade-up" role="list">
-            <div class="ml-stat" role="listitem">
-              <span class="ml-stat-num">&lt; 1h</span>
-              <span class="ml-stat-label">te respondemos hoy mismo</span>
-            </div>
-            <div class="ml-stat-divider" aria-hidden="true"></div>
-            <div class="ml-stat" role="listitem">
-              <span class="ml-stat-num">11 días</span>
-              <span class="ml-stat-label">entrega promedio</span>
-            </div>
-            <div class="ml-stat-divider" aria-hidden="true"></div>
-            <div class="ml-stat" role="listitem">
-              <span class="ml-stat-num">22%</span>
-              <span class="ml-stat-label">lo que ML cobra — y ya no pagás</span>
+          <!-- Counter -->
+          <div class="hero-counter fade-in" aria-live="polite">
+            <span class="hero-counter-label">ML le cobró a un vendedor típico este año</span>
+            <div class="hero-counter-num-wrap">
+              <span class="hero-counter-currency">$</span>
+              <span class="hero-counter-num" id="commission-counter">0</span>
+              <span class="hero-counter-suffix">en comisiones</span>
             </div>
           </div>
 
           <!-- CTAs -->
-          <div class="ml-hero-ctas fade-up">
-            <div class="ml-cta-row">
-              <a
-                href={waUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="ml-cta-primary"
-                id="hero-cta"
-              >
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Quiero construir lo mío
-              </a>
-              <a href="#ventajas" class="ml-cta-secondary" aria-label="Ver ventajas frente a MercadoLibre">
-                Ver ventajas
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9"/>
-                </svg>
-              </a>
-            </div>
-            <span class="ml-cta-hint">Respuesta en menos de 1h</span>
+          <div class="hero-ctas fade-in">
+            <a href={waUrl} target="_blank" rel="noopener noreferrer" class="cta-primary" id="hero-cta">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Quiero construir lo mío
+            </a>
+            <span class="hero-hint">Respuesta en menos de 1h · Precio fijo desde el día uno</span>
           </div>
+        </div>
+
+        <div class="hero-scroll" aria-hidden="true">
+          <span class="hero-scroll-line"></span>
         </div>
       </section>
 
-      <!-- ══════════════════════════════════
-           VENTAJAS VS ML
-      ══════════════════════════════════ -->
-      <section id="ventajas" class="ml-ventajas" aria-labelledby="ventajas-heading">
-        <div class="ml-section-inner">
+      <!-- ═══════ TRANSFORMACIÓN ═══════ -->
+      <section class="transform" aria-labelledby="transform-h2">
+        <div class="section-wrap">
+          <div class="section-eyebrow fade-up">La diferencia</div>
+          <h2 id="transform-h2" class="section-title fade-up">
+            Lo mismo que vendés hoy.<br/>
+            <em>Resultado completamente distinto.</em>
+          </h2>
 
-          <div class="ml-ventajas-header fade-up">
-            <div class="ml-badge">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-              </svg>
-              <span>Comparativa real</span>
-            </div>
-            <h2 id="ventajas-heading" class="ml-section-title">
-              Lo que cambia cuando<br/><em class="ml-hero-em">el negocio es tuyo</em>
-            </h2>
-            <p class="ml-ventajas-sub">
-              ML es un canal de ventas, no tu negocio. Acá está la diferencia de construir lo tuyo.
-            </p>
-          </div>
-
-          <!-- Tabla comparativa -->
-          <div class="ml-compare fade-up" role="table" aria-label="Comparativa MercadoLibre vs JERG.STUDIO">
-
-            <!-- Cabecera -->
-            <div class="ml-compare-head" role="row">
-              <div class="ml-compare-head-blank" role="columnheader" aria-label="Aspecto"></div>
-              <div class="ml-compare-head-ml" role="columnheader">
-                <svg width="18" height="18" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-                  <ellipse cx="24" cy="24" rx="22" ry="22" fill="#FFE600"/>
-                  <path d="M12 30V20l6 7 6-7v10M30 30V20l4 5 4-5v10" stroke="#333" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Solo ML
+          <div class="screens fade-up">
+            <!-- ML view -->
+            <div class="screen screen--ml">
+              <div class="screen-bar">
+                <div class="screen-dots"><span></span><span></span><span></span></div>
+                <div class="screen-url">mercadolibre.com/tienda/vendedor-123</div>
               </div>
-              <div class="ml-compare-head-us" role="columnheader">
-                <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                  <rect width="32" height="32" rx="8" fill="url(#cvlg)"/>
-                  <path d="M8 12L14 16L8 20" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M16 20H24" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                  <defs><linearGradient id="cvlg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse"><stop stop-color="#10b981"/><stop offset="1" stop-color="#34d399"/></linearGradient></defs>
-                </svg>
-                Con JERG
-              </div>
-            </div>
-
-            <!-- Filas -->
-            {[
-              {
-                aspect: "Comisión por venta",
-                ml: "Hasta 22% en cada venta",
-                us: "0% en tu tienda propia",
-                mlBad: true,
-              },
-              {
-                aspect: "Tus clientes",
-                ml: "Son de ML, no los conocés",
-                us: "Tu base de datos, para siempre",
-                mlBad: true,
-              },
-              {
-                aspect: "Control del negocio",
-                ml: "Pueden pausarte o sancionarte",
-                us: "Vos decidís todo, sin depender de nadie",
-                mlBad: true,
-              },
-              {
-                aspect: "Preguntas de compradores",
-                ml: "Respondés una por una, manual",
-                us: "Las repetidas se responden solas",
-                mlBad: true,
-              },
-              {
-                aspect: "Gestión de stock",
-                ml: "Actualización manual en cada canal",
-                us: "Sincronizado automático entre canales",
-                mlBad: true,
-              },
-              {
-                aspect: "Visibilidad de marca",
-                ml: "Tu marca queda detrás de ML",
-                us: "Tu dominio, tu identidad, tu SEO",
-                mlBad: true,
-              },
-            ].map(({ aspect, ml: mlText, us, mlBad }) => (
-              <div class="ml-compare-row" role="row">
-                <div class="ml-compare-aspect" role="cell">{aspect}</div>
-                <div class={`ml-compare-cell ml-compare-cell--ml${mlBad ? ' ml-compare-cell--bad' : ''}`} role="cell">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                  </svg>
-                  {mlText}
+              <div class="screen-body">
+                <div class="screen-topbar screen-topbar--ml">
+                  <span class="ml-logo-fake">mercadolibre</span>
                 </div>
-                <div class="ml-compare-cell ml-compare-cell--us" role="cell">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  {us}
+                <div class="screen-product">
+                  <div class="screen-img screen-img--ml"></div>
+                  <div class="screen-info">
+                    <div class="screen-prod-name">Taladro percutor 18V</div>
+                    <div class="screen-price">$89.900</div>
+                    <div class="screen-commission">− $17.800 comisión ML (20%)</div>
+                    <div class="screen-net screen-net--bad">Te quedan: $72.100</div>
+                    <div class="screen-seller">Vendido por: vendedor-123</div>
+                  </div>
                 </div>
               </div>
-            ))}
+              <div class="screen-label screen-label--bad">Hoy · Dependés de ellos</div>
+            </div>
 
-          </div>
+            <div class="screens-vs" aria-hidden="true">→</div>
 
-          <!-- CTA inline -->
-          <a href={waUrl} target="_blank" rel="noopener noreferrer" class="ml-cta-primary fade-up" id="ventajas-cta">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Quiero lo que me falta
-          </a>
-
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════
-           SERVICIOS GRID
-      ══════════════════════════════════ -->
-      <section class="ml-services" aria-labelledby="services-heading">
-        <div class="ml-section-inner">
-          <h2 id="services-heading" class="ml-section-title fade-up">
-            Lo que armamos para vos
-          </h2>
-
-          <div class="ml-grid fade-up">
-            {services.map(({ iconColor, icon, title: t, desc }) => (
-              <div class="ml-card">
-                <div class={`ml-icon-badge ml-icon-badge--${iconColor}`} set:html={icon} aria-hidden="true" />
-                <h3 class="ml-card-title">{t}</h3>
-                <p class="ml-card-desc">{desc}</p>
+            <!-- Tu tienda -->
+            <div class="screen screen--yours">
+              <div class="screen-bar">
+                <div class="screen-dots screen-dots--yellow"><span></span><span></span><span></span></div>
+                <div class="screen-url screen-url--yours">tutienda.cl</div>
               </div>
-            ))}
+              <div class="screen-body">
+                <div class="screen-topbar screen-topbar--yours">
+                  <span class="your-logo-fake">TU MARCA</span>
+                </div>
+                <div class="screen-product">
+                  <div class="screen-img screen-img--yours"></div>
+                  <div class="screen-info">
+                    <div class="screen-prod-name">Taladro percutor 18V</div>
+                    <div class="screen-price">$89.900</div>
+                    <div class="screen-commission screen-commission--none">✓ Venta directa — sin comisión</div>
+                    <div class="screen-net screen-net--good">Te quedan: $89.900</div>
+                    <div class="screen-seller screen-seller--yours">@TuMarca · WhatsApp directo</div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-label screen-label--good">En 11 días · Es completamente tuyo</div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ══════════════════════════════════
-           TESTIMONIOS
-      ══════════════════════════════════ -->
-      <section class="ml-testimonials" aria-labelledby="testimonials-heading">
-        <div class="ml-section-inner">
-          <h2 id="testimonials-heading" class="ml-section-title fade-up">
-            Lo que dicen los vendedores que ya lo armaron
+      <!-- ═══════ FEATURES ═══════ -->
+      <section class="features" aria-labelledby="features-h2">
+        <div class="section-wrap">
+          <div class="section-eyebrow fade-up">Lo que armamos</div>
+          <h2 id="features-h2" class="section-title fade-up">
+            Cuatro piezas.<br/>
+            <em>Un sistema completo.</em>
           </h2>
-
-          <div class="ml-testi-grid fade-up">
-            {testimonials.map(({ quote, name, role }) => (
-              <figure class="ml-testi-card">
-                <blockquote class="ml-testi-quote">
-                  <p>"{quote}"</p>
-                </blockquote>
-                <figcaption class="ml-testi-author">
-                  <span class="ml-testi-name">{name}</span>
-                  <span class="ml-testi-role">{role}</span>
-                </figcaption>
-              </figure>
+          <ul class="feat-list" role="list">
+            {features.map(({ num, title, desc }) => (
+              <li class="feat-item fade-up">
+                <span class="feat-num">{num}</span>
+                <div class="feat-body">
+                  <h3 class="feat-title">{title}</h3>
+                  <p class="feat-desc">{desc}</p>
+                </div>
+                <div class="feat-line" aria-hidden="true"></div>
+              </li>
             ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════ MARQUEE ═══════ -->
+      <section class="marquee-section" aria-label="Testimonios de vendedores">
+        <div class="marquee-eyebrow fade-up">Lo que dicen los que ya lo armaron</div>
+        <div class="marquee-wrap" aria-hidden="true">
+          <!-- Fila 1: izquierda -->
+          <div class="marquee-row">
+            <div class="marquee-track">
+              {[...quotes, ...quotes].map(({ text, name, role }) => (
+                <div class="marquee-item">
+                  <p class="marquee-text">"{text}"</p>
+                  <span class="marquee-author">{name} · <em>{role}</em></span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <!-- Fila 2: derecha -->
+          <div class="marquee-row marquee-row--reverse">
+            <div class="marquee-track marquee-track--reverse">
+              {[...quotes.slice(3), ...quotes.slice(0,3), ...quotes.slice(3), ...quotes.slice(0,3)].map(({ text, name, role }) => (
+                <div class="marquee-item">
+                  <p class="marquee-text">"{text}"</p>
+                  <span class="marquee-author">{name} · <em>{role}</em></span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- ══════════════════════════════════
-           CTA FINAL
-      ══════════════════════════════════ -->
-      <section class="ml-final-cta" aria-labelledby="final-cta-heading">
-        <div class="ml-final-glow" aria-hidden="true"></div>
-        <div class="ml-section-inner ml-final-inner">
-          <div class="ml-badge fade-up">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            <span>Sin letra chica · Precio fijo · Entrega garantizada</span>
-          </div>
-
-          <h2 id="final-cta-heading" class="ml-final-title fade-up">
-            ¿Cuánto le estás dando<br/>
-            <em class="ml-hero-em">a ML este año?</em>
+      <!-- ═══════ YELLOW FINALE ═══════ -->
+      <section class="finale" aria-labelledby="finale-h2">
+        <div class="finale-inner">
+          <div class="finale-eyebrow">Última pregunta</div>
+          <h2 id="finale-h2" class="finale-title">
+            ¿Cuánto le estás<br/>dando a ML<br/>este año?
           </h2>
-
-          <p class="ml-final-sub fade-up">
-            Contanos cuánto vendés en ML y en 10 minutos te decimos exactamente qué conviene armar primero — y cuánto recuperás.
+          <p class="finale-sub">
+            Contanos cuánto vendés y en 10 minutos te decimos exactamente<br/>
+            qué conviene armar primero — y cuánto recuperás.
           </p>
-
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="ml-cta-primary fade-up"
-            id="footer-cta"
-          >
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            Hablar sobre mi negocio en ML
+          <a href={waUrl} target="_blank" rel="noopener noreferrer" class="finale-cta" id="footer-cta">
+            Quiero construir lo mío →
           </a>
-
-          <p class="ml-final-note fade-up">
-            O escríbenos al
-            <a href={waUrl} target="_blank" rel="noopener noreferrer" class="ml-inline-link">
-              +56 9 6765 7198
-            </a>
+          <p class="finale-note">
+            O escribinos al
+            <a href={waUrl} target="_blank" rel="noopener noreferrer">+56 9 6765 7198</a>
             ·
-            <a href="mailto:Jerg.studio@gmail.com" class="ml-inline-link">
-              Jerg.studio@gmail.com
-            </a>
+            <a href="mailto:Jerg.studio@gmail.com">Jerg.studio@gmail.com</a>
           </p>
         </div>
       </section>
 
     </main>
 
-    <!-- Footer mínimo -->
-    <footer class="ml-footer">
-      <div class="ml-footer-inner">
-        <a href="/" class="ml-footer-logo" aria-label="JERG.STUDIO inicio">
-          JERG<span style="color:#10b981">.</span>STUDIO
-        </a>
-        <div class="ml-footer-links">
+    <!-- FOOTER -->
+    <footer class="p-footer">
+      <div class="p-footer-inner">
+        <a href="/" class="p-footer-logo">JERG<span style="color:#10b981">.</span>STUDIO</a>
+        <div class="p-footer-links">
           <a href="/privacidad">Privacidad</a>
           <a href="/terminos">Términos</a>
           <a href="/">Inicio</a>
         </div>
-        <p class="ml-footer-copy">© {new Date().getFullYear()} JERG.STUDIO</p>
+        <p class="p-footer-copy">© {new Date().getFullYear()} JERG.STUDIO</p>
       </div>
     </footer>
 
     <!-- WhatsApp FAB -->
-    <a
-      href={waUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Contactar por WhatsApp"
-      class="ml-whatsapp-fab"
-      id="wa-fab"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-      </svg>
-      <span class="ml-fab-label">¿Hablamos?</span>
+    <a href={waUrl} target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp" class="wa-fab" id="wa-fab">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span class="wa-fab-label">¿Hablamos?</span>
     </a>
 
     <!-- Fade-up observer -->
     <script>
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
       if (!reduced) {
         const io = new IntersectionObserver(
-          entries => entries.forEach(e => {
-            if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-          }),
+          entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
           { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
         document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
@@ -479,19 +329,40 @@ const testimonials = [
       }
     </script>
 
-    <!-- Pixel: disparar Lead cuando hacen click en cualquier CTA -->
+    <!-- Counter animation -->
+    <script>
+      const counterEl = document.getElementById('commission-counter');
+      if (counterEl) {
+        let started = false;
+        const io = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            io.disconnect();
+            const target = 176000;
+            const duration = 2200;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const p = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const val = Math.round(eased * target);
+              counterEl.textContent = val.toLocaleString('es-CL');
+              if (p < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        }, { threshold: 0.5 });
+        io.observe(counterEl);
+      }
+    </script>
+
+    <!-- Pixel: Lead en CTAs -->
     <script is:inline>
       document.addEventListener('DOMContentLoaded', function() {
-        var ctaIds = ['hero-cta', 'ventajas-cta', 'footer-cta', 'wa-fab'];
-        ctaIds.forEach(function(id) {
+        ['hero-cta','footer-cta','wa-fab','nav-cta'].forEach(function(id) {
           var el = document.getElementById(id);
-          if (el) {
-            el.addEventListener('click', function() {
-              if (typeof fbq !== 'undefined') {
-                fbq('track', 'Lead', { content_name: 'mercadolibre-' + id });
-              }
-            });
-          }
+          if (el) el.addEventListener('click', function() {
+            if (typeof fbq !== 'undefined') fbq('track','Lead',{content_name:'ml-'+id});
+          });
         });
       });
     </script>
@@ -500,730 +371,280 @@ const testimonials = [
 </html>
 
 <style>
-  /* ── Grain ── */
+  /* ── Base ── */
+  body { background: #070707; color: #f5f0e8; font-family: 'Inter Variable', system-ui, sans-serif; }
+
   #grain-overlay {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9990;
-    opacity: 0.028;
+    position: fixed; inset: 0; pointer-events: none; z-index: 9990; opacity: 0.028;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-    animation: grain-shift 0.8s steps(1) infinite;
+    background-size: 200px 200px; animation: grain 0.8s steps(1) infinite;
   }
-  @keyframes grain-shift {
-    0%   { background-position:   0%   0%; }
-    14%  { background-position: -18% -22%; }
-    28%  { background-position:  22%  12%; }
-    42%  { background-position:  -6%  32%; }
-    57%  { background-position:  16% -18%; }
-    71%  { background-position: -24%  22%; }
-    85%  { background-position:  10%  -6%; }
-    100% { background-position:   4%   8%; }
+  @keyframes grain {
+    0%  {background-position:0% 0%}  14% {background-position:-18% -22%}
+    28% {background-position:22% 12%} 42% {background-position:-6% 32%}
+    57% {background-position:16% -18%} 71% {background-position:-24% 22%}
+    85% {background-position:10% -6%} 100%{background-position:4% 8%}
   }
 
   /* ── Nav ── */
-  .ml-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .p-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 1.5rem;
-    background: rgba(7, 7, 7, 0.8);
-    backdrop-filter: blur(14px);
+    background: rgba(7,7,7,0.85); backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-
-  .ml-nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .ml-nav-wordmark {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: 1.05rem;
-    letter-spacing: -0.02em;
-    color: #f5f0e8;
-  }
-
-  .ml-nav-dot { color: #10b981; }
-
-  .ml-nav-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    background: #25d366;
-    color: white;
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 0.55rem 1rem;
-    border-radius: 999px;
-    text-decoration: none;
+  .p-nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; }
+  .p-nav-word { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.05rem; letter-spacing: -0.02em; color: #f5f0e8; }
+  .p-nav-cta {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    background: #25d366; color: white; font-size: 0.82rem; font-weight: 700;
+    padding: 0.55rem 1rem; border-radius: 999px; text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .ml-nav-cta:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
-    color: white;
-  }
+  .p-nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,0.4); color: white; }
 
-  /* ── Hero ── */
-  .ml-hero {
-    position: relative;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 7rem 1.5rem 5rem;
-    background: #070707;
-    overflow: hidden;
-    text-align: center;
+  /* ── Fade animations ── */
+  .fade-in, .fade-up {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
   }
+  .fade-in { transform: translateY(12px); }
+  .fade-in.visible, .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .fade-in:nth-child(2) { transition-delay: 0.1s; }
+  .fade-in:nth-child(3) { transition-delay: 0.2s; }
+  .fade-in:nth-child(4) { transition-delay: 0.3s; }
+  .fade-in:nth-child(5) { transition-delay: 0.4s; }
 
-  .ml-hero-glow {
-    position: absolute;
-    top: -120px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 500px;
-    background: radial-gradient(ellipse, rgba(255,230,0,0.09) 0%, transparent 68%);
+  /* ── Section shared ── */
+  .section-wrap { max-width: 72rem; margin: 0 auto; padding: 6rem 1.5rem; }
+  .section-eyebrow {
+    font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #FFE600; opacity: 0.7; margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 400;
+    line-height: 1.05; letter-spacing: -0.025em; color: #f5f0e8; margin: 0 0 3.5rem;
+  }
+  .section-title em { font-style: italic; color: #FFE600; }
+
+  /* ═══════ HERO ═══════ */
+  .hero {
+    position: relative; min-height: 100svh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8rem 1.5rem 5rem; background: #070707; overflow: hidden; text-align: center;
+  }
+  .hero-glow {
+    position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 550px;
+    background: radial-gradient(ellipse, rgba(255,230,0,0.11) 0%, transparent 65%);
     pointer-events: none;
   }
-
-  .ml-hero-inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.75rem;
-    max-width: 52rem;
-    width: 100%;
+  .hero-bg-text {
+    position: absolute; bottom: -4rem; right: -2rem;
+    font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(14rem, 30vw, 28rem);
+    font-weight: 400; font-style: italic; color: rgba(255,230,0,0.03);
+    line-height: 1; pointer-events: none; user-select: none; letter-spacing: -0.04em;
   }
-
-  /* ── Badge ── */
-  .ml-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 230, 0, 0.09);
-    border: 1px solid rgba(255, 230, 0, 0.32);
-    border-radius: 999px;
-    padding: 0.35rem 1rem 0.35rem 0.6rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    color: #FFE600;
-    text-transform: uppercase;
+  .hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 2rem; max-width: 54rem; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,230,0,0.09); border: 1px solid rgba(255,230,0,0.28);
+    border-radius: 999px; padding: 0.35rem 1rem 0.35rem 0.6rem;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em;
+    color: #FFE600; text-transform: uppercase;
   }
-
-  /* ── Headlines ── */
-  .ml-hero-title {
+  .hero-title {
     font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(2.4rem, 6vw, 4.4rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    color: #f5f0e8;
-    margin: 0;
+    font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 400;
+    line-height: 1.04; letter-spacing: -0.03em; color: #f5f0e8; margin: 0;
+  }
+  .hero-title em { font-style: italic; color: #FFE600; }
+  .hero-sub {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem); color: rgba(245,240,232,0.45);
+    line-height: 1.7; max-width: 36rem; margin: 0;
   }
 
-  .ml-hero-em {
-    font-style: italic;
-    color: #FFE600;
+  /* Counter */
+  .hero-counter {
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    background: rgba(255,230,0,0.05); border: 1px solid rgba(255,230,0,0.15);
+    border-radius: 1rem; padding: 1.25rem 2rem;
   }
+  .hero-counter-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(245,240,232,0.35); }
+  .hero-counter-num-wrap { display: flex; align-items: baseline; gap: 0.25rem; }
+  .hero-counter-currency { font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; color: rgba(255,230,0,0.6); font-style: italic; }
+  .hero-counter-num { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 400; color: #FFE600; line-height: 1; letter-spacing: -0.03em; }
+  .hero-counter-suffix { font-size: 0.75rem; color: rgba(245,240,232,0.3); align-self: center; }
 
-  .ml-hero-sub {
-    font-size: clamp(0.95rem, 1.4vw + 0.3rem, 1.1rem);
-    color: rgba(245, 240, 232, 0.45);
-    line-height: 1.7;
-    max-width: 38rem;
-    margin: 0;
-  }
-
-  /* ── Stats ── */
-  .ml-stats {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .ml-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.2rem;
-  }
-
-  .ml-stat-num {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: 1.9rem;
-    font-weight: 400;
-    color: #FFE600;
-    line-height: 1;
-  }
-
-  .ml-stat-label {
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: rgba(245, 240, 232, 0.35);
-  }
-
-  .ml-stat-divider {
-    width: 1px;
-    height: 2.5rem;
-    background: rgba(255,255,255,0.1);
-  }
-
-  @media (max-width: 480px) {
-    .ml-stat-divider { display: none; }
-    .ml-stats { gap: 1.25rem; }
-  }
-
-  /* ── CTAs ── */
-  .ml-hero-ctas {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .ml-cta-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    background: #FFE600;
-    color: #111;
-    font-size: 0.95rem;
-    font-weight: 800;
-    padding: 0.9rem 2.25rem;
-    border-radius: 999px;
-    text-decoration: none;
+  .hero-ctas { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+  .cta-primary {
+    display: inline-flex; align-items: center; gap: 0.65rem;
+    background: #FFE600; color: #111; font-size: 1rem; font-weight: 800;
+    padding: 1rem 2.5rem; border-radius: 999px; text-decoration: none;
     transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 28px rgba(255, 230, 0, 0.3);
+    box-shadow: 0 4px 30px rgba(255,230,0,0.35);
   }
-  .ml-cta-primary:hover {
-    background: #fff176;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 36px rgba(255, 230, 0, 0.4);
-    color: #111;
-  }
+  .cta-primary:hover { background: #fff176; transform: translateY(-2px); box-shadow: 0 8px 40px rgba(255,230,0,0.45); color: #111; }
+  .hero-hint { font-size: 0.72rem; color: rgba(245,240,232,0.25); letter-spacing: 0.03em; }
 
-  .ml-cta-hint {
-    font-size: 0.74rem;
-    color: rgba(245, 240, 232, 0.28);
-    letter-spacing: 0.03em;
-  }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .hero-scroll-line { display: block; width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(255,230,0,0.4), transparent); animation: scroll-fade 1.8s ease-in-out infinite; }
+  @keyframes scroll-fade { 0%,100%{opacity:0.3;transform:scaleY(0.6) translateY(-4px)} 50%{opacity:1;transform:scaleY(1) translateY(0)} }
 
-  /* ── Sections comunes ── */
-  .ml-services,
-  .ml-testimonials,
-  .ml-final-cta {
-    padding: 5rem 1.5rem;
-  }
+  /* ═══════ TRANSFORMACIÓN ═══════ */
+  .transform { background: #050505; border-top: 1px solid rgba(255,255,255,0.05); }
 
-  .ml-section-inner {
-    max-width: 72rem;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    align-items: center;
-  }
+  .screens { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: center; }
+  @media (max-width: 720px) { .screens { grid-template-columns: 1fr; } .screens-vs { text-align: center; font-size: 1.5rem; } }
 
-  .ml-section-title {
+  .screen { border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+  .screen--yours { border-color: rgba(255,230,0,0.2); }
+
+  .screen-bar {
+    display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .screen-dots { display: flex; gap: 5px; }
+  .screen-dots span { display: block; width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); }
+  .screen-dots--yellow span { background: rgba(255,230,0,0.3); }
+  .screen-url { font-size: 0.58rem; color: rgba(245,240,232,0.3); font-family: monospace; }
+  .screen-url--yours { color: rgba(255,230,0,0.5); }
+
+  .screen-body { background: #0a0a0a; }
+  .screen-topbar { padding: 0.6rem 0.75rem; }
+  .screen-topbar--ml { background: #3483fa; }
+  .screen-topbar--yours { background: rgba(255,230,0,0.1); border-bottom: 1px solid rgba(255,230,0,0.15); }
+  .ml-logo-fake { font-size: 0.7rem; font-weight: 900; color: white; letter-spacing: 0.04em; }
+  .your-logo-fake { font-size: 0.7rem; font-weight: 800; color: #FFE600; letter-spacing: 0.1em; }
+
+  .screen-product { display: flex; gap: 0.75rem; padding: 0.9rem; }
+  .screen-img { width: 60px; height: 60px; border-radius: 6px; flex-shrink: 0; }
+  .screen-img--ml { background: rgba(52,131,250,0.15); border: 1px solid rgba(52,131,250,0.2); }
+  .screen-img--yours { background: rgba(255,230,0,0.1); border: 1px solid rgba(255,230,0,0.2); }
+  .screen-info { flex: 1; display: flex; flex-direction: column; gap: 0.25rem; }
+  .screen-prod-name { font-size: 0.7rem; font-weight: 600; color: #f5f0e8; }
+  .screen-price { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.1rem; color: #f5f0e8; }
+  .screen-commission { font-size: 0.6rem; color: rgba(255,100,100,0.8); }
+  .screen-commission--none { color: rgba(52,211,153,0.8); }
+  .screen-net { font-size: 0.65rem; font-weight: 700; }
+  .screen-net--bad { color: rgba(255,100,100,0.7); }
+  .screen-net--good { color: #34d399; }
+  .screen-seller { font-size: 0.58rem; color: rgba(245,240,232,0.3); margin-top: 0.15rem; }
+  .screen-seller--yours { color: rgba(255,230,0,0.5); }
+
+  .screen-label {
+    padding: 0.55rem 0.75rem; font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .screen-label--bad { background: rgba(255,100,100,0.06); color: rgba(255,100,100,0.6); border-top: 1px solid rgba(255,100,100,0.1); }
+  .screen-label--good { background: rgba(52,211,153,0.06); color: rgba(52,211,153,0.7); border-top: 1px solid rgba(52,211,153,0.12); }
+  .screens-vs { font-family: 'DM Serif Display', Georgia, serif; font-size: 2.5rem; color: rgba(255,230,0,0.3); font-style: italic; }
+
+  /* ═══════ FEATURES ═══════ */
+  .features { background: #070707; border-top: 1px solid rgba(255,255,255,0.05); }
+  .feat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; width: 100%; }
+  .feat-item { position: relative; display: grid; grid-template-columns: 5rem 1fr; gap: 2rem; padding: 2.25rem 0; cursor: default; }
+  .feat-item:hover .feat-line { opacity: 1; transform: scaleX(1); }
+  .feat-item:hover .feat-num { color: #FFE600; }
+  .feat-num {
+    font-family: 'DM Serif Display', Georgia, serif; font-style: italic;
+    font-size: 3.5rem; font-weight: 400; color: rgba(255,255,255,0.07);
+    line-height: 1; transition: color 0.3s; align-self: start; padding-top: 0.2rem;
+  }
+  .feat-body { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 0.5rem; }
+  .feat-title { font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 400; color: #f5f0e8; margin: 0; line-height: 1.2; }
+  .feat-desc { font-size: 0.85rem; color: rgba(245,240,232,0.42); line-height: 1.7; margin: 0; max-width: 38rem; }
+  .feat-line {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, #FFE600, transparent);
+    opacity: 0.15; transform: scaleX(0.4); transform-origin: left;
+    transition: opacity 0.4s, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .feat-item:last-child .feat-line { display: none; }
+  @media (max-width: 560px) { .feat-item { grid-template-columns: 3.5rem 1fr; gap: 1rem; } .feat-num { font-size: 2.5rem; } }
+
+  /* ═══════ MARQUEE ═══════ */
+  .marquee-section {
+    background: #050505; border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 5rem 0; overflow: hidden;
+  }
+  .marquee-eyebrow {
+    text-align: center; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #FFE600; opacity: 0.7; margin-bottom: 2.5rem;
+    padding: 0 1.5rem;
+  }
+  .marquee-wrap { display: flex; flex-direction: column; gap: 1rem; }
+  .marquee-row { overflow: hidden; }
+  .marquee-track {
+    display: flex; gap: 1.25rem; width: max-content;
+    animation: marquee-left 35s linear infinite;
+  }
+  .marquee-track--reverse { animation-direction: reverse; animation-duration: 40s; }
+  @keyframes marquee-left { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .marquee-item {
+    flex-shrink: 0; background: #0d0d0d; border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 1.25rem 1.5rem; width: 320px; display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .marquee-text { font-size: 0.82rem; color: rgba(245,240,232,0.65); line-height: 1.65; font-style: italic; margin: 0; }
+  .marquee-author { font-size: 0.68rem; color: rgba(245,240,232,0.3); }
+  .marquee-author em { font-style: normal; color: rgba(255,230,0,0.45); }
+  .marquee-section:hover .marquee-track { animation-play-state: paused; }
+
+  /* ═══════ YELLOW FINALE ═══════ */
+  .finale {
+    background: #FFE600; padding: 7rem 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .finale-inner { max-width: 52rem; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; text-align: center; }
+  .finale-eyebrow { font-size: 0.6rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
+  .finale-title {
     font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 400;
-    color: #f5f0e8;
-    letter-spacing: -0.02em;
-    text-align: center;
-    margin: 0;
-    max-width: 38rem;
+    font-size: clamp(3rem, 8vw, 6rem); font-weight: 400;
+    line-height: 1.02; letter-spacing: -0.035em; color: #111; margin: 0;
   }
+  .finale-sub { font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: rgba(0,0,0,0.55); line-height: 1.7; margin: 0; }
+  .finale-cta {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: #111; color: #FFE600; font-size: 1rem; font-weight: 800;
+    padding: 1rem 2.5rem; border-radius: 999px; text-decoration: none;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  }
+  .finale-cta:hover { background: #1a1a1a; transform: translateY(-2px); box-shadow: 0 8px 36px rgba(0,0,0,0.4); color: #FFE600; }
+  .finale-note { font-size: 0.78rem; color: rgba(0,0,0,0.4); margin: 0; }
+  .finale-note a { color: rgba(0,0,0,0.55); text-decoration: underline; text-decoration-color: rgba(0,0,0,0.2); }
+  .finale-note a:hover { color: #111; }
 
-  /* ── Services section ── */
-  .ml-services {
-    background: #070707;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
+  /* ═══════ FOOTER ═══════ */
+  .p-footer { background: #050505; border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 1.5rem; }
+  .p-footer-inner { max-width: 72rem; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .p-footer-logo { font-family: 'DM Serif Display', Georgia, serif; font-size: 1rem; letter-spacing: -0.02em; color: rgba(245,240,232,0.5); text-decoration: none; transition: color 0.2s; }
+  .p-footer-logo:hover { color: #f5f0e8; }
+  .p-footer-links { display: flex; gap: 1.25rem; }
+  .p-footer-links a { font-size: 0.75rem; color: rgba(245,240,232,0.3); text-decoration: none; transition: color 0.2s; }
+  .p-footer-links a:hover { color: rgba(245,240,232,0.7); }
+  .p-footer-copy { font-size: 0.72rem; color: rgba(245,240,232,0.18); margin: 0; }
 
-  .ml-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px;
-    width: 100%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  @media (min-width: 640px) { .ml-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1024px) { .ml-grid { grid-template-columns: repeat(4, 1fr); } }
-
-  .ml-card {
-    background: #0a0a0a;
-    padding: 2rem 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.9rem;
-    transition: background 0.25s;
-  }
-
-  .ml-card:hover { background: rgba(255, 230, 0, 0.04); }
-
-  .ml-icon-badge {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: transform 0.3s;
-  }
-  .ml-card:hover .ml-icon-badge { transform: translateY(-2px); }
-
-  .ml-icon-badge--yellow {
-    background: rgba(255, 230, 0, 0.12);
-    border: 1px solid rgba(255, 230, 0, 0.22);
-    color: #FFE600;
-  }
-  .ml-icon-badge--green {
-    background: rgba(37, 211, 102, 0.1);
-    border: 1px solid rgba(37, 211, 102, 0.2);
-    color: #25d366;
-  }
-  .ml-icon-badge--blue {
-    background: rgba(52, 131, 250, 0.1);
-    border: 1px solid rgba(52, 131, 250, 0.2);
-    color: #60a5fa;
-  }
-  .ml-icon-badge--purple {
-    background: rgba(139, 92, 246, 0.1);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    color: #a78bfa;
-  }
-
-  .ml-card-title {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: 1.15rem;
-    font-weight: 400;
-    color: #f5f0e8;
-    line-height: 1.2;
-    margin: 0;
-  }
-
-  .ml-card-desc {
-    font-size: 0.85rem;
-    color: rgba(245, 240, 232, 0.48);
-    line-height: 1.65;
-    flex: 1;
-    margin: 0;
-  }
-
-  /* ── Testimonials ── */
-  .ml-testimonials {
-    background: #050505;
-  }
-
-  .ml-testi-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-    width: 100%;
-  }
-
-  @media (min-width: 768px) { .ml-testi-grid { grid-template-columns: repeat(3, 1fr); } }
-
-  .ml-testi-card {
-    background: #0d0d0d;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 0.75rem;
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    margin: 0;
-    transition: border-color 0.25s;
-  }
-  .ml-testi-card:hover { border-color: rgba(255,230,0,0.2); }
-
-  .ml-testi-quote {
-    margin: 0;
-  }
-  .ml-testi-quote p {
-    font-size: 0.9rem;
-    color: rgba(245, 240, 232, 0.65);
-    line-height: 1.7;
-    font-style: italic;
-    margin: 0;
-  }
-
-  .ml-testi-author {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .ml-testi-name {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: #f5f0e8;
-  }
-
-  .ml-testi-role {
-    font-size: 0.74rem;
-    color: rgba(245, 240, 232, 0.3);
-    letter-spacing: 0.03em;
-  }
-
-  /* ── Final CTA ── */
-  .ml-final-cta {
-    background: #070707;
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .ml-final-glow {
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 400px;
-    background: radial-gradient(ellipse, rgba(255,230,0,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .ml-final-inner {
-    position: relative;
-    text-align: center;
-  }
-
-  .ml-final-title {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(2rem, 4.5vw, 3.6rem);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
-    color: #f5f0e8;
-    margin: 0;
-  }
-
-  .ml-final-sub {
-    font-size: 1rem;
-    color: rgba(245, 240, 232, 0.42);
-    line-height: 1.7;
-    max-width: 36rem;
-    margin: 0;
-  }
-
-  .ml-final-note {
-    font-size: 0.8rem;
-    color: rgba(245, 240, 232, 0.25);
-    margin: 0;
-  }
-
-  .ml-inline-link {
-    color: rgba(245, 240, 232, 0.45);
-    text-decoration: underline;
-    text-decoration-color: rgba(245, 240, 232, 0.2);
-    transition: color 0.2s;
-  }
-  .ml-inline-link:hover { color: #FFE600; }
-
-  /* ── Footer mínimo ── */
-  .ml-footer {
-    background: #050505;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    padding: 2rem 1.5rem;
-  }
-
-  .ml-footer-inner {
-    max-width: 72rem;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .ml-footer-logo {
-    font-family: 'DM Serif Display', Georgia, serif;
-    font-size: 1rem;
-    letter-spacing: -0.02em;
-    color: #f5f0e8;
-    text-decoration: none;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .ml-footer-logo:hover { opacity: 1; }
-
-  .ml-footer-links {
-    display: flex;
-    gap: 1.25rem;
-  }
-  .ml-footer-links a {
-    font-size: 0.78rem;
-    color: rgba(245,240,232,0.35);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .ml-footer-links a:hover { color: rgba(245,240,232,0.7); }
-
-  .ml-footer-copy {
-    font-size: 0.75rem;
-    color: rgba(245,240,232,0.2);
-    margin: 0;
-  }
-
-  /* ── WhatsApp FAB ── */
-  .ml-whatsapp-fab {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #25d366;
-    color: white;
-    border-radius: 999px;
-    padding: 0.75rem 1.1rem 0.75rem 0.9rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  /* ═══════ FAB ═══════ */
+  .wa-fab {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+    display: flex; align-items: center; gap: 0.5rem;
+    background: #25d366; color: white; border-radius: 999px;
+    padding: 0.75rem 1.1rem 0.75rem 0.9rem; font-size: 0.85rem; font-weight: 700;
+    text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .ml-whatsapp-fab:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 28px rgba(37,211,102,0.55);
-    color: white;
-  }
-  .ml-fab-label { line-height: 1; }
-
-  @media (max-width: 768px) {
-    .ml-whatsapp-fab { padding: 0.85rem; border-radius: 50%; }
-    .ml-fab-label { display: none; }
-  }
-
-  /* ── Fade-up animation ── */
-  .fade-up {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
-  }
-  .fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── Hero CTA row (primary + secondary side by side) ── */
-  .ml-cta-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .ml-cta-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    border: 1px solid rgba(255, 230, 0, 0.3);
-    color: #FFE600;
-    font-size: 0.9rem;
-    font-weight: 700;
-    padding: 0.85rem 1.6rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background 0.2s, border-color 0.2s, transform 0.2s;
-    background: rgba(255, 230, 0, 0.05);
-  }
-  .ml-cta-secondary:hover {
-    background: rgba(255, 230, 0, 0.1);
-    border-color: rgba(255, 230, 0, 0.6);
-    transform: translateY(-2px);
-    color: #FFE600;
-  }
-  .ml-cta-secondary svg {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .ml-cta-secondary:hover svg {
-    transform: translateY(3px);
-  }
-
-  /* ── Sección ventajas ── */
-  .ml-ventajas {
-    background: #050505;
-    padding: 5rem 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    scroll-margin-top: 5rem;
-  }
-
-  .ml-ventajas-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    text-align: center;
-  }
-
-  .ml-ventajas-sub {
-    font-size: 0.95rem;
-    color: rgba(245, 240, 232, 0.38);
-    line-height: 1.7;
-    max-width: 34rem;
-    margin: 0;
-  }
-
-  /* ── Tabla comparativa ── */
-  .ml-compare {
-    width: 100%;
-    max-width: 62rem;
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  /* Cabecera */
-  .ml-compare-head {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    background: rgba(255,255,255,0.03);
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .ml-compare-head-blank,
-  .ml-compare-head-ml,
-  .ml-compare-head-us {
-    padding: 0.9rem 1.25rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-  }
-
-  .ml-compare-head-ml {
-    color: rgba(255, 230, 0, 0.7);
-    border-left: 1px solid rgba(255,255,255,0.07);
-  }
-
-  .ml-compare-head-us {
-    color: #10b981;
-    border-left: 1px solid rgba(255,255,255,0.07);
-    background: rgba(16, 185, 129, 0.04);
-  }
-
-  /* Filas */
-  .ml-compare-row {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    transition: background 0.2s;
-  }
-  .ml-compare-row:hover {
-    background: rgba(255,255,255,0.02);
-  }
-
-  .ml-compare-aspect {
-    padding: 1rem 1.25rem;
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: rgba(245, 240, 232, 0.75);
-    display: flex;
-    align-items: center;
-  }
-
-  .ml-compare-cell {
-    padding: 1rem 1.25rem;
-    font-size: 0.82rem;
-    line-height: 1.5;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    border-left: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .ml-compare-cell--ml {
-    color: rgba(245, 240, 232, 0.35);
-  }
-
-  .ml-compare-cell--bad svg {
-    color: rgba(245, 80, 80, 0.7);
-    flex-shrink: 0;
-  }
-
-  .ml-compare-cell--us {
-    color: rgba(245, 240, 232, 0.8);
-    background: rgba(16, 185, 129, 0.04);
-    border-left: 1px solid rgba(16, 185, 129, 0.12);
-  }
-
-  .ml-compare-cell--us svg {
-    color: #10b981;
-    flex-shrink: 0;
-  }
-
-  /* Responsive: en mobile se colapsa la columna aspect */
-  @media (max-width: 600px) {
-    .ml-compare-head {
-      grid-template-columns: 1fr 1fr;
-    }
-    .ml-compare-head-blank { display: none; }
-
-    .ml-compare-row {
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-    .ml-compare-aspect {
-      background: rgba(255,255,255,0.03);
-      font-size: 0.78rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,0.4);
-      padding: 0.6rem 1rem 0.3rem;
-      border-left: none;
-    }
-    .ml-compare-cell {
-      padding: 0.5rem 1rem;
-      border-left: none;
-    }
-    .ml-compare-cell--us {
-      padding-bottom: 1rem;
-      border-left: none;
-      border-top: none;
-    }
-  }
+  .wa-fab:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 28px rgba(37,211,102,0.55); color: white; }
+  .wa-fab-label { line-height: 1; }
+  @media (max-width: 768px) { .wa-fab { padding: 0.85rem; border-radius: 50%; } .wa-fab-label { display: none; } }
 
   @media (prefers-reduced-motion: reduce) {
-    .fade-up { opacity: 1; transform: none; transition: none; }
-    .ml-card, .ml-cta-primary, .ml-cta-secondary, .ml-card-icon, .ml-whatsapp-fab { transition: none; }
+    .fade-in, .fade-up { transition: none; }
+    .marquee-track { animation: none; }
+    .hero-scroll-line { animation: none; }
     #grain-overlay { animation: none; }
+    .cta-primary, .p-nav-cta, .wa-fab { transition: none; }
   }
 </style>
