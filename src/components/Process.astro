@@ -227,21 +227,23 @@ const steps = [
 
   /* ── Número ghost ── */
   .step-bg-num {
-    position: absolute; right:-0.5rem; bottom:-1rem;
+    position: absolute;
+    right: 1rem;
+    bottom: 0.75rem;
     font-family: 'DM Serif Display', Georgia, serif;
-    font-size: clamp(6rem,10vw,9rem);
-    font-weight: 400; line-height:1; letter-spacing:-0.06em;
-    color: rgba(16,185,129,0.22);
-    pointer-events:none; user-select:none;
+    font-size: clamp(4.5rem, 7vw, 6.5rem);
+    font-weight: 400; line-height: 1; letter-spacing: -0.06em;
+    color: rgba(16,185,129,0.35);
+    pointer-events: none; user-select: none;
     transition: color 0.4s;
   }
-  .process-step:hover .step-bg-num { color: rgba(16,185,129,0.42); }
+  .process-step:hover .step-bg-num { color: rgba(16,185,129,0.60); }
 
   :global([data-theme="light"]) .step-bg-num {
-    color: rgba(5,150,105,0.18);
+    color: rgba(5,150,105,0.25);
   }
   :global([data-theme="light"]) .process-step:hover .step-bg-num {
-    color: rgba(5,150,105,0.32);
+    color: rgba(5,150,105,0.45);
   }
 
   /* ── Inner ── */
