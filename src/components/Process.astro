@@ -55,7 +55,8 @@ const steps = [
       <h2
         id="process-heading"
         class="tracking-tight"
-        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;color:#f5f0e8;"
+        class="process-heading"
+        style="font-family:'DM Serif Display',Georgia,serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:400;"
       >
         <em class="accent-italic">El Proceso</em>
       </h2>
@@ -315,6 +316,14 @@ const steps = [
     transition: color 0.2s;
   }
   .process-step:hover .step-title { color: #f5f0e8; }
+
+  /* ── Heading principal ── */
+  .process-heading { color: #f5f0e8; }
+
+  /* ── Light mode overrides ── */
+  :global([data-theme="light"]) .process-heading { color: #0a0a0a; }
+  :global([data-theme="light"]) .step-title { color: rgba(10,10,10,0.85); }
+  :global([data-theme="light"]) .process-step:hover .step-title { color: #050505; }
 
   /* ── Descripción ── */
   .step-desc {
