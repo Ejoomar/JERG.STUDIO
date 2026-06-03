@@ -305,21 +305,17 @@ const siteUrl     = "https://jerg.studio";
     position: fixed;
     top: 0;
     left: 0;
-    width: 4px;
-    height: 4px;
-    background: rgba(245, 240, 232, 0.85);
+    width: 14px;
+    height: 14px;
+    background: rgba(245, 240, 232, 0.38);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    margin-top: -2px;
-    margin-left: -2px;
+    margin-top: -7px;
+    margin-left: -7px;
     will-change: transform;
     transition: background 0.3s ease;
-  }
-
-  /* Light mode: cursor oscuro visible sobre fondo claro */
-  :global([data-theme="light"]) #cursor-dot {
-    background: rgba(13, 13, 13, 0.75);
+    mix-blend-mode: difference;
   }
 
   /* Light mode: caracteres de código más oscuros */

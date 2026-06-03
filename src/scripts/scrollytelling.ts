@@ -136,17 +136,18 @@ function initCursor() {
   );
   interactors.forEach((el) => {
     el.addEventListener("mouseenter", () =>
-      gsap.to(dot, { scale: 3, opacity: 0.55, duration: 0.22, ease: "power2.out" }),
+      // Scale 2 (14px → 28px) en hover — proporcional al nuevo tamaño base
+      gsap.to(dot, { scale: 2, opacity: 0.7, duration: 0.22, ease: "power2.out" }),
     );
     el.addEventListener("mouseleave", () =>
-      gsap.to(dot, { scale: 1, opacity: 1, duration: 0.22 }),
+      gsap.to(dot, { scale: 1, opacity: 0.9, duration: 0.22 }),
     );
   });
 
-  // Magnetic buttons — dim dot while button animates
+  // Magnetic buttons — dim dot mientras el botón anima
   document.querySelectorAll(".btn-magnetic").forEach((el) => {
-    el.addEventListener("mouseenter", () => gsap.to(dot, { opacity: 0.3, duration: 0.2 }));
-    el.addEventListener("mouseleave", () => gsap.to(dot, { opacity: 1,   duration: 0.2 }));
+    el.addEventListener("mouseenter", () => gsap.to(dot, { opacity: 0.25, duration: 0.2 }));
+    el.addEventListener("mouseleave", () => gsap.to(dot, { opacity: 0.9,  duration: 0.2 }));
   });
 
   document.addEventListener("mouseleave", () => gsap.to(dot, { opacity: 0, duration: 0.25 }));
